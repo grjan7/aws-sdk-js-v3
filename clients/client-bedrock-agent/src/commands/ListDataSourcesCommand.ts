@@ -47,7 +47,7 @@ export interface ListDataSourcesCommandOutput extends ListDataSourcesResponse, _
  * //       knowledgeBaseId: "STRING_VALUE", // required
  * //       dataSourceId: "STRING_VALUE", // required
  * //       name: "STRING_VALUE", // required
- * //       status: "AVAILABLE" || "DELETING", // required
+ * //       status: "AVAILABLE" || "DELETING" || "DELETE_UNSUCCESSFUL", // required
  * //       description: "STRING_VALUE",
  * //       updatedAt: new Date("TIMESTAMP"), // required
  * //     },
@@ -70,7 +70,7 @@ export interface ListDataSourcesCommandOutput extends ListDataSourcesResponse, _
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The number of requests exceeds the limit. Resubmit your request later.</p>

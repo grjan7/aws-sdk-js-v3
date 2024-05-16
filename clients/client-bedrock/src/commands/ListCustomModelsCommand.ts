@@ -28,7 +28,7 @@ export interface ListCustomModelsCommandOutput extends ListCustomModelsResponse,
 
 /**
  * <p>Returns a list of the custom models that you have created with the <code>CreateModelCustomizationJob</code> operation.</p>
- *          <p>For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom models</a> in the Bedrock User Guide.</p>
+ *          <p>For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/custom-models.html">Custom models</a> in the Amazon Bedrock User Guide.</p>
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript

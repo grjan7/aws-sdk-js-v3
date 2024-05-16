@@ -59,6 +59,7 @@ export interface GetApplicationCommandOutput extends GetApplicationResponse, __M
  * //           cpu: "STRING_VALUE", // required
  * //           memory: "STRING_VALUE", // required
  * //           disk: "STRING_VALUE",
+ * //           diskType: "STRING_VALUE",
  * //         },
  * //       },
  * //     },
@@ -136,6 +137,9 @@ export interface GetApplicationCommandOutput extends GetApplicationResponse, __M
  * //             "STRING_VALUE",
  * //           ],
  * //         },
+ * //       },
+ * //       prometheusMonitoringConfiguration: { // PrometheusMonitoringConfiguration
+ * //         remoteWriteUrl: "STRING_VALUE",
  * //       },
  * //     },
  * //   },

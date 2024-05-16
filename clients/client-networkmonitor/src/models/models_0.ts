@@ -83,7 +83,7 @@ export interface CreateMonitorProbeInput {
   sourceArn: string | undefined;
 
   /**
-   * <p>The destination IP address. This will be either <code>IPV4</code> or <code>IPV6</code>.</p>
+   * <p>The destination IP address. This must be either <code>IPV4</code> or <code>IPV6</code>.</p>
    * @public
    */
   destination: string | undefined;
@@ -95,13 +95,13 @@ export interface CreateMonitorProbeInput {
   destinationPort?: number;
 
   /**
-   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This will be either <code>TCP</code> or <code>ICMP</code>.</p>
+   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This must be either <code>TCP</code> or <code>ICMP</code>.</p>
    * @public
    */
   protocol: Protocol | undefined;
 
   /**
-   * <p>The size of the packets sent between the source and destination. This will be a number between <code>56</code> and <code>8500</code>.</p>
+   * <p>The size of the packets sent between the source and destination. This must be a number between <code>56</code> and <code>8500</code>.</p>
    * @public
    */
   packetSize?: number;
@@ -118,7 +118,7 @@ export interface CreateMonitorProbeInput {
  */
 export interface CreateMonitorInput {
   /**
-   * <p>The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 255 characters.</p>
+   * <p>The name identifying the monitor. It can contain only letters, underscores (_), or dashes (-), and can be up to 200 characters.</p>
    * @public
    */
   monitorName: string | undefined;
@@ -130,7 +130,9 @@ export interface CreateMonitorInput {
   probes?: CreateMonitorProbeInput[];
 
   /**
-   * <p>The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid values are either <code>30</code> or <code>60</code>. </p>
+   * <p>The time, in seconds, that metrics are aggregated and sent to Amazon CloudWatch. Valid
+   *             values are either <code>30</code> or <code>60</code>.  <code>60</code> is the default if
+   *             no period is chosen.</p>
    * @public
    */
   aggregationPeriod?: number;
@@ -188,7 +190,8 @@ export interface CreateMonitorOutput {
   state: MonitorState | undefined;
 
   /**
-   * <p>The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch. This will be either <code>30</code> or <code>60</code>. </p>
+   * <p>The number of seconds that metrics are aggregated by and sent to Amazon CloudWatch.
+   *             This will be either <code>30</code> or <code>60</code>. </p>
    * @public
    */
   aggregationPeriod?: number;
@@ -296,7 +299,7 @@ export interface ProbeInput {
   sourceArn: string | undefined;
 
   /**
-   * <p>The destination IP address. This will be either <code>IPV4</code> or <code>IPV6</code>.</p>
+   * <p>The destination IP address. This must be either <code>IPV4</code> or <code>IPV6</code>.</p>
    * @public
    */
   destination: string | undefined;
@@ -308,13 +311,13 @@ export interface ProbeInput {
   destinationPort?: number;
 
   /**
-   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This will be either <code>TCP</code> or <code>ICMP</code>.</p>
+   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This must be either <code>TCP</code> or <code>ICMP</code>.</p>
    * @public
    */
   protocol: Protocol | undefined;
 
   /**
-   * <p>The size of the packets sent between the source and destination. This will be a number between <code>56</code> and <code>8500</code>.</p>
+   * <p>The size of the packets sent between the source and destination. This must be a number between <code>56</code> and <code>8500</code>.</p>
    * @public
    */
   packetSize?: number;
@@ -331,7 +334,7 @@ export interface ProbeInput {
  */
 export interface CreateProbeInput {
   /**
-   * <p>The name of the monitor to associated with the probe. To get a list of available monitors, use <code>ListMonitors</code>.</p>
+   * <p>The name of the monitor to associated with the probe. </p>
    * @public
    */
   monitorName: string | undefined;
@@ -396,7 +399,7 @@ export interface CreateProbeOutput {
   sourceArn: string | undefined;
 
   /**
-   * <p>The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.</p>
+   * <p>The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.</p>
    * @public
    */
   destination: string | undefined;
@@ -408,13 +411,13 @@ export interface CreateProbeOutput {
   destinationPort?: number;
 
   /**
-   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This will be either <code>TCP</code> or <code>ICMP</code>.</p>
+   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This must be either <code>TCP</code> or <code>ICMP</code>.</p>
    * @public
    */
   protocol: Protocol | undefined;
 
   /**
-   * <p>The size of the packets sent between the source and destination. This will be a number between <code>56</code> and <code>8500</code>.</p>
+   * <p>The size of the packets sent between the source and destination. This must be a number between <code>56</code> and <code>8500</code>.</p>
    * @public
    */
   packetSize?: number;
@@ -481,7 +484,7 @@ export class ResourceNotFoundException extends __BaseException {
  */
 export interface DeleteMonitorInput {
   /**
-   * <p>The name of the monitor to delete. Use the <code>ListMonitors</code> action to get a list of your current monitors. </p>
+   * <p>The name of the monitor to delete.  </p>
    * @public
    */
   monitorName: string | undefined;
@@ -497,13 +500,13 @@ export interface DeleteMonitorOutput {}
  */
 export interface DeleteProbeInput {
   /**
-   * <p>The name of the monitor to delete. For a list of the available monitors, use the <code>ListMonitors</code> action.</p>
+   * <p>The name of the monitor to delete. </p>
    * @public
    */
   monitorName: string | undefined;
 
   /**
-   * <p>The ID of the probe to delete. Run <code>GetMonitor</code> to get a lst of all probes and probe IDs associated with the monitor.</p>
+   * <p>The ID of the probe to delete. </p>
    * @public
    */
   probeId: string | undefined;
@@ -526,7 +529,7 @@ export interface GetMonitorInput {
 }
 
 /**
- * <p>Describes information about a monitor probe.</p>
+ * <p>Describes information about a network monitor probe.</p>
  * @public
  */
 export interface Probe {
@@ -620,13 +623,13 @@ export interface GetMonitorOutput {
   monitorArn: string | undefined;
 
   /**
-   * <p>The name of the monitor. To get a list of the current monitors and their names, use the <code>ListMonitors</code> action.</p>
+   * <p>The name of the monitor. </p>
    * @public
    */
   monitorName: string | undefined;
 
   /**
-   * <p>Returns a list of the state of each monitor. </p>
+   * <p>Lists the status of the <code>state</code> of each monitor. </p>
    * @public
    */
   state: MonitorState | undefined;
@@ -702,7 +705,7 @@ export interface GetProbeOutput {
   sourceArn: string | undefined;
 
   /**
-   * <p>The destination IP address for the monitor. This will be either an IPv4 or IPv6 address.</p>
+   * <p>The destination IP address for the monitor. This must be either an IPv4 or IPv6 address.</p>
    * @public
    */
   destination: string | undefined;
@@ -714,13 +717,13 @@ export interface GetProbeOutput {
   destinationPort?: number;
 
   /**
-   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This will be either <code>TCP</code> or <code>ICMP</code>.</p>
+   * <p>The protocol used for the network traffic between the <code>source</code> and <code>destination</code>. This must be either <code>TCP</code> or <code>ICMP</code>.</p>
    * @public
    */
   protocol: Protocol | undefined;
 
   /**
-   * <p>The size of the packets sent between the source and destination. This will be a number between <code>56</code> and <code>8500</code>.</p>
+   * <p>The size of the packets sent between the source and destination. This must be a number between <code>56</code> and <code>8500</code>.</p>
    * @public
    */
   packetSize?: number;
@@ -868,7 +871,7 @@ export interface ListTagsForResourceOutput {
  */
 export interface UpdateMonitorInput {
   /**
-   * <p>The name of the monitor to update. Run <code>ListMonitors</code> to get a list of monitor names.</p>
+   * <p>The name of the monitor to update. </p>
    * @public
    */
   monitorName: string | undefined;
@@ -926,7 +929,7 @@ export interface UpdateProbeInput {
   monitorName: string | undefined;
 
   /**
-   * <p>Run <code>GetMonitor</code> to get a list of probes and probe IDs.</p>
+   * <p>The ID of the probe to update.</p>
    * @public
    */
   probeId: string | undefined;
@@ -991,7 +994,7 @@ export interface UpdateProbeOutput {
   destination: string | undefined;
 
   /**
-   * <p>The updated destination port. This will be a number between <code>1</code> and <code>65536</code>.</p>
+   * <p>The updated destination port. This must be a number between <code>1</code> and <code>65536</code>.</p>
    * @public
    */
   destinationPort?: number;
@@ -1009,7 +1012,7 @@ export interface UpdateProbeOutput {
   packetSize?: number;
 
   /**
-   * <p>The updated IP address family. This will be either <code>IPV4</code> or <code>IPV6</code>.</p>
+   * <p>The updated IP address family. This must be either <code>IPV4</code> or <code>IPV6</code>.</p>
    * @public
    */
   addressFamily?: AddressFamily;

@@ -49,7 +49,7 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  *     text: "STRING_VALUE", // required
  *   },
  *   retrieveAndGenerateConfiguration: { // RetrieveAndGenerateConfiguration
- *     type: "KNOWLEDGE_BASE", // required
+ *     type: "KNOWLEDGE_BASE" || "EXTERNAL_SOURCES", // required
  *     knowledgeBaseConfiguration: { // KnowledgeBaseRetrieveAndGenerateConfiguration
  *       knowledgeBaseId: "STRING_VALUE", // required
  *       modelArn: "STRING_VALUE", // required
@@ -82,6 +82,8 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  *             in: "<FilterAttribute>",
  *             notIn: "<FilterAttribute>",
  *             startsWith: "<FilterAttribute>",
+ *             listContains: "<FilterAttribute>",
+ *             stringContains: "<FilterAttribute>",
  *             andAll: [ // RetrievalFilterList
  *               {//  Union: only one key present
  *                 equals: "<FilterAttribute>",
@@ -93,6 +95,8 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  *                 in: "<FilterAttribute>",
  *                 notIn: "<FilterAttribute>",
  *                 startsWith: "<FilterAttribute>",
+ *                 listContains: "<FilterAttribute>",
+ *                 stringContains: "<FilterAttribute>",
  *                 andAll: [
  *                   "<RetrievalFilter>",
  *                 ],
@@ -110,6 +114,61 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  *       generationConfiguration: { // GenerationConfiguration
  *         promptTemplate: { // PromptTemplate
  *           textPromptTemplate: "STRING_VALUE",
+ *         },
+ *         guardrailConfiguration: { // GuardrailConfiguration
+ *           guardrailId: "STRING_VALUE", // required
+ *           guardrailVersion: "STRING_VALUE", // required
+ *         },
+ *         inferenceConfig: { // InferenceConfig
+ *           textInferenceConfig: { // TextInferenceConfig
+ *             temperature: Number("float"),
+ *             topP: Number("float"),
+ *             maxTokens: Number("int"),
+ *             stopSequences: [ // RAGStopSequences
+ *               "STRING_VALUE",
+ *             ],
+ *           },
+ *         },
+ *         additionalModelRequestFields: { // AdditionalModelRequestFields
+ *           "<keys>": "DOCUMENT_VALUE",
+ *         },
+ *       },
+ *     },
+ *     externalSourcesConfiguration: { // ExternalSourcesRetrieveAndGenerateConfiguration
+ *       modelArn: "STRING_VALUE", // required
+ *       sources: [ // ExternalSources // required
+ *         { // ExternalSource
+ *           sourceType: "S3" || "BYTE_CONTENT", // required
+ *           s3Location: { // S3ObjectDoc
+ *             uri: "STRING_VALUE", // required
+ *           },
+ *           byteContent: { // ByteContentDoc
+ *             identifier: "STRING_VALUE", // required
+ *             contentType: "STRING_VALUE", // required
+ *             data: new Uint8Array(), // e.g. Buffer.from("") or new TextEncoder().encode("")             // required
+ *           },
+ *         },
+ *       ],
+ *       generationConfiguration: { // ExternalSourcesGenerationConfiguration
+ *         promptTemplate: {
+ *           textPromptTemplate: "STRING_VALUE",
+ *         },
+ *         guardrailConfiguration: {
+ *           guardrailId: "STRING_VALUE", // required
+ *           guardrailVersion: "STRING_VALUE", // required
+ *         },
+ *         inferenceConfig: {
+ *           textInferenceConfig: {
+ *             temperature: Number("float"),
+ *             topP: Number("float"),
+ *             maxTokens: Number("int"),
+ *             stopSequences: [
+ *               "STRING_VALUE",
+ *             ],
+ *           },
+ *         },
+ *         additionalModelRequestFields: {
+ *           "<keys>": "DOCUMENT_VALUE",
  *         },
  *       },
  *     },
@@ -154,6 +213,7 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  * //       ],
  * //     },
  * //   ],
+ * //   guardrailAction: "INTERVENED" || "NONE",
  * // };
  *
  * ```
@@ -180,7 +240,7 @@ export interface RetrieveAndGenerateCommandOutput extends RetrieveAndGenerateRes
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ServiceQuotaExceededException} (client fault)
  *  <p>The number of requests exceeds the service quota. Resubmit your request later.</p>

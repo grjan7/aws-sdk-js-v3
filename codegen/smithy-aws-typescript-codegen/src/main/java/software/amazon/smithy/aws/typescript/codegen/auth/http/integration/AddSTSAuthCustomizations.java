@@ -14,6 +14,7 @@ import java.util.function.BiConsumer;
 import java.util.function.Consumer;
 import java.util.logging.Logger;
 import software.amazon.smithy.aws.traits.auth.SigV4Trait;
+import software.amazon.smithy.aws.typescript.codegen.AwsCredentialProviderUtils;
 import software.amazon.smithy.aws.typescript.codegen.AwsDependency;
 import software.amazon.smithy.aws.typescript.codegen.AwsTraitsUtils;
 import software.amazon.smithy.codegen.core.Symbol;
@@ -110,10 +111,12 @@ public final class AddSTSAuthCustomizations implements HttpAuthTypeScriptIntegra
                 return MapUtils.of(
                     "credentialDefaultProvider", writer -> {
                         writer
-                            .addRelativeImport("defaultProvider", "credentialDefaultProvider",
-                                Paths.get(".", CodegenUtils.SOURCE_FOLDER, "credentialDefaultProvider"))
-                            .addDependency(AwsDependency.CREDENTIAL_PROVIDER_NODE_PEER)
+                            .addDependency(AwsDependency.CREDENTIAL_PROVIDER_NODE)
+                            .addImport("defaultProvider", "credentialDefaultProvider",
+                                AwsDependency.CREDENTIAL_PROVIDER_NODE)
                             .write("credentialDefaultProvider");
+                        AwsCredentialProviderUtils.addAwsCredentialProviderDependencies(
+                            settings.getService(model), writer);
                     }
                 );
             default:

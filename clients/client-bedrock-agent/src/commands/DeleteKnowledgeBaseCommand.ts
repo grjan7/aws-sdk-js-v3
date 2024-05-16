@@ -41,7 +41,7 @@ export interface DeleteKnowledgeBaseCommandOutput extends DeleteKnowledgeBaseRes
  * const response = await client.send(command);
  * // { // DeleteKnowledgeBaseResponse
  * //   knowledgeBaseId: "STRING_VALUE", // required
- * //   status: "CREATING" || "ACTIVE" || "DELETING" || "UPDATING" || "FAILED", // required
+ * //   status: "CREATING" || "ACTIVE" || "DELETING" || "UPDATING" || "FAILED" || "DELETE_UNSUCCESSFUL", // required
  * // };
  *
  * ```
@@ -62,7 +62,7 @@ export interface DeleteKnowledgeBaseCommandOutput extends DeleteKnowledgeBaseRes
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The number of requests exceeds the limit. Resubmit your request later.</p>

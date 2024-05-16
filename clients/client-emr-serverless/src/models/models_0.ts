@@ -93,6 +93,13 @@ export interface WorkerResourceConfig {
    * @public
    */
   disk?: string;
+
+  /**
+   * <p>The disk type for every worker instance of the work type. Shuffle optimized disks have higher performance
+   *          characteristics and are better for shuffle heavy workloads. Default is <code>STANDARD</code>.</p>
+   * @public
+   */
+  diskType?: string;
 }
 
 /**
@@ -216,6 +223,18 @@ export interface ManagedPersistenceMonitoringConfiguration {
 }
 
 /**
+ * <p>The monitoring configuration object you can configure to send metrics to Amazon Managed Service for Prometheus for a job run.</p>
+ * @public
+ */
+export interface PrometheusMonitoringConfiguration {
+  /**
+   * <p>The remote write URL in the Amazon Managed Service for Prometheus workspace to send metrics to.</p>
+   * @public
+   */
+  remoteWriteUrl?: string;
+}
+
+/**
  * <p>The Amazon S3 configuration for monitoring log publishing. You can configure your jobs
  *          to send log information to Amazon S3.</p>
  * @public
@@ -257,6 +276,12 @@ export interface MonitoringConfiguration {
    * @public
    */
   cloudWatchLoggingConfiguration?: CloudWatchLoggingConfiguration;
+
+  /**
+   * <p>The monitoring configuration object you can configure to send metrics to Amazon Managed Service for Prometheus for a job run.</p>
+   * @public
+   */
+  prometheusMonitoringConfiguration?: PrometheusMonitoringConfiguration;
 }
 
 /**

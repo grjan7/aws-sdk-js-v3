@@ -3,6 +3,130 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.577.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.576.0...v3.577.0) (2024-05-15)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.576.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.575.0...v3.576.0) (2024-05-14)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.575.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.574.0...v3.575.0) (2024-05-13)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.574.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.573.0...v3.574.0) (2024-05-10)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.572.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.571.0...v3.572.0) (2024-05-08)
+
+
+### Features
+
+* **client-cognito-identity-provider:** Add EXTERNAL_PROVIDER enum value to UserStatusType. ([0189ee3](https://github.com/aws/aws-sdk-js-v3/commit/0189ee3ad9493759adb4be3983dcd0f21cd7350a))
+
+
+
+
+
+# [3.569.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.568.0...v3.569.0) (2024-05-03)
+
+
+### Bug Fixes
+
+* **clients:** add deps required by default credential providers ([#6055](https://github.com/aws/aws-sdk-js-v3/issues/6055)) ([bfa8626](https://github.com/aws/aws-sdk-js-v3/commit/bfa86268540d197a21f13e8d2e8bced10b78d480))
+
+
+
+
+
+# [3.568.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.567.0...v3.568.0) (2024-05-02)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.567.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.566.0...v3.567.0) (2024-05-01)
+
+
+### Features
+
+* end support for Node.js 14.x ([#6034](https://github.com/aws/aws-sdk-js-v3/issues/6034)) ([d196411](https://github.com/aws/aws-sdk-js-v3/commit/d19641119f07d62c29f12348f448cd834d841533))
+
+
+
+
+
+# [3.565.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.564.0...v3.565.0) (2024-04-29)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.564.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.563.0...v3.564.0) (2024-04-26)
+
+
+### Features
+
+* **client-cognito-identity-provider:** Add LimitExceededException to SignUp errors ([633da5a](https://github.com/aws/aws-sdk-js-v3/commit/633da5a394ad1a72b96827968f2ec985d235806f))
+
+
+
+
+
+# [3.563.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.562.0...v3.563.0) (2024-04-25)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.556.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.555.0...v3.556.0) (2024-04-16)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.554.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.553.0...v3.554.0) (2024-04-11)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
+# [3.552.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.551.0...v3.552.0) (2024-04-09)
+
+**Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider
+
+
+
+
+
 # [3.549.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.548.0...v3.549.0) (2024-04-04)
 
 **Note:** Version bump only for package @aws-sdk/client-cognito-identity-provider

@@ -70,6 +70,29 @@ import {
 /**
  * @public
  */
+export interface GetCampaignVersionRequest {
+  /**
+   * <p>The unique identifier for the application. This identifier is displayed as the <b>Project ID</b> on the Amazon Pinpoint console.</p>
+   * @public
+   */
+  ApplicationId: string | undefined;
+
+  /**
+   * <p>The unique identifier for the campaign.</p>
+   * @public
+   */
+  CampaignId: string | undefined;
+
+  /**
+   * <p>The unique version number (Version property) for the campaign version.</p>
+   * @public
+   */
+  Version: string | undefined;
+}
+
+/**
+ * @public
+ */
 export interface GetCampaignVersionResponse {
   /**
    * <p>Provides information about the status, configuration, and other settings for a campaign.</p>
@@ -2268,7 +2291,7 @@ export interface ListTemplateVersionsResponse {
  */
 export interface MessageResult {
   /**
-   * <p>The delivery status of the message. Possible values are:</p> <ul> <li><p>DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li>   <li><p>OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li>   <li><p>SUCCESSFUL - The message was successfully delivered to the endpoint address.</p></li> <li><p>TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address.</p></li> <li><p>TIMEOUT - The message couldn't be sent within the timeout period.</p></li> <li><p>UNKNOWN_FAILURE - An unknown error occurred.</p></li></ul>
+   * <p>The delivery status of the message. Possible values are:</p> <ul> <li><p>DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li>   <li><p>OPT_OUT - The user who's associated with the endpoint address has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li>   <li><p>SUCCESSFUL - The message was successfully delivered to the endpoint address.</p></li> <li><p>TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint address.</p></li> <li><p>UNKNOWN_FAILURE - An unknown error occurred.</p></li></ul>
    * @public
    */
   DeliveryStatus: DeliveryStatus | undefined;

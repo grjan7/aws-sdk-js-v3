@@ -50,7 +50,8 @@ export interface GetAgentAliasCommandOutput extends GetAgentAliasResponse, __Met
  * //     description: "STRING_VALUE",
  * //     routingConfiguration: [ // AgentAliasRoutingConfiguration // required
  * //       { // AgentAliasRoutingConfigurationListItem
- * //         agentVersion: "STRING_VALUE", // required
+ * //         agentVersion: "STRING_VALUE",
+ * //         provisionedThroughput: "STRING_VALUE",
  * //       },
  * //     ],
  * //     createdAt: new Date("TIMESTAMP"), // required
@@ -59,7 +60,8 @@ export interface GetAgentAliasCommandOutput extends GetAgentAliasResponse, __Met
  * //       { // AgentAliasHistoryEvent
  * //         routingConfiguration: [
  * //           {
- * //             agentVersion: "STRING_VALUE", // required
+ * //             agentVersion: "STRING_VALUE",
+ * //             provisionedThroughput: "STRING_VALUE",
  * //           },
  * //         ],
  * //         endDate: new Date("TIMESTAMP"),
@@ -67,6 +69,9 @@ export interface GetAgentAliasCommandOutput extends GetAgentAliasResponse, __Met
  * //       },
  * //     ],
  * //     agentAliasStatus: "CREATING" || "PREPARED" || "FAILED" || "UPDATING" || "DELETING", // required
+ * //     failureReasons: [ // FailureReasons
+ * //       "STRING_VALUE",
+ * //     ],
  * //   },
  * // };
  *
@@ -85,7 +90,7 @@ export interface GetAgentAliasCommandOutput extends GetAgentAliasResponse, __Met
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The number of requests exceeds the limit. Resubmit your request later.</p>

@@ -458,6 +458,10 @@ import {
   UpdateRoleCustomPermissionCommandOutput,
 } from "../commands/UpdateRoleCustomPermissionCommand";
 import {
+  UpdateSPICECapacityConfigurationCommandInput,
+  UpdateSPICECapacityConfigurationCommandOutput,
+} from "../commands/UpdateSPICECapacityConfigurationCommand";
+import {
   UpdateTemplateAliasCommandInput,
   UpdateTemplateAliasCommandOutput,
 } from "../commands/UpdateTemplateAliasCommand";
@@ -512,7 +516,6 @@ import {
   AxisScale,
   AxisTickLabelOptions,
   BarChartAggregatedFieldWells,
-  BarChartConfiguration,
   BarChartFieldWells,
   BarChartSortConfiguration,
   BodySectionConfiguration,
@@ -523,7 +526,6 @@ import {
   CascadingControlSource,
   CategoricalDimensionField,
   CategoricalMeasureField,
-  CategoryDrillDownFilter,
   CategoryFilter,
   CategoryFilterConfiguration,
   ChartAxisLabelOptions,
@@ -546,17 +548,14 @@ import {
   CustomValuesConfiguration,
   DataLabelOptions,
   DataLabelType,
-  DataPathColor,
   DataPathLabelType,
   DataPathType,
-  DataPathValue,
   DataSetIdentifierDeclaration,
   DateAxisOptions,
   DateDimensionField,
   DateMeasureField,
   DateTimeDefaultValues,
   DateTimeFormatConfiguration,
-  DateTimeHierarchy,
   DateTimeParameterDeclaration,
   DateTimePickerControlDisplayOptions,
   DateTimeValueWhenUnsetConfiguration,
@@ -564,19 +563,26 @@ import {
   DecimalParameterDeclaration,
   DecimalPlacesConfiguration,
   DecimalValueWhenUnsetConfiguration,
+  DefaultDateTimePickerControlOptions,
+  DefaultFilterControlConfiguration,
+  DefaultFilterControlOptions,
+  DefaultFilterDropDownControlOptions,
+  DefaultFilterListControlOptions,
   DefaultFreeFormLayoutConfiguration,
   DefaultGridLayoutConfiguration,
   DefaultInteractiveLayoutConfiguration,
   DefaultNewSheetConfiguration,
   DefaultPaginatedLayoutConfiguration,
+  DefaultRelativeDateTimeControlOptions,
   DefaultSectionBasedLayoutConfiguration,
+  DefaultSliderControlOptions,
+  DefaultTextAreaControlOptions,
+  DefaultTextFieldControlOptions,
   DestinationParameterValueConfiguration,
   DimensionField,
-  DrillDownFilter,
   DropDownControlDisplayOptions,
   DynamicDefaultValue,
   ExcludePeriodConfiguration,
-  ExplicitHierarchy,
   FieldBasedTooltip,
   FieldLabelType,
   FieldSort,
@@ -584,6 +590,7 @@ import {
   FieldTooltipItem,
   Filter,
   FilterControl,
+  FilterCrossSheetControl,
   FilterDateTimePickerControl,
   FilterDropDownControl,
   FilterGroup,
@@ -638,7 +645,6 @@ import {
   NumericalDimensionField,
   NumericalMeasureField,
   NumericAxisOptions,
-  NumericEqualityDrillDownFilter,
   NumericEqualityFilter,
   NumericFormatConfiguration,
   NumericRangeFilter,
@@ -701,7 +707,6 @@ import {
   TextFieldControlDisplayOptions,
   ThousandSeparatorOptions,
   TimeEqualityFilter,
-  TimeRangeDrillDownFilter,
   TimeRangeFilter,
   TimeRangeFilterValue,
   TooltipItem,
@@ -712,14 +717,13 @@ import {
   VisualCustomActionOperation,
   VisualInteractionOptions,
   VisualMenuOption,
-  VisualPalette,
 } from "../models/models_0";
 import {
-  AnalysisDefinition,
   ArcAxisConfiguration,
   ArcAxisDisplayRange,
   ArcConfiguration,
   ArcOptions,
+  BarChartConfiguration,
   BarChartVisual,
   BinCountOptions,
   BinWidthOptions,
@@ -730,6 +734,7 @@ import {
   BoxPlotSortConfiguration,
   BoxPlotStyleOptions,
   BoxPlotVisual,
+  CategoryDrillDownFilter,
   ClusterMarker,
   ClusterMarkerConfiguration,
   ColorScale,
@@ -756,10 +761,15 @@ import {
   DataBarsOptions,
   DataColor,
   DataFieldSeriesItem,
+  DataPathColor,
   DataPathSort,
+  DataPathValue,
+  DateTimeHierarchy,
   DonutCenterOptions,
   DonutOptions,
+  DrillDownFilter,
   EmptyVisual,
+  ExplicitHierarchy,
   FieldSeriesItem,
   FilledMapAggregatedFieldWells,
   FilledMapConditionalFormatting,
@@ -779,6 +789,7 @@ import {
   FunnelChartSortConfiguration,
   FunnelChartVisual,
   GaugeChartArcConditionalFormatting,
+  GaugeChartColorConfiguration,
   GaugeChartConditionalFormatting,
   GaugeChartConditionalFormattingOption,
   GaugeChartConfiguration,
@@ -841,6 +852,7 @@ import {
   MaximumMinimumComputation,
   MetricComparisonComputation,
   MissingDataConfiguration,
+  NumericEqualityDrillDownFilter,
   PaginationConfiguration,
   PeriodOverPeriodComputation,
   PeriodToDateComputation,
@@ -895,7 +907,6 @@ import {
   SecondaryValueOptions,
   SeriesItem,
   ShapeConditionalFormat,
-  SheetDefinition,
   ShortFormatText,
   SimpleClusterMarker,
   SingleAxisOptions,
@@ -929,6 +940,7 @@ import {
   TableVisual,
   TextConditionalFormat,
   TimeBasedForecastProperties,
+  TimeRangeDrillDownFilter,
   TopBottomMoversComputation,
   TopBottomRankedComputation,
   TotalAggregationComputation,
@@ -943,7 +955,7 @@ import {
   TrendArrowOptions,
   UnaggregatedField,
   UniqueValuesComputation,
-  Visual,
+  VisualPalette,
   VisualSubtitleLabelOptions,
   VisualTitleLabelOptions,
   WaterfallChartAggregatedFieldWells,
@@ -957,15 +969,13 @@ import {
   WhatIfPointScenario,
   WhatIfRangeScenario,
   WordCloudAggregatedFieldWells,
-  WordCloudChartConfiguration,
   WordCloudFieldWells,
-  WordCloudOptions,
   WordCloudSortConfiguration,
-  WordCloudVisual,
   YAxisOptions,
 } from "../models/models_1";
 import {
   _Parameters,
+  AnalysisDefinition,
   AnalysisSearchFilter,
   AnalysisSourceEntity,
   AnalysisSourceTemplate,
@@ -973,6 +983,7 @@ import {
   AnonymousUserDashboardEmbeddingConfiguration,
   AnonymousUserDashboardVisualEmbeddingConfiguration,
   AnonymousUserEmbeddingExperienceConfiguration,
+  AnonymousUserGenerativeQnAEmbeddingConfiguration,
   AnonymousUserQSearchBarEmbeddingConfiguration,
   AssetBundleCloudFormationOverridePropertyConfiguration,
   AssetBundleExportJobAnalysisOverrideProperties,
@@ -1071,8 +1082,6 @@ import {
   DecimalDatasetParameter,
   DecimalDatasetParameterDefaultValues,
   DecimalParameter,
-  DefaultFormatting,
-  DisplayFormatOptions,
   ExasolParameters,
   ExportHiddenFieldsOption,
   ExportToCSVOption,
@@ -1100,7 +1109,6 @@ import {
   MarginStyle,
   MariaDbParameters,
   MySqlParameters,
-  NegativeFormat,
   NewDefaultValues,
   OracleParameters,
   OverrideDatasetParameterOperation,
@@ -1129,6 +1137,7 @@ import {
   ScheduleRefreshOnEntity,
   ServiceNowParameters,
   SheetControlsOption,
+  SheetDefinition,
   SheetLayoutElementMaximizationOption,
   SheetStyle,
   SnapshotFile,
@@ -1149,7 +1158,6 @@ import {
   TemplateSourceTemplate,
   TemplateVersionDefinition,
   TeradataParameters,
-  ThemeConfiguration,
   ThrottlingException,
   TileLayoutStyle,
   TileStyle,
@@ -1157,13 +1165,16 @@ import {
   TrinoParameters,
   TwitterParameters,
   Typography,
-  UIColorPalette,
   UnsupportedUserEditionException,
   UntagColumnOperation,
   UploadSettings,
   ValidationStrategy,
+  Visual,
   VisualAxisSortOption,
   VpcConnectionProperties,
+  WordCloudChartConfiguration,
+  WordCloudOptions,
+  WordCloudVisual,
 } from "../models/models_2";
 import {
   Dashboard,
@@ -1180,6 +1191,8 @@ import {
   DataSource,
   DataSourceSearchFilter,
   DataSourceSummary,
+  DefaultFormatting,
+  DisplayFormatOptions,
   DomainNotWhitelistedException,
   Folder,
   FolderSearchFilter,
@@ -1193,6 +1206,7 @@ import {
   LookbackWindow,
   NamedEntityDefinition,
   NamedEntityDefinitionMetric,
+  NegativeFormat,
   QuickSightUserNotFoundException,
   RangeConstant,
   RefreshConfiguration,
@@ -1201,6 +1215,7 @@ import {
   RegisteredUserDashboardFeatureConfigurations,
   RegisteredUserDashboardVisualEmbeddingConfiguration,
   RegisteredUserEmbeddingExperienceConfiguration,
+  RegisteredUserGenerativeQnAEmbeddingConfiguration,
   RegisteredUserQSearchBarEmbeddingConfiguration,
   RegisteredUserQuickSightConsoleEmbeddingConfiguration,
   SemanticEntityType,
@@ -1214,6 +1229,7 @@ import {
   Template,
   TemplateVersion,
   Theme,
+  ThemeConfiguration,
   ThemeVersion,
   TopicCalculatedField,
   TopicCategoryFilter,
@@ -1229,6 +1245,7 @@ import {
   TopicRefreshSchedule,
   TopicRelativeDateFilter,
   TopicSingularFilterConstant,
+  UIColorPalette,
   UnsupportedPricingPlanException,
   VPCConnection,
 } from "../models/models_3";
@@ -1308,8 +1325,10 @@ export const se_CreateAccountSubscriptionCommand = async (
       AccountName: [],
       ActiveDirectoryName: [],
       AdminGroup: (_) => _json(_),
+      AdminProGroup: (_) => _json(_),
       AuthenticationMethod: [],
       AuthorGroup: (_) => _json(_),
+      AuthorProGroup: (_) => _json(_),
       ContactNumber: [],
       DirectoryId: [],
       Edition: [],
@@ -1319,6 +1338,7 @@ export const se_CreateAccountSubscriptionCommand = async (
       LastName: [],
       NotificationEmail: [],
       ReaderGroup: (_) => _json(_),
+      ReaderProGroup: (_) => _json(_),
       Realm: [],
     })
   );
@@ -4701,6 +4721,29 @@ export const se_UpdateRoleCustomPermissionCommand = async (
 };
 
 /**
+ * serializeAws_restJson1UpdateSPICECapacityConfigurationCommand
+ */
+export const se_UpdateSPICECapacityConfigurationCommand = async (
+  input: UpdateSPICECapacityConfigurationCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {
+    "content-type": "application/json",
+  };
+  b.bp("/accounts/{AwsAccountId}/spice-capacity-configuration");
+  b.p("AwsAccountId", () => input.AwsAccountId!, "{AwsAccountId}", false);
+  let body: any;
+  body = JSON.stringify(
+    take(input, {
+      PurchaseMode: [],
+    })
+  );
+  b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
  * serializeAws_restJson1UpdateTemplateCommand
  */
 export const se_UpdateTemplateCommand = async (
@@ -6480,6 +6523,7 @@ export const de_DescribeAssetBundleImportJobCommand = async (
     OverrideValidationStrategy: _json,
     RequestId: __expectString,
     RollbackErrors: _json,
+    Warnings: _json,
   });
   Object.assign(contents, doc);
   map(contents, {
@@ -9169,6 +9213,30 @@ export const de_UpdateRoleCustomPermissionCommand = async (
 };
 
 /**
+ * deserializeAws_restJson1UpdateSPICECapacityConfigurationCommand
+ */
+export const de_UpdateSPICECapacityConfigurationCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<UpdateSPICECapacityConfigurationCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    RequestId: __expectString,
+  });
+  Object.assign(contents, doc);
+  map(contents, {
+    Status: [, output.statusCode],
+  });
+  return contents;
+};
+
+/**
  * deserializeAws_restJson1UpdateTemplateCommand
  */
 export const de_UpdateTemplateCommand = async (
@@ -10019,6 +10087,8 @@ const se_AnalysisDefinition = (input: AnalysisDefinition, context: __SerdeContex
 
 // se_AnonymousUserEmbeddingExperienceConfiguration omitted.
 
+// se_AnonymousUserGenerativeQnAEmbeddingConfiguration omitted.
+
 // se_AnonymousUserQSearchBarEmbeddingConfiguration omitted.
 
 /**
@@ -10559,7 +10629,17 @@ const se_BoxPlotVisual = (input: BoxPlotVisual, context: __SerdeContext): any =>
 
 // se_CategoryDrillDownFilter omitted.
 
-// se_CategoryFilter omitted.
+/**
+ * serializeAws_restJson1CategoryFilter
+ */
+const se_CategoryFilter = (input: CategoryFilter, context: __SerdeContext): any => {
+  return take(input, {
+    Column: _json,
+    Configuration: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
+    FilterId: [],
+  });
+};
 
 // se_CategoryFilterConfiguration omitted.
 
@@ -11281,6 +11361,40 @@ const se_DecimalValueWhenUnsetConfiguration = (
   });
 };
 
+// se_DefaultDateTimePickerControlOptions omitted.
+
+/**
+ * serializeAws_restJson1DefaultFilterControlConfiguration
+ */
+const se_DefaultFilterControlConfiguration = (
+  input: DefaultFilterControlConfiguration,
+  context: __SerdeContext
+): any => {
+  return take(input, {
+    ControlOptions: (_) => se_DefaultFilterControlOptions(_, context),
+    Title: [],
+  });
+};
+
+/**
+ * serializeAws_restJson1DefaultFilterControlOptions
+ */
+const se_DefaultFilterControlOptions = (input: DefaultFilterControlOptions, context: __SerdeContext): any => {
+  return take(input, {
+    DefaultDateTimePickerOptions: _json,
+    DefaultDropdownOptions: _json,
+    DefaultListOptions: _json,
+    DefaultRelativeDateTimeOptions: _json,
+    DefaultSliderOptions: (_) => se_DefaultSliderControlOptions(_, context),
+    DefaultTextAreaOptions: _json,
+    DefaultTextFieldOptions: _json,
+  });
+};
+
+// se_DefaultFilterDropDownControlOptions omitted.
+
+// se_DefaultFilterListControlOptions omitted.
+
 // se_DefaultFormatting omitted.
 
 // se_DefaultFreeFormLayoutConfiguration omitted.
@@ -11293,7 +11407,26 @@ const se_DecimalValueWhenUnsetConfiguration = (
 
 // se_DefaultPaginatedLayoutConfiguration omitted.
 
+// se_DefaultRelativeDateTimeControlOptions omitted.
+
 // se_DefaultSectionBasedLayoutConfiguration omitted.
+
+/**
+ * serializeAws_restJson1DefaultSliderControlOptions
+ */
+const se_DefaultSliderControlOptions = (input: DefaultSliderControlOptions, context: __SerdeContext): any => {
+  return take(input, {
+    DisplayOptions: _json,
+    MaximumValue: __serializeFloat,
+    MinimumValue: __serializeFloat,
+    StepSize: __serializeFloat,
+    Type: [],
+  });
+};
+
+// se_DefaultTextAreaControlOptions omitted.
+
+// se_DefaultTextFieldControlOptions omitted.
 
 /**
  * serializeAws_restJson1DestinationParameterValueConfiguration
@@ -11553,10 +11686,10 @@ const se_FilledMapVisual = (input: FilledMapVisual, context: __SerdeContext): an
  */
 const se_Filter = (input: Filter, context: __SerdeContext): any => {
   return take(input, {
-    CategoryFilter: _json,
+    CategoryFilter: (_) => se_CategoryFilter(_, context),
     NumericEqualityFilter: (_) => se_NumericEqualityFilter(_, context),
     NumericRangeFilter: (_) => se_NumericRangeFilter(_, context),
-    RelativeDatesFilter: _json,
+    RelativeDatesFilter: (_) => se_RelativeDatesFilter(_, context),
     TimeEqualityFilter: (_) => se_TimeEqualityFilter(_, context),
     TimeRangeFilter: (_) => se_TimeRangeFilter(_, context),
     TopBottomFilter: (_) => se_TopBottomFilter(_, context),
@@ -11568,6 +11701,7 @@ const se_Filter = (input: Filter, context: __SerdeContext): any => {
  */
 const se_FilterControl = (input: FilterControl, context: __SerdeContext): any => {
   return take(input, {
+    CrossSheet: _json,
     DateTimePicker: _json,
     Dropdown: _json,
     List: _json,
@@ -11588,6 +11722,8 @@ const se_FilterControlList = (input: FilterControl[], context: __SerdeContext): 
       return se_FilterControl(entry, context);
     });
 };
+
+// se_FilterCrossSheetControl omitted.
 
 // se_FilterDateTimePickerControl omitted.
 
@@ -11838,6 +11974,8 @@ const se_GaugeChartArcConditionalFormatting = (
   });
 };
 
+// se_GaugeChartColorConfiguration omitted.
+
 /**
  * serializeAws_restJson1GaugeChartConditionalFormatting
  */
@@ -11879,6 +12017,7 @@ const se_GaugeChartConditionalFormattingOptionList = (
  */
 const se_GaugeChartConfiguration = (input: GaugeChartConfiguration, context: __SerdeContext): any => {
   return take(input, {
+    ColorConfiguration: _json,
     DataLabels: _json,
     FieldWells: (_) => se_GaugeChartFieldWells(_, context),
     GaugeChartOptions: (_) => se_GaugeChartOptions(_, context),
@@ -12770,6 +12909,7 @@ const se_NumericEqualityFilter = (input: NumericEqualityFilter, context: __Serde
   return take(input, {
     AggregationFunction: (_) => se_AggregationFunction(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
     FilterId: [],
     MatchOperator: [],
     NullOption: [],
@@ -12788,6 +12928,7 @@ const se_NumericRangeFilter = (input: NumericRangeFilter, context: __SerdeContex
   return take(input, {
     AggregationFunction: (_) => se_AggregationFunction(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
     FilterId: [],
     IncludeMaximum: [],
     IncludeMinimum: [],
@@ -13444,13 +13585,32 @@ const se_RefreshSchedule = (input: RefreshSchedule, context: __SerdeContext): an
 
 // se_RegisteredUserEmbeddingExperienceConfiguration omitted.
 
+// se_RegisteredUserGenerativeQnAEmbeddingConfiguration omitted.
+
 // se_RegisteredUserQSearchBarEmbeddingConfiguration omitted.
 
 // se_RegisteredUserQuickSightConsoleEmbeddingConfiguration omitted.
 
 // se_RelationalTable omitted.
 
-// se_RelativeDatesFilter omitted.
+/**
+ * serializeAws_restJson1RelativeDatesFilter
+ */
+const se_RelativeDatesFilter = (input: RelativeDatesFilter, context: __SerdeContext): any => {
+  return take(input, {
+    AnchorDateConfiguration: _json,
+    Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
+    ExcludePeriodConfiguration: _json,
+    FilterId: [],
+    MinimumGranularity: [],
+    NullOption: [],
+    ParameterName: [],
+    RelativeDateType: [],
+    RelativeDateValue: [],
+    TimeGranularity: [],
+  });
+};
 
 // se_RelativeDateTimeControlDisplayOptions omitted.
 
@@ -14135,6 +14295,7 @@ const se_TimeBasedForecastProperties = (input: TimeBasedForecastProperties, cont
 const se_TimeEqualityFilter = (input: TimeEqualityFilter, context: __SerdeContext): any => {
   return take(input, {
     Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
     FilterId: [],
     ParameterName: [],
     RollingDate: _json,
@@ -14161,6 +14322,7 @@ const se_TimeRangeDrillDownFilter = (input: TimeRangeDrillDownFilter, context: _
 const se_TimeRangeFilter = (input: TimeRangeFilter, context: __SerdeContext): any => {
   return take(input, {
     Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
     ExcludePeriodConfiguration: _json,
     FilterId: [],
     IncludeMaximum: [],
@@ -14222,6 +14384,7 @@ const se_TopBottomFilter = (input: TopBottomFilter, context: __SerdeContext): an
   return take(input, {
     AggregationSortConfigurations: (_) => se_AggregationSortConfigurationList(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_) => se_DefaultFilterControlConfiguration(_, context),
     FilterId: [],
     Limit: [],
     ParameterName: [],
@@ -15144,6 +15307,10 @@ const de_AssetBundleImportJobSummaryList = (output: any, context: __SerdeContext
 
 // de_AssetBundleImportJobVPCConnectionOverrideTagsList omitted.
 
+// de_AssetBundleImportJobWarning omitted.
+
+// de_AssetBundleImportJobWarningList omitted.
+
 // de_AssetBundleImportSourceDescription omitted.
 
 // de_AssetBundlePrincipalList omitted.
@@ -15468,7 +15635,17 @@ const de_BoxPlotVisual = (output: any, context: __SerdeContext): BoxPlotVisual =
 
 // de_CategoryDrillDownFilter omitted.
 
-// de_CategoryFilter omitted.
+/**
+ * deserializeAws_restJson1CategoryFilter
+ */
+const de_CategoryFilter = (output: any, context: __SerdeContext): CategoryFilter => {
+  return take(output, {
+    Column: _json,
+    Configuration: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
+    FilterId: __expectString,
+  }) as any;
+};
 
 // de_CategoryFilterConfiguration omitted.
 
@@ -16382,6 +16559,40 @@ const de_DecimalValueWhenUnsetConfiguration = (
   }) as any;
 };
 
+// de_DefaultDateTimePickerControlOptions omitted.
+
+/**
+ * deserializeAws_restJson1DefaultFilterControlConfiguration
+ */
+const de_DefaultFilterControlConfiguration = (
+  output: any,
+  context: __SerdeContext
+): DefaultFilterControlConfiguration => {
+  return take(output, {
+    ControlOptions: (_: any) => de_DefaultFilterControlOptions(_, context),
+    Title: __expectString,
+  }) as any;
+};
+
+/**
+ * deserializeAws_restJson1DefaultFilterControlOptions
+ */
+const de_DefaultFilterControlOptions = (output: any, context: __SerdeContext): DefaultFilterControlOptions => {
+  return take(output, {
+    DefaultDateTimePickerOptions: _json,
+    DefaultDropdownOptions: _json,
+    DefaultListOptions: _json,
+    DefaultRelativeDateTimeOptions: _json,
+    DefaultSliderOptions: (_: any) => de_DefaultSliderControlOptions(_, context),
+    DefaultTextAreaOptions: _json,
+    DefaultTextFieldOptions: _json,
+  }) as any;
+};
+
+// de_DefaultFilterDropDownControlOptions omitted.
+
+// de_DefaultFilterListControlOptions omitted.
+
 // de_DefaultFormatting omitted.
 
 // de_DefaultFreeFormLayoutConfiguration omitted.
@@ -16394,7 +16605,26 @@ const de_DecimalValueWhenUnsetConfiguration = (
 
 // de_DefaultPaginatedLayoutConfiguration omitted.
 
+// de_DefaultRelativeDateTimeControlOptions omitted.
+
 // de_DefaultSectionBasedLayoutConfiguration omitted.
+
+/**
+ * deserializeAws_restJson1DefaultSliderControlOptions
+ */
+const de_DefaultSliderControlOptions = (output: any, context: __SerdeContext): DefaultSliderControlOptions => {
+  return take(output, {
+    DisplayOptions: _json,
+    MaximumValue: __limitedParseDouble,
+    MinimumValue: __limitedParseDouble,
+    StepSize: __limitedParseDouble,
+    Type: __expectString,
+  }) as any;
+};
+
+// de_DefaultTextAreaControlOptions omitted.
+
+// de_DefaultTextFieldControlOptions omitted.
 
 /**
  * deserializeAws_restJson1DestinationParameterValueConfiguration
@@ -16664,10 +16894,10 @@ const de_FilledMapVisual = (output: any, context: __SerdeContext): FilledMapVisu
  */
 const de_Filter = (output: any, context: __SerdeContext): Filter => {
   return take(output, {
-    CategoryFilter: _json,
+    CategoryFilter: (_: any) => de_CategoryFilter(_, context),
     NumericEqualityFilter: (_: any) => de_NumericEqualityFilter(_, context),
     NumericRangeFilter: (_: any) => de_NumericRangeFilter(_, context),
-    RelativeDatesFilter: _json,
+    RelativeDatesFilter: (_: any) => de_RelativeDatesFilter(_, context),
     TimeEqualityFilter: (_: any) => de_TimeEqualityFilter(_, context),
     TimeRangeFilter: (_: any) => de_TimeRangeFilter(_, context),
     TopBottomFilter: (_: any) => de_TopBottomFilter(_, context),
@@ -16679,6 +16909,7 @@ const de_Filter = (output: any, context: __SerdeContext): Filter => {
  */
 const de_FilterControl = (output: any, context: __SerdeContext): FilterControl => {
   return take(output, {
+    CrossSheet: _json,
     DateTimePicker: _json,
     Dropdown: _json,
     List: _json,
@@ -16700,6 +16931,8 @@ const de_FilterControlList = (output: any, context: __SerdeContext): FilterContr
     });
   return retVal;
 };
+
+// de_FilterCrossSheetControl omitted.
 
 // de_FilterDateTimePickerControl omitted.
 
@@ -16995,6 +17228,8 @@ const de_GaugeChartArcConditionalFormatting = (
   }) as any;
 };
 
+// de_GaugeChartColorConfiguration omitted.
+
 /**
  * deserializeAws_restJson1GaugeChartConditionalFormatting
  */
@@ -17037,6 +17272,7 @@ const de_GaugeChartConditionalFormattingOptionList = (
  */
 const de_GaugeChartConfiguration = (output: any, context: __SerdeContext): GaugeChartConfiguration => {
   return take(output, {
+    ColorConfiguration: _json,
     DataLabels: _json,
     FieldWells: (_: any) => de_GaugeChartFieldWells(_, context),
     GaugeChartOptions: (_: any) => de_GaugeChartOptions(_, context),
@@ -17987,6 +18223,7 @@ const de_NumericEqualityFilter = (output: any, context: __SerdeContext): Numeric
   return take(output, {
     AggregationFunction: (_: any) => de_AggregationFunction(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
     FilterId: __expectString,
     MatchOperator: __expectString,
     NullOption: __expectString,
@@ -18005,6 +18242,7 @@ const de_NumericRangeFilter = (output: any, context: __SerdeContext): NumericRan
   return take(output, {
     AggregationFunction: (_: any) => de_AggregationFunction(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
     FilterId: __expectString,
     IncludeMaximum: __expectBoolean,
     IncludeMinimum: __expectBoolean,
@@ -18680,7 +18918,24 @@ const de_RefreshSchedules = (output: any, context: __SerdeContext): RefreshSched
 
 // de_RelationalTable omitted.
 
-// de_RelativeDatesFilter omitted.
+/**
+ * deserializeAws_restJson1RelativeDatesFilter
+ */
+const de_RelativeDatesFilter = (output: any, context: __SerdeContext): RelativeDatesFilter => {
+  return take(output, {
+    AnchorDateConfiguration: _json,
+    Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
+    ExcludePeriodConfiguration: _json,
+    FilterId: __expectString,
+    MinimumGranularity: __expectString,
+    NullOption: __expectString,
+    ParameterName: __expectString,
+    RelativeDateType: __expectString,
+    RelativeDateValue: __expectInt32,
+    TimeGranularity: __expectString,
+  }) as any;
+};
 
 // de_RelativeDateTimeControlDisplayOptions omitted.
 
@@ -19569,6 +19824,7 @@ const de_TimeBasedForecastProperties = (output: any, context: __SerdeContext): T
 const de_TimeEqualityFilter = (output: any, context: __SerdeContext): TimeEqualityFilter => {
   return take(output, {
     Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
     FilterId: __expectString,
     ParameterName: __expectString,
     RollingDate: _json,
@@ -19595,6 +19851,7 @@ const de_TimeRangeDrillDownFilter = (output: any, context: __SerdeContext): Time
 const de_TimeRangeFilter = (output: any, context: __SerdeContext): TimeRangeFilter => {
   return take(output, {
     Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
     ExcludePeriodConfiguration: _json,
     FilterId: __expectString,
     IncludeMaximum: __expectBoolean,
@@ -19657,6 +19914,7 @@ const de_TopBottomFilter = (output: any, context: __SerdeContext): TopBottomFilt
   return take(output, {
     AggregationSortConfigurations: (_: any) => de_AggregationSortConfigurationList(_, context),
     Column: _json,
+    DefaultFilterControlConfiguration: (_: any) => de_DefaultFilterControlConfiguration(_, context),
     FilterId: __expectString,
     Limit: __expectInt32,
     ParameterName: __expectString,

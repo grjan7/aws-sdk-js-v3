@@ -27,7 +27,7 @@ export interface ListPluginsCommandInput extends ListPluginsRequest {}
 export interface ListPluginsCommandOutput extends ListPluginsResponse, __MetadataBearer {}
 
 /**
- * <p>Lists configured Amazon Q plugins.</p>
+ * <p>Lists configured Amazon Q Business plugins.</p>
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
@@ -47,9 +47,10 @@ export interface ListPluginsCommandOutput extends ListPluginsResponse, __Metadat
  * //     { // Plugin
  * //       pluginId: "STRING_VALUE",
  * //       displayName: "STRING_VALUE",
- * //       type: "SERVICE_NOW" || "SALESFORCE" || "JIRA" || "ZENDESK",
+ * //       type: "SERVICE_NOW" || "SALESFORCE" || "JIRA" || "ZENDESK" || "CUSTOM",
  * //       serverUrl: "STRING_VALUE",
  * //       state: "ENABLED" || "DISABLED",
+ * //       buildStatus: "READY" || "CREATE_IN_PROGRESS" || "CREATE_FAILED" || "UPDATE_IN_PROGRESS" || "UPDATE_FAILED" || "DELETE_IN_PROGRESS" || "DELETE_FAILED",
  * //       createdAt: new Date("TIMESTAMP"),
  * //       updatedAt: new Date("TIMESTAMP"),
  * //     },
@@ -69,7 +70,7 @@ export interface ListPluginsCommandOutput extends ListPluginsResponse, __Metadat
  *             permission policies and user accounts and try again.</p>
  *
  * @throws {@link InternalServerException} (server fault)
- *  <p>An issue occurred with the internal server used for your Amazon Q service. Wait
+ *  <p>An issue occurred with the internal server used for your Amazon Q Business service. Wait
  *             some minutes and try again, or contact <a href="http://aws.amazon.com/contact-us/">Support</a> for help.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
@@ -81,7 +82,7 @@ export interface ListPluginsCommandOutput extends ListPluginsResponse, __Metadat
  *             again.</p>
  *
  * @throws {@link ValidationException} (client fault)
- *  <p>The input doesn't meet the constraints set by the Amazon Q service. Provide the
+ *  <p>The input doesn't meet the constraints set by the Amazon Q Business service. Provide the
  *             correct input and try again.</p>
  *
  * @throws {@link QBusinessServiceException}

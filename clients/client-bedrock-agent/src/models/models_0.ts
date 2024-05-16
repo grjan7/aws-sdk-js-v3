@@ -24,21 +24,48 @@ export class AccessDeniedException extends __BaseException {
 }
 
 /**
- * <p>Contains details about the Lambda function containing the business logic that is carried out upon invoking the action.</p>
+ * @public
+ * @enum
+ */
+export const CustomControlMethod = {
+  RETURN_CONTROL: "RETURN_CONTROL",
+} as const;
+
+/**
  * @public
  */
-export type ActionGroupExecutor = ActionGroupExecutor.LambdaMember | ActionGroupExecutor.$UnknownMember;
+export type CustomControlMethod = (typeof CustomControlMethod)[keyof typeof CustomControlMethod];
+
+/**
+ * <p>Contains details about the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.</p>
+ * @public
+ */
+export type ActionGroupExecutor =
+  | ActionGroupExecutor.CustomControlMember
+  | ActionGroupExecutor.LambdaMember
+  | ActionGroupExecutor.$UnknownMember;
 
 /**
  * @public
  */
 export namespace ActionGroupExecutor {
   /**
-   * <p>The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
+   * <p>The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
    * @public
    */
   export interface LambdaMember {
     lambda: string;
+    customControl?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>To return the action group invocation results directly in the <code>InvokeAgent</code> response, specify <code>RETURN_CONTROL</code>.</p>
+   * @public
+   */
+  export interface CustomControlMember {
+    lambda?: never;
+    customControl: CustomControlMethod;
     $unknown?: never;
   }
 
@@ -47,16 +74,19 @@ export namespace ActionGroupExecutor {
    */
   export interface $UnknownMember {
     lambda?: never;
+    customControl?: never;
     $unknown: [string, any];
   }
 
   export interface Visitor<T> {
     lambda: (value: string) => T;
+    customControl: (value: CustomControlMethod) => T;
     _: (name: string, value: any) => T;
   }
 
   export const visit = <T>(value: ActionGroupExecutor, visitor: Visitor<T>): T => {
     if (value.lambda !== undefined) return visitor.lambda(value.lambda);
+    if (value.customControl !== undefined) return visitor.customControl(value.customControl);
     return visitor._(value.$unknown[0], value.$unknown[1]);
   };
 }
@@ -169,6 +199,193 @@ export namespace APISchema {
  * @public
  * @enum
  */
+export const Type = {
+  ARRAY: "array",
+  BOOLEAN: "boolean",
+  INTEGER: "integer",
+  NUMBER: "number",
+  STRING: "string",
+} as const;
+
+/**
+ * @public
+ */
+export type Type = (typeof Type)[keyof typeof Type];
+
+/**
+ * <p>Contains details about a parameter in a function for an action group.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax">CreateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax">CreateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax">UpdateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax">UpdateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax">GetAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ParameterDetail {
+  /**
+   * <p>A description of the parameter. Helps the foundation model determine how to elicit the parameters from the user.</p>
+   * @public
+   */
+  description?: string;
+
+  /**
+   * <p>The data type of the parameter.</p>
+   * @public
+   */
+  type: Type | undefined;
+
+  /**
+   * <p>Whether the parameter is required for the agent to complete the function for action group invocation.</p>
+   * @public
+   */
+  required?: boolean;
+}
+
+/**
+ * <p>Defines parameters that the agent needs to invoke from the user to complete the function. Corresponds to an action in an action group.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax">CreateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax">CreateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax">UpdateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax">UpdateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax">GetAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface Function {
+  /**
+   * <p>A name for the function.</p>
+   * @public
+   */
+  name: string | undefined;
+
+  /**
+   * <p>A description of the function and its purpose.</p>
+   * @public
+   */
+  description?: string;
+
+  /**
+   * <p>The parameters that the agent elicits from the user to fulfill the function.</p>
+   * @public
+   */
+  parameters?: Record<string, ParameterDetail>;
+}
+
+/**
+ * <p>Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_RequestSyntax">CreateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_CreateAgentActionGroup.html#API_agent_CreateAgentActionGroup_ResponseSyntax">CreateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_RequestSyntax">UpdateAgentActionGroup request</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_UpdateAgentActionGroup.html#API_agent_UpdateAgentActionGroup_ResponseSyntax">UpdateAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_GetAgentActionGroup.html#API_agent_GetAgentActionGroup_ResponseSyntax">GetAgentActionGroup response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export type FunctionSchema = FunctionSchema.FunctionsMember | FunctionSchema.$UnknownMember;
+
+/**
+ * @public
+ */
+export namespace FunctionSchema {
+  /**
+   * <p>A list of functions that each define an action in the action group.</p>
+   * @public
+   */
+  export interface FunctionsMember {
+    functions: Function[];
+    $unknown?: never;
+  }
+
+  /**
+   * @public
+   */
+  export interface $UnknownMember {
+    functions?: never;
+    $unknown: [string, any];
+  }
+
+  export interface Visitor<T> {
+    functions: (value: Function[]) => T;
+    _: (name: string, value: any) => T;
+  }
+
+  export const visit = <T>(value: FunctionSchema, visitor: Visitor<T>): T => {
+    if (value.functions !== undefined) return visitor.functions(value.functions);
+    return visitor._(value.$unknown[0], value.$unknown[1]);
+  };
+}
+
+/**
+ * @public
+ * @enum
+ */
 export const ActionGroupSignature = {
   AMAZON_USERINPUT: "AMAZON.UserInput",
 } as const;
@@ -221,7 +438,7 @@ export interface CreateAgentActionGroupRequest {
   parentActionGroupSignature?: ActionGroupSignature;
 
   /**
-   * <p>The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
+   * <p>The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.</p>
    * @public
    */
   actionGroupExecutor?: ActionGroupExecutor;
@@ -237,6 +454,12 @@ export interface CreateAgentActionGroupRequest {
    * @public
    */
   actionGroupState?: ActionGroupState;
+
+  /**
+   * <p>Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.</p>
+   * @public
+   */
+  functionSchema?: FunctionSchema;
 }
 
 /**
@@ -301,7 +524,7 @@ export interface AgentActionGroup {
   parentActionSignature?: ActionGroupSignature;
 
   /**
-   * <p>The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
+   * <p>The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action or the custom control method for handling the information elicited from the user.</p>
    * @public
    */
   actionGroupExecutor?: ActionGroupExecutor;
@@ -311,6 +534,12 @@ export interface AgentActionGroup {
    * @public
    */
   apiSchema?: APISchema;
+
+  /**
+   * <p>Defines functions that each define parameters that the agent needs to invoke from the user. Each function represents an action in an action group.</p>
+   * @public
+   */
+  functionSchema?: FunctionSchema;
 
   /**
    * <p>Specifies whether the action group is available for the agent to invoke or not when sending an <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html">InvokeAgent</a> request.</p>
@@ -351,7 +580,7 @@ export class InternalServerException extends __BaseException {
 }
 
 /**
- * <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ * <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  * @public
  */
 export class ResourceNotFoundException extends __BaseException {
@@ -649,7 +878,7 @@ export interface UpdateAgentActionGroupRequest {
   parentActionGroupSignature?: ActionGroupSignature;
 
   /**
-   * <p>The ARN of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
+   * <p>The Amazon Resource Name (ARN) of the Lambda function containing the business logic that is carried out upon invoking the action.</p>
    * @public
    */
   actionGroupExecutor?: ActionGroupExecutor;
@@ -665,6 +894,12 @@ export interface UpdateAgentActionGroupRequest {
    * @public
    */
   apiSchema?: APISchema;
+
+  /**
+   * <p>Contains details about the function schema for the action group or the JSON or YAML-formatted payload defining the schema.</p>
+   * @public
+   */
+  functionSchema?: FunctionSchema;
 }
 
 /**
@@ -878,7 +1113,7 @@ export interface Agent {
   agentName: string | undefined;
 
   /**
-   * <p>The ARN of the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the agent.</p>
    * @public
    */
   agentArn: string | undefined;
@@ -951,13 +1186,13 @@ export interface Agent {
   idleSessionTTLInSeconds: number | undefined;
 
   /**
-   * <p>The ARN of the IAM role with permissions to call API operations on the agent. The ARN must begin with <code>AmazonBedrockExecutionRoleForAgents_</code>.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.</p>
    * @public
    */
   agentResourceRoleArn: string | undefined;
 
   /**
-   * <p>The ARN of the KMS key that encrypts the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.</p>
    * @public
    */
   customerEncryptionKeyArn?: string;
@@ -1008,7 +1243,13 @@ export interface AgentAliasRoutingConfigurationListItem {
    * <p>The version of the agent with which the alias is associated.</p>
    * @public
    */
-  agentVersion: string | undefined;
+  agentVersion?: string;
+
+  /**
+   * <p>Information on the Provisioned Throughput assigned to an agent alias.</p>
+   * @public
+   */
+  provisionedThroughput?: string;
 }
 
 /**
@@ -1076,7 +1317,7 @@ export interface AgentAlias {
   agentAliasName: string | undefined;
 
   /**
-   * <p>The ARN of the alias of the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the alias of the agent.</p>
    * @public
    */
   agentAliasArn: string | undefined;
@@ -1140,6 +1381,12 @@ export interface AgentAlias {
    * @public
    */
   agentAliasStatus: AgentAliasStatus | undefined;
+
+  /**
+   * <p>Information on the failure of Provisioned Throughput assigned to an agent alias.</p>
+   * @public
+   */
+  failureReasons?: string[];
 }
 
 /**
@@ -1325,13 +1572,13 @@ export interface CreateAgentRequest {
   idleSessionTTLInSeconds?: number;
 
   /**
-   * <p>The ARN of the IAM role with permissions to create the agent. The ARN must begin with <code>AmazonBedrockExecutionRoleForAgents_</code>.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.</p>
    * @public
    */
-  agentResourceRoleArn: string | undefined;
+  agentResourceRoleArn?: string;
 
   /**
-   * <p>The ARN of the KMS key with which to encrypt the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.</p>
    * @public
    */
   customerEncryptionKeyArn?: string;
@@ -1574,13 +1821,13 @@ export interface UpdateAgentRequest {
   idleSessionTTLInSeconds?: number;
 
   /**
-   * <p>The ARN of the IAM role with permissions to update the agent. The ARN must begin with <code>AmazonBedrockExecutionRoleForAgents_</code>.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.</p>
    * @public
    */
   agentResourceRoleArn: string | undefined;
 
   /**
-   * <p>The ARN of the KMS key with which to encrypt the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the KMS key with which to encrypt the agent.</p>
    * @public
    */
   customerEncryptionKeyArn?: string;
@@ -1621,7 +1868,7 @@ export interface AgentVersion {
   agentName: string | undefined;
 
   /**
-   * <p>The ARN of the agent that the version belongs to.</p>
+   * <p>The Amazon Resource Name (ARN) of the agent that the version belongs to.</p>
    * @public
    */
   agentArn: string | undefined;
@@ -1664,13 +1911,13 @@ export interface AgentVersion {
   idleSessionTTLInSeconds: number | undefined;
 
   /**
-   * <p>The ARN of the IAM role with permissions to invoke API operations on the agent. The ARN must begin with <code>AmazonBedrockExecutionRoleForAgents_</code>.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the agent.</p>
    * @public
    */
   agentResourceRoleArn: string | undefined;
 
   /**
-   * <p>The ARN of the KMS key that encrypts the agent.</p>
+   * <p>The Amazon Resource Name (ARN) of the KMS key that encrypts the agent.</p>
    * @public
    */
   customerEncryptionKeyArn?: string;
@@ -1956,12 +2203,26 @@ export interface UpdateAgentAliasResponse {
 }
 
 /**
+ * @public
+ * @enum
+ */
+export const DataDeletionPolicy = {
+  DELETE: "DELETE",
+  RETAIN: "RETAIN",
+} as const;
+
+/**
+ * @public
+ */
+export type DataDeletionPolicy = (typeof DataDeletionPolicy)[keyof typeof DataDeletionPolicy];
+
+/**
  * <p>Contains information about the S3 configuration of the data source.</p>
  * @public
  */
 export interface S3DataSourceConfiguration {
   /**
-   * <p>The ARN of the bucket that contains the data source.</p>
+   * <p>The Amazon Resource Name (ARN) of the bucket that contains the data source.</p>
    * @public
    */
   bucketArn: string | undefined;
@@ -1971,6 +2232,12 @@ export interface S3DataSourceConfiguration {
    * @public
    */
   inclusionPrefixes?: string[];
+
+  /**
+   * <p>The bucket account owner ID for the S3 bucket.</p>
+   * @public
+   */
+  bucketOwnerAccountId?: string;
 }
 
 /**
@@ -2010,7 +2277,7 @@ export interface DataSourceConfiguration {
  */
 export interface ServerSideEncryptionConfiguration {
   /**
-   * <p>The ARN of the KMS key used to encrypt the resource.</p>
+   * <p>The Amazon Resource Name (ARN) of the KMS key used to encrypt the resource.</p>
    * @public
    */
   kmsKeyArn?: string;
@@ -2124,6 +2391,12 @@ export interface CreateDataSourceRequest {
   dataSourceConfiguration: DataSourceConfiguration | undefined;
 
   /**
+   * <p>The data deletion policy assigned to the data source.</p>
+   * @public
+   */
+  dataDeletionPolicy?: DataDeletionPolicy;
+
+  /**
    * <p>Contains details about the server-side encryption for the data source.</p>
    * @public
    */
@@ -2142,6 +2415,7 @@ export interface CreateDataSourceRequest {
  */
 export const DataSourceStatus = {
   AVAILABLE: "AVAILABLE",
+  DELETE_UNSUCCESSFUL: "DELETE_UNSUCCESSFUL",
   DELETING: "DELETING",
 } as const;
 
@@ -2212,6 +2486,12 @@ export interface DataSource {
   vectorIngestionConfiguration?: VectorIngestionConfiguration;
 
   /**
+   * <p>The data deletion policy for a data source.</p>
+   * @public
+   */
+  dataDeletionPolicy?: DataDeletionPolicy;
+
+  /**
    * <p>The time at which the data source was created.</p>
    * @public
    */
@@ -2222,6 +2502,12 @@ export interface DataSource {
    * @public
    */
   updatedAt: Date | undefined;
+
+  /**
+   * <p>The detailed reasons on the failure to delete a data source.</p>
+   * @public
+   */
+  failureReasons?: string[];
 }
 
 /**
@@ -2420,6 +2706,12 @@ export interface UpdateDataSourceRequest {
   dataSourceConfiguration: DataSourceConfiguration | undefined;
 
   /**
+   * <p>The data deletion policy of the updated data source.</p>
+   * @public
+   */
+  dataDeletionPolicy?: DataDeletionPolicy;
+
+  /**
    * <p>Contains details about server-side encryption of the data source.</p>
    * @public
    */
@@ -2546,7 +2838,7 @@ export type IngestionJobStatus = (typeof IngestionJobStatus)[keyof typeof Ingest
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJob.html#API_agent_ListIngestionJob_ResponseSyntax">ListIngestionJob response</a>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent_ListIngestionJobs.html#API_agent_ListIngestionJobs_ResponseSyntax">ListIngestionJob response</a>
  *                </p>
  *             </li>
  *          </ul>
@@ -2935,7 +3227,7 @@ export type KnowledgeBaseType = (typeof KnowledgeBaseType)[keyof typeof Knowledg
  */
 export interface VectorKnowledgeBaseConfiguration {
   /**
-   * <p>The ARN of the model used to create vector embeddings for the knowledge base.</p>
+   * <p>The Amazon Resource Name (ARN) of the model used to create vector embeddings for the knowledge base.</p>
    * @public
    */
   embeddingModelArn: string | undefined;
@@ -2957,6 +3249,78 @@ export interface KnowledgeBaseConfiguration {
    * @public
    */
   vectorKnowledgeBaseConfiguration?: VectorKnowledgeBaseConfiguration;
+}
+
+/**
+ * <p>Contains the names of the fields to which to map information about the vector store.</p>
+ * @public
+ */
+export interface MongoDbAtlasFieldMapping {
+  /**
+   * <p>The name of the field in which Amazon Bedrock stores the vector embeddings for your data sources.</p>
+   * @public
+   */
+  vectorField: string | undefined;
+
+  /**
+   * <p>The name of the field in which Amazon Bedrock stores the raw text from your data. The text is split according to the chunking strategy you choose.</p>
+   * @public
+   */
+  textField: string | undefined;
+
+  /**
+   * <p>The name of the field in which Amazon Bedrock stores metadata about the vector store.</p>
+   * @public
+   */
+  metadataField: string | undefined;
+}
+
+/**
+ * <p>Contains details about the storage configuration of the knowledge base in MongoDB Atlas. </p>
+ * @public
+ */
+export interface MongoDbAtlasConfiguration {
+  /**
+   * <p>The endpoint URL of your MongoDB Atlas cluster for your knowledge base.</p>
+   * @public
+   */
+  endpoint: string | undefined;
+
+  /**
+   * <p>The database name in your MongoDB Atlas cluster for your knowledge base.</p>
+   * @public
+   */
+  databaseName: string | undefined;
+
+  /**
+   * <p>The collection name of the knowledge base in MongoDB Atlas.</p>
+   * @public
+   */
+  collectionName: string | undefined;
+
+  /**
+   * <p>The name of the MongoDB Atlas vector search index.</p>
+   * @public
+   */
+  vectorIndexName: string | undefined;
+
+  /**
+   * <p>The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that contains user credentials for your MongoDB Atlas cluster.</p>
+   * @public
+   */
+  credentialsSecretArn: string | undefined;
+
+  /**
+   * <p>Contains the names of the fields to which to map information about the vector store.</p>
+   * @public
+   */
+  fieldMapping: MongoDbAtlasFieldMapping | undefined;
+
+  /**
+   * <p>The name of the VPC endpoint service in your account that is connected to your MongoDB Atlas cluster.</p>
+   * @public
+   */
+  endpointServiceName?: string;
 }
 
 /**
@@ -2989,7 +3353,7 @@ export interface OpenSearchServerlessFieldMapping {
  */
 export interface OpenSearchServerlessConfiguration {
   /**
-   * <p>The ARN of the OpenSearch Service vector store.</p>
+   * <p>The Amazon Resource Name (ARN) of the OpenSearch Service vector store.</p>
    * @public
    */
   collectionArn: string | undefined;
@@ -3037,7 +3401,7 @@ export interface PineconeConfiguration {
   connectionString: string | undefined;
 
   /**
-   * <p>The ARN of the secret that you created in Secrets Manager that is linked to your Pinecone API key.</p>
+   * <p>The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Pinecone API key.</p>
    * @public
    */
   credentialsSecretArn: string | undefined;
@@ -3091,13 +3455,13 @@ export interface RdsFieldMapping {
  */
 export interface RdsConfiguration {
   /**
-   * <p>The ARN of the vector store.</p>
+   * <p>The Amazon Resource Name (ARN) of the vector store.</p>
    * @public
    */
   resourceArn: string | undefined;
 
   /**
-   * <p>The ARN of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.</p>
+   * <p>The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Amazon RDS database.</p>
    * @public
    */
   credentialsSecretArn: string | undefined;
@@ -3163,7 +3527,7 @@ export interface RedisEnterpriseCloudConfiguration {
   vectorIndexName: string | undefined;
 
   /**
-   * <p>The ARN of the secret that you created in Secrets Manager that is linked to your Redis Enterprise Cloud database.</p>
+   * <p>The Amazon Resource Name (ARN) of the secret that you created in Secrets Manager that is linked to your Redis Enterprise Cloud database.</p>
    * @public
    */
   credentialsSecretArn: string | undefined;
@@ -3180,6 +3544,7 @@ export interface RedisEnterpriseCloudConfiguration {
  * @enum
  */
 export const KnowledgeBaseStorageType = {
+  MONGO_DB_ATLAS: "MONGO_DB_ATLAS",
   OPENSEARCH_SERVERLESS: "OPENSEARCH_SERVERLESS",
   PINECONE: "PINECONE",
   RDS: "RDS",
@@ -3225,6 +3590,12 @@ export interface StorageConfiguration {
    * @public
    */
   rdsConfiguration?: RdsConfiguration;
+
+  /**
+   * <p>Contains the storage configuration of the knowledge base in MongoDB Atlas.</p>
+   * @public
+   */
+  mongoDbAtlasConfiguration?: MongoDbAtlasConfiguration;
 }
 
 /**
@@ -3251,7 +3622,7 @@ export interface CreateKnowledgeBaseRequest {
   description?: string;
 
   /**
-   * <p>The ARN of the IAM role with permissions to create the knowledge base.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.</p>
    * @public
    */
   roleArn: string | undefined;
@@ -3282,6 +3653,7 @@ export interface CreateKnowledgeBaseRequest {
 export const KnowledgeBaseStatus = {
   ACTIVE: "ACTIVE",
   CREATING: "CREATING",
+  DELETE_UNSUCCESSFUL: "DELETE_UNSUCCESSFUL",
   DELETING: "DELETING",
   FAILED: "FAILED",
   UPDATING: "UPDATING",
@@ -3310,7 +3682,7 @@ export interface KnowledgeBase {
   name: string | undefined;
 
   /**
-   * <p>The ARN of the knowledge base.</p>
+   * <p>The Amazon Resource Name (ARN) of the knowledge base.</p>
    * @public
    */
   knowledgeBaseArn: string | undefined;
@@ -3322,7 +3694,7 @@ export interface KnowledgeBase {
   description?: string;
 
   /**
-   * <p>The ARN of the IAM role with permissions to invoke API operations on the knowledge base. The ARN must begin with <code>AmazonBedrockExecutionRoleForKnowledgeBase_</code>.</p>
+   * <p>The Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.</p>
    * @public
    */
   roleArn: string | undefined;
@@ -3689,7 +4061,7 @@ export interface UpdateKnowledgeBaseRequest {
   description?: string;
 
   /**
-   * <p>Specifies a different Amazon Resource Name (ARN) of the IAM role with permissions to modify the knowledge base.</p>
+   * <p>Specifies a different Amazon Resource Name (ARN) of the IAM role with permissions to invoke API operations on the knowledge base.</p>
    * @public
    */
   roleArn: string | undefined;
@@ -3723,7 +4095,7 @@ export interface UpdateKnowledgeBaseResponse {
  */
 export interface ListTagsForResourceRequest {
   /**
-   * <p>The ARN of the resource for which to list tags.</p>
+   * <p>The Amazon Resource Name (ARN) of the resource for which to list tags.</p>
    * @public
    */
   resourceArn: string | undefined;
@@ -3745,7 +4117,7 @@ export interface ListTagsForResourceResponse {
  */
 export interface TagResourceRequest {
   /**
-   * <p>The ARN of the resource to tag.</p>
+   * <p>The Amazon Resource Name (ARN) of the resource to tag.</p>
    * @public
    */
   resourceArn: string | undefined;
@@ -3767,7 +4139,7 @@ export interface TagResourceResponse {}
  */
 export interface UntagResourceRequest {
   /**
-   * <p>The ARN of the resource from which to remove tags.</p>
+   * <p>The Amazon Resource Name (ARN) of the resource from which to remove tags.</p>
    * @public
    */
   resourceArn: string | undefined;
@@ -3914,6 +4286,7 @@ export const CreateAgentActionGroupRequestFilterSensitiveLog = (obj: CreateAgent
   ...obj,
   ...(obj.actionGroupExecutor && { actionGroupExecutor: obj.actionGroupExecutor }),
   ...(obj.apiSchema && { apiSchema: APISchemaFilterSensitiveLog(obj.apiSchema) }),
+  ...(obj.functionSchema && { functionSchema: obj.functionSchema }),
 });
 
 /**
@@ -3923,6 +4296,7 @@ export const AgentActionGroupFilterSensitiveLog = (obj: AgentActionGroup): any =
   ...obj,
   ...(obj.actionGroupExecutor && { actionGroupExecutor: obj.actionGroupExecutor }),
   ...(obj.apiSchema && { apiSchema: APISchemaFilterSensitiveLog(obj.apiSchema) }),
+  ...(obj.functionSchema && { functionSchema: obj.functionSchema }),
 });
 
 /**
@@ -3948,6 +4322,7 @@ export const UpdateAgentActionGroupRequestFilterSensitiveLog = (obj: UpdateAgent
   ...obj,
   ...(obj.actionGroupExecutor && { actionGroupExecutor: obj.actionGroupExecutor }),
   ...(obj.apiSchema && { apiSchema: APISchemaFilterSensitiveLog(obj.apiSchema) }),
+  ...(obj.functionSchema && { functionSchema: obj.functionSchema }),
 });
 
 /**

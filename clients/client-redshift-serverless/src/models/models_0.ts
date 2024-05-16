@@ -63,7 +63,7 @@ export interface ConfigParameter {
   /**
    * <p>The key of the parameter. The
    *          options are <code>auto_mv</code>, <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>, <code>enable_user_activity_logging</code>,
-   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, and query monitoring metrics that let
+   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, <code>use_fips_ssl</code>, and query monitoring metrics that let
    *          you define performance boundaries. For more information about query monitoring rules and available metrics, see
    *          <a href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">Query monitoring metrics for Amazon Redshift Serverless</a>.</p>
    * @public
@@ -917,7 +917,7 @@ export type Schedule = Schedule.AtMember | Schedule.CronMember | Schedule.$Unkno
  */
 export namespace Schedule {
   /**
-   * <p>The timestamp of when Amazon Redshift Serverless should run the scheduled action. Format of at expressions is "<code>at(yyyy-mm-ddThh:mm:ss)</code>". For example, "<code>at(2016-03-04T17:27:00)</code>".</p>
+   * <p>The timestamp of when Amazon Redshift Serverless should run the scheduled action. Timestamp is in UTC. Format of at expression is <code>yyyy-mm-ddThh:mm:ss</code>. For example, <code>2016-03-04T17:27:00</code>.</p>
    * @public
    */
   export interface AtMember {
@@ -927,8 +927,8 @@ export namespace Schedule {
   }
 
   /**
-   * <p>The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour.</p>
-   *          <p>Format of cron expressions is "<code>cron(Minutes Hours Day-of-month Month Day-of-week Year)</code>". For example, "<code>cron(0 10 ? * MON *)</code>". For more information, see
+   * <p>The cron expression to use to schedule a recurring scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.</p>
+   *          <p>Format of cron expressions is <code>(Minutes Hours Day-of-month Month Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For more information, see
    *          <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
    * @public
    */
@@ -1054,10 +1054,16 @@ export interface CreateScheduledActionRequest {
   targetAction: TargetAction | undefined;
 
   /**
-   * <p>The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour.</p>
-   *          <p>Format of at expressions is "<code>at(yyyy-mm-ddThh:mm:ss)</code>". For example, "<code>at(2016-03-04T17:27:00)</code>".</p>
-   *          <p>Format of cron expressions is "<code>cron(Minutes Hours Day-of-month Month Day-of-week Year)</code>". For example, "<code>cron(0 10 ? * MON *)</code>". For more information, see
-   *          <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   * <p>The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.</p>
+   *          <ul>
+   *             <li>
+   *                <p>Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example, <code>2016-03-04T17:27:00</code>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Format of cron expression is <code>(Minutes Hours Day-of-month Month Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For more information, see
+   *             <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   *             </li>
+   *          </ul>
    * @public
    */
   schedule: Schedule | undefined;
@@ -1129,10 +1135,16 @@ export interface ScheduledActionResponse {
   scheduledActionName?: string;
 
   /**
-   * <p>The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour.</p>
-   *          <p>Format of at expressions is "<code>at(yyyy-mm-ddThh:mm:ss)</code>". For example, "<code>at(2016-03-04T17:27:00)</code>".</p>
-   *          <p>Format of cron expressions is "<code>cron(Minutes Hours Day-of-month Month Day-of-week Year)</code>". For example, "<code>cron(0 10 ? * MON *)</code>". For more information, see
-   *          <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   * <p>The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.</p>
+   *          <ul>
+   *             <li>
+   *                <p>Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example, <code>2016-03-04T17:27:00</code>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Format of cron expression is <code>(Minutes Hours Day-of-month Month Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For more information, see
+   *             <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   *             </li>
+   *          </ul>
    * @public
    */
   schedule?: Schedule;
@@ -1502,7 +1514,7 @@ export interface CreateWorkgroupRequest {
   /**
    * <p>An array of parameters to set for advanced control over a database. The
    *          options are <code>auto_mv</code>, <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>, <code>enable_user_activity_logging</code>,
-   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see
+   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, <code>use_fips_ssl</code>, and query monitoring metrics that let you define performance boundaries. For more information about query monitoring rules and available metrics, see
    *          <a href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">
    *             Query monitoring metrics for Amazon Redshift Serverless</a>.</p>
    * @public
@@ -1631,7 +1643,7 @@ export interface Workgroup {
   /**
    * <p>An array of parameters to set for advanced control over a database. The
    *         options are <code>auto_mv</code>, <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>, <code>enable_user_activity_logging</code>,
-   *         <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, and query monitoring metrics that let you define performance boundaries.
+   *         <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, <code>use_fips_ssl</code>, and query monitoring metrics that let you define performance boundaries.
    *         For more information about query monitoring rules and available metrics, see <a href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless"> Query monitoring metrics for Amazon Redshift Serverless</a>.</p>
    * @public
    */
@@ -1662,8 +1674,7 @@ export interface Workgroup {
   endpoint?: Endpoint;
 
   /**
-   * <p>A value that specifies whether the workgroup
-   *       can be accessible from a public network</p>
+   * <p>A value that specifies whether the workgroup can be accessible from a public network.</p>
    * @public
    */
   publiclyAccessible?: boolean;
@@ -2749,6 +2760,24 @@ export interface ListScheduledActionsRequest {
 }
 
 /**
+ * <p>Contains names of objects associated with a scheduled action.</p>
+ * @public
+ */
+export interface ScheduledActionAssociation {
+  /**
+   * <p>Name of associated Amazon Redshift Serverless namespace.</p>
+   * @public
+   */
+  namespaceName?: string;
+
+  /**
+   * <p>Name of associated scheduled action.</p>
+   * @public
+   */
+  scheduledActionName?: string;
+}
+
+/**
  * @public
  */
 export interface ListScheduledActionsResponse {
@@ -2759,10 +2788,10 @@ export interface ListScheduledActionsResponse {
   nextToken?: string;
 
   /**
-   * <p>All of the returned scheduled action objects.</p>
+   * <p>All of the returned scheduled action association objects.</p>
    * @public
    */
-  scheduledActions?: string[];
+  scheduledActions?: ScheduledActionAssociation[];
 }
 
 /**
@@ -3296,10 +3325,16 @@ export interface UpdateScheduledActionRequest {
   targetAction?: TargetAction;
 
   /**
-   * <p>The schedule for a one-time (at format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour.</p>
-   *          <p>Format of at expressions is "<code>at(yyyy-mm-ddThh:mm:ss)</code>". For example, "<code>at(2016-03-04T17:27:00)</code>".</p>
-   *          <p>Format of cron expressions is "<code>cron(Minutes Hours Day-of-month Month Day-of-week Year)</code>". For example, "<code>cron(0 10 ? * MON *)</code>". For more information, see
-   *          <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   * <p>The schedule for a one-time (at timestamp format) or recurring (cron format) scheduled action. Schedule invocations must be separated by at least one hour. Times are in UTC.</p>
+   *          <ul>
+   *             <li>
+   *                <p>Format of at timestamp is <code>yyyy-mm-ddThh:mm:ss</code>. For example, <code>2016-03-04T17:27:00</code>.</p>
+   *             </li>
+   *             <li>
+   *                <p>Format of cron expression is <code>(Minutes Hours Day-of-month Month Day-of-week Year)</code>. For example, <code>"(0 10 ? * MON *)"</code>. For more information, see
+   *             <a href="https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/ScheduledEvents.html#CronExpressions">Cron Expressions</a> in the <i>Amazon CloudWatch Events User Guide</i>.</p>
+   *             </li>
+   *          </ul>
    * @public
    */
   schedule?: Schedule;
@@ -3716,7 +3751,7 @@ export interface UpdateWorkgroupRequest {
   /**
    * <p>An array of parameters to set for advanced control over a database. The
    *          options are <code>auto_mv</code>, <code>datestyle</code>, <code>enable_case_sensitive_identifier</code>, <code>enable_user_activity_logging</code>,
-   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, and query monitoring metrics that let you
+   *          <code>query_group</code>, <code>search_path</code>, <code>require_ssl</code>, <code>use_fips_ssl</code>, and query monitoring metrics that let you
    *          define performance boundaries. For more information about query monitoring rules and available metrics, see
    *          <a href="https://docs.aws.amazon.com/redshift/latest/dg/cm-c-wlm-query-monitoring-rules.html#cm-c-wlm-query-monitoring-metrics-serverless">
    *             Query monitoring metrics for Amazon Redshift Serverless</a>.</p>

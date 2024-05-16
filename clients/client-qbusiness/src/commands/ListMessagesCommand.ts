@@ -27,7 +27,7 @@ export interface ListMessagesCommandInput extends ListMessagesRequest {}
 export interface ListMessagesCommandOutput extends ListMessagesResponse, __MetadataBearer {}
 
 /**
- * <p>Gets a list of messages associated with an Amazon Q web experience.</p>
+ * <p>Gets a list of messages associated with an Amazon Q Business web experience.</p>
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
@@ -37,7 +37,7 @@ export interface ListMessagesCommandOutput extends ListMessagesResponse, __Metad
  * const input = { // ListMessagesRequest
  *   conversationId: "STRING_VALUE", // required
  *   applicationId: "STRING_VALUE", // required
- *   userId: "STRING_VALUE", // required
+ *   userId: "STRING_VALUE",
  *   nextToken: "STRING_VALUE",
  *   maxResults: Number("int"),
  * };
@@ -71,17 +71,21 @@ export interface ListMessagesCommandOutput extends ListMessagesResponse, __Metad
  * //             { // TextSegment
  * //               beginOffset: Number("int"),
  * //               endOffset: Number("int"),
+ * //               snippetExcerpt: { // SnippetExcerpt
+ * //                 text: "STRING_VALUE",
+ * //               },
  * //             },
  * //           ],
  * //         },
  * //       ],
  * //       actionReview: { // ActionReview
  * //         pluginId: "STRING_VALUE",
- * //         pluginType: "SERVICE_NOW" || "SALESFORCE" || "JIRA" || "ZENDESK",
+ * //         pluginType: "SERVICE_NOW" || "SALESFORCE" || "JIRA" || "ZENDESK" || "CUSTOM",
  * //         payload: { // ActionReviewPayload
  * //           "<keys>": { // ActionReviewPayloadField
  * //             displayName: "STRING_VALUE",
  * //             displayOrder: Number("int"),
+ * //             displayDescription: "STRING_VALUE",
  * //             type: "STRING" || "NUMBER" || "ARRAY" || "BOOLEAN",
  * //             value: "DOCUMENT_VALUE",
  * //             allowedValues: [ // ActionReviewPayloadFieldAllowedValues
@@ -90,6 +94,7 @@ export interface ListMessagesCommandOutput extends ListMessagesResponse, __Metad
  * //                 displayValue: "DOCUMENT_VALUE",
  * //               },
  * //             ],
+ * //             allowedFormat: "STRING_VALUE",
  * //             required: true || false,
  * //           },
  * //         },
@@ -122,7 +127,7 @@ export interface ListMessagesCommandOutput extends ListMessagesResponse, __Metad
  *             permission policies and user accounts and try again.</p>
  *
  * @throws {@link InternalServerException} (server fault)
- *  <p>An issue occurred with the internal server used for your Amazon Q service. Wait
+ *  <p>An issue occurred with the internal server used for your Amazon Q Business service. Wait
  *             some minutes and try again, or contact <a href="http://aws.amazon.com/contact-us/">Support</a> for help.</p>
  *
  * @throws {@link LicenseNotFoundException} (client fault)
@@ -138,7 +143,7 @@ export interface ListMessagesCommandOutput extends ListMessagesResponse, __Metad
  *             again.</p>
  *
  * @throws {@link ValidationException} (client fault)
- *  <p>The input doesn't meet the constraints set by the Amazon Q service. Provide the
+ *  <p>The input doesn't meet the constraints set by the Amazon Q Business service. Provide the
  *             correct input and try again.</p>
  *
  * @throws {@link QBusinessServiceException}

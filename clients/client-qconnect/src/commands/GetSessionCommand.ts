@@ -52,6 +52,26 @@ export interface GetSessionCommandOutput extends GetSessionResponse, __MetadataB
  * //     integrationConfiguration: { // SessionIntegrationConfiguration
  * //       topicIntegrationArn: "STRING_VALUE",
  * //     },
+ * //     tagFilter: { // TagFilter Union: only one key present
+ * //       tagCondition: { // TagCondition
+ * //         key: "STRING_VALUE", // required
+ * //         value: "STRING_VALUE",
+ * //       },
+ * //       andConditions: [ // AndConditions
+ * //         {
+ * //           key: "STRING_VALUE", // required
+ * //           value: "STRING_VALUE",
+ * //         },
+ * //       ],
+ * //       orConditions: [ // OrConditions
+ * //         { // OrCondition Union: only one key present
+ * //           andConditions: [
+ * //             "<TagCondition>",
+ * //           ],
+ * //           tagCondition: "<TagCondition>",
+ * //         },
+ * //       ],
+ * //     },
  * //   },
  * // };
  *

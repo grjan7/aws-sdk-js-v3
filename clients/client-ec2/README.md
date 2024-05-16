@@ -3272,6 +3272,14 @@ DisableImageDeprecation
 </details>
 <details>
 <summary>
+DisableImageDeregistrationProtection
+</summary>
+
+[Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ec2/command/DisableImageDeregistrationProtectionCommand/) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/DisableImageDeregistrationProtectionCommandInput/) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/DisableImageDeregistrationProtectionCommandOutput/)
+
+</details>
+<details>
+<summary>
 DisableIpamOrganizationAdminAccount
 </summary>
 
@@ -3512,6 +3520,14 @@ EnableImageDeprecation
 </details>
 <details>
 <summary>
+EnableImageDeregistrationProtection
+</summary>
+
+[Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ec2/command/EnableImageDeregistrationProtectionCommand/) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/EnableImageDeregistrationProtectionCommandInput/) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/EnableImageDeregistrationProtectionCommandOutput/)
+
+</details>
+<details>
+<summary>
 EnableIpamOrganizationAdminAccount
 </summary>
 
@@ -3732,6 +3748,14 @@ GetInstanceMetadataDefaults
 </summary>
 
 [Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ec2/command/GetInstanceMetadataDefaultsCommand/) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/GetInstanceMetadataDefaultsCommandInput/) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/GetInstanceMetadataDefaultsCommandOutput/)
+
+</details>
+<details>
+<summary>
+GetInstanceTpmEkPub
+</summary>
+
+[Command API Reference](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/client/ec2/command/GetInstanceTpmEkPubCommand/) / [Input](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/GetInstanceTpmEkPubCommandInput/) / [Output](https://docs.aws.amazon.com/AWSJavaScriptSDK/v3/latest/Package/-aws-sdk-client-ec2/Interface/GetInstanceTpmEkPubCommandOutput/)
 
 </details>
 <details>

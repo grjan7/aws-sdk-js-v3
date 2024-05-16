@@ -492,10 +492,6 @@ export interface GetCaseAuditEventsRequest {
 
 /**
  * <p>Object to store union of Field values.</p>
- *          <important>
- *             <p>This data type is a UNION, so only one of the following members can be specified when
- *         used or returned.</p>
- *          </important>
  * @public
  */
 export type AuditEventFieldValueUnion =
@@ -659,6 +655,7 @@ export interface AuditEventPerformedBy {
 export const RelatedItemType = {
   COMMENT: "Comment",
   CONTACT: "Contact",
+  FILE: "File",
 } as const;
 
 /**
@@ -850,12 +847,25 @@ export interface Contact {
 }
 
 /**
+ * <p>An object that represents a content of an Amazon Connect file object.</p>
+ * @public
+ */
+export interface FileContent {
+  /**
+   * <p>The Amazon Resource Name (ARN) of a File in Amazon Connect.</p>
+   * @public
+   */
+  fileArn: string | undefined;
+}
+
+/**
  * <p>Represents the content of a related item to be created.</p>
  * @public
  */
 export type RelatedItemInputContent =
   | RelatedItemInputContent.CommentMember
   | RelatedItemInputContent.ContactMember
+  | RelatedItemInputContent.FileMember
   | RelatedItemInputContent.$UnknownMember;
 
 /**
@@ -869,6 +879,7 @@ export namespace RelatedItemInputContent {
   export interface ContactMember {
     contact: Contact;
     comment?: never;
+    file?: never;
     $unknown?: never;
   }
 
@@ -879,6 +890,18 @@ export namespace RelatedItemInputContent {
   export interface CommentMember {
     contact?: never;
     comment: CommentContent;
+    file?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>A file of related items.</p>
+   * @public
+   */
+  export interface FileMember {
+    contact?: never;
+    comment?: never;
+    file: FileContent;
     $unknown?: never;
   }
 
@@ -888,18 +911,21 @@ export namespace RelatedItemInputContent {
   export interface $UnknownMember {
     contact?: never;
     comment?: never;
+    file?: never;
     $unknown: [string, any];
   }
 
   export interface Visitor<T> {
     contact: (value: Contact) => T;
     comment: (value: CommentContent) => T;
+    file: (value: FileContent) => T;
     _: (name: string, value: any) => T;
   }
 
   export const visit = <T>(value: RelatedItemInputContent, visitor: Visitor<T>): T => {
     if (value.contact !== undefined) return visitor.contact(value.contact);
     if (value.comment !== undefined) return visitor.comment(value.comment);
+    if (value.file !== undefined) return visitor.file(value.file);
     return visitor._(value.$unknown[0], value.$unknown[1]);
   };
 }
@@ -1002,12 +1028,25 @@ export interface ContactFilter {
 }
 
 /**
+ * <p>A filter for related items of type <code>File</code>.</p>
+ * @public
+ */
+export interface FileFilter {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the file.</p>
+   * @public
+   */
+  fileArn?: string;
+}
+
+/**
  * <p>The list of types of related items and their parameters to use for filtering.</p>
  * @public
  */
 export type RelatedItemTypeFilter =
   | RelatedItemTypeFilter.CommentMember
   | RelatedItemTypeFilter.ContactMember
+  | RelatedItemTypeFilter.FileMember
   | RelatedItemTypeFilter.$UnknownMember;
 
 /**
@@ -1021,6 +1060,7 @@ export namespace RelatedItemTypeFilter {
   export interface ContactMember {
     contact: ContactFilter;
     comment?: never;
+    file?: never;
     $unknown?: never;
   }
 
@@ -1031,6 +1071,18 @@ export namespace RelatedItemTypeFilter {
   export interface CommentMember {
     contact?: never;
     comment: CommentFilter;
+    file?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>A filter for related items of this type of <code>File</code>.</p>
+   * @public
+   */
+  export interface FileMember {
+    contact?: never;
+    comment?: never;
+    file: FileFilter;
     $unknown?: never;
   }
 
@@ -1040,18 +1092,21 @@ export namespace RelatedItemTypeFilter {
   export interface $UnknownMember {
     contact?: never;
     comment?: never;
+    file?: never;
     $unknown: [string, any];
   }
 
   export interface Visitor<T> {
     contact: (value: ContactFilter) => T;
     comment: (value: CommentFilter) => T;
+    file: (value: FileFilter) => T;
     _: (name: string, value: any) => T;
   }
 
   export const visit = <T>(value: RelatedItemTypeFilter, visitor: Visitor<T>): T => {
     if (value.contact !== undefined) return visitor.contact(value.contact);
     if (value.comment !== undefined) return visitor.comment(value.comment);
+    if (value.file !== undefined) return visitor.file(value.file);
     return visitor._(value.$unknown[0], value.$unknown[1]);
   };
 }
@@ -1124,6 +1179,7 @@ export interface ContactContent {
 export type RelatedItemContent =
   | RelatedItemContent.CommentMember
   | RelatedItemContent.ContactMember
+  | RelatedItemContent.FileMember
   | RelatedItemContent.$UnknownMember;
 
 /**
@@ -1137,6 +1193,7 @@ export namespace RelatedItemContent {
   export interface ContactMember {
     contact: ContactContent;
     comment?: never;
+    file?: never;
     $unknown?: never;
   }
 
@@ -1147,6 +1204,18 @@ export namespace RelatedItemContent {
   export interface CommentMember {
     contact?: never;
     comment: CommentContent;
+    file?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Represents the content of a File to be returned to agents.</p>
+   * @public
+   */
+  export interface FileMember {
+    contact?: never;
+    comment?: never;
+    file: FileContent;
     $unknown?: never;
   }
 
@@ -1156,18 +1225,21 @@ export namespace RelatedItemContent {
   export interface $UnknownMember {
     contact?: never;
     comment?: never;
+    file?: never;
     $unknown: [string, any];
   }
 
   export interface Visitor<T> {
     contact: (value: ContactContent) => T;
     comment: (value: CommentContent) => T;
+    file: (value: FileContent) => T;
     _: (name: string, value: any) => T;
   }
 
   export const visit = <T>(value: RelatedItemContent, visitor: Visitor<T>): T => {
     if (value.contact !== undefined) return visitor.contact(value.contact);
     if (value.comment !== undefined) return visitor.comment(value.comment);
+    if (value.file !== undefined) return visitor.file(value.file);
     return visitor._(value.$unknown[0], value.$unknown[1]);
   };
 }
@@ -1887,6 +1959,24 @@ export interface GetFieldResponse {
    * @public
    */
   tags?: Record<string, string>;
+
+  /**
+   * <p>Denotes whether or not the resource has been deleted.</p>
+   * @public
+   */
+  deleted?: boolean;
+
+  /**
+   * <p>Timestamp at which the resource was created.</p>
+   * @public
+   */
+  createdTime?: Date;
+
+  /**
+   * <p>Timestamp at which the resource was created or last modified.</p>
+   * @public
+   */
+  lastModifiedTime?: Date;
 }
 
 /**
@@ -2036,6 +2126,28 @@ export interface CreateFieldResponse {
    */
   fieldArn: string | undefined;
 }
+
+/**
+ * @public
+ */
+export interface DeleteFieldRequest {
+  /**
+   * <p>The unique identifier of the Cases domain.</p>
+   * @public
+   */
+  domainId: string | undefined;
+
+  /**
+   * <p>Unique identifier of the field.</p>
+   * @public
+   */
+  fieldId: string | undefined;
+}
+
+/**
+ * @public
+ */
+export interface DeleteFieldResponse {}
 
 /**
  * @public
@@ -2385,6 +2497,28 @@ export interface CreateLayoutResponse {
 /**
  * @public
  */
+export interface DeleteLayoutRequest {
+  /**
+   * <p>The unique identifier of the Cases domain.</p>
+   * @public
+   */
+  domainId: string | undefined;
+
+  /**
+   * <p>The unique identifier of the layout.</p>
+   * @public
+   */
+  layoutId: string | undefined;
+}
+
+/**
+ * @public
+ */
+export interface DeleteLayoutResponse {}
+
+/**
+ * @public
+ */
 export interface GetLayoutRequest {
   /**
    * <p>The unique identifier of the Cases domain. </p>
@@ -2433,6 +2567,24 @@ export interface GetLayoutResponse {
    * @public
    */
   tags?: Record<string, string>;
+
+  /**
+   * <p>Denotes whether or not the resource has been deleted.</p>
+   * @public
+   */
+  deleted?: boolean;
+
+  /**
+   * <p>Timestamp at which the resource was created.</p>
+   * @public
+   */
+  createdTime?: Date;
+
+  /**
+   * <p>Timestamp at which the resource was created or last modified.</p>
+   * @public
+   */
+  lastModifiedTime?: Date;
 }
 
 /**
@@ -2674,6 +2826,28 @@ export interface CreateTemplateResponse {
 /**
  * @public
  */
+export interface DeleteTemplateRequest {
+  /**
+   * <p>The unique identifier of the Cases domain.</p>
+   * @public
+   */
+  domainId: string | undefined;
+
+  /**
+   * <p>A unique identifier of a template.</p>
+   * @public
+   */
+  templateId: string | undefined;
+}
+
+/**
+ * @public
+ */
+export interface DeleteTemplateResponse {}
+
+/**
+ * @public
+ */
 export interface GetTemplateRequest {
   /**
    * <p>The unique identifier of the Cases domain. </p>
@@ -2740,6 +2914,24 @@ export interface GetTemplateResponse {
    * @public
    */
   status: TemplateStatus | undefined;
+
+  /**
+   * <p>Denotes whether or not the resource has been deleted.</p>
+   * @public
+   */
+  deleted?: boolean;
+
+  /**
+   * <p>Timestamp at which the resource was created.</p>
+   * @public
+   */
+  createdTime?: Date;
+
+  /**
+   * <p>Timestamp at which the resource was created or last modified.</p>
+   * @public
+   */
+  lastModifiedTime?: Date;
 }
 
 /**

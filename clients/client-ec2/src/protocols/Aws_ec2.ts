@@ -1298,6 +1298,10 @@ import {
   DisableImageDeprecationCommandOutput,
 } from "../commands/DisableImageDeprecationCommand";
 import {
+  DisableImageDeregistrationProtectionCommandInput,
+  DisableImageDeregistrationProtectionCommandOutput,
+} from "../commands/DisableImageDeregistrationProtectionCommand";
+import {
   DisableIpamOrganizationAdminAccountCommandInput,
   DisableIpamOrganizationAdminAccountCommandOutput,
 } from "../commands/DisableIpamOrganizationAdminAccountCommand";
@@ -1412,6 +1416,10 @@ import {
   EnableImageDeprecationCommandOutput,
 } from "../commands/EnableImageDeprecationCommand";
 import {
+  EnableImageDeregistrationProtectionCommandInput,
+  EnableImageDeregistrationProtectionCommandOutput,
+} from "../commands/EnableImageDeregistrationProtectionCommand";
+import {
   EnableIpamOrganizationAdminAccountCommandInput,
   EnableIpamOrganizationAdminAccountCommandOutput,
 } from "../commands/EnableIpamOrganizationAdminAccountCommand";
@@ -1511,6 +1519,10 @@ import {
   GetInstanceMetadataDefaultsCommandInput,
   GetInstanceMetadataDefaultsCommandOutput,
 } from "../commands/GetInstanceMetadataDefaultsCommand";
+import {
+  GetInstanceTpmEkPubCommandInput,
+  GetInstanceTpmEkPubCommandOutput,
+} from "../commands/GetInstanceTpmEkPubCommand";
 import {
   GetInstanceTypesFromInstanceRequirementsCommandInput,
   GetInstanceTypesFromInstanceRequirementsCommandOutput,
@@ -3233,7 +3245,6 @@ import {
   DescribeSpotFleetRequestsResponse,
   DescribeSpotInstanceRequestsRequest,
   DescribeSpotInstanceRequestsResult,
-  DescribeSpotPriceHistoryRequest,
   DiskInfo,
   EbsInfo,
   EbsInstanceBlockDevice,
@@ -3361,6 +3372,7 @@ import {
   CoipAddressUsage,
   DataQuery,
   DataResponse,
+  DescribeSpotPriceHistoryRequest,
   DescribeSpotPriceHistoryResult,
   DescribeStaleSecurityGroupsRequest,
   DescribeStaleSecurityGroupsResult,
@@ -3468,6 +3480,8 @@ import {
   DisableImageBlockPublicAccessResult,
   DisableImageDeprecationRequest,
   DisableImageDeprecationResult,
+  DisableImageDeregistrationProtectionRequest,
+  DisableImageDeregistrationProtectionResult,
   DisableImageRequest,
   DisableImageResult,
   DisableIpamOrganizationAdminAccountRequest,
@@ -3529,6 +3543,8 @@ import {
   EnableImageBlockPublicAccessResult,
   EnableImageDeprecationRequest,
   EnableImageDeprecationResult,
+  EnableImageDeregistrationProtectionRequest,
+  EnableImageDeregistrationProtectionResult,
   EnableImageRequest,
   EnableImageResult,
   EnableIpamOrganizationAdminAccountRequest,
@@ -3588,15 +3604,13 @@ import {
   GetImageBlockPublicAccessStateResult,
   GetInstanceMetadataDefaultsRequest,
   GetInstanceMetadataDefaultsResult,
+  GetInstanceTpmEkPubRequest,
+  GetInstanceTpmEkPubResult,
   GetInstanceTypesFromInstanceRequirementsRequest,
   GetInstanceTypesFromInstanceRequirementsResult,
   GetInstanceUefiDataRequest,
   GetInstanceUefiDataResult,
   GetIpamAddressHistoryRequest,
-  GetIpamAddressHistoryResult,
-  GetIpamDiscoveredAccountsRequest,
-  GetIpamDiscoveredAccountsResult,
-  GetIpamDiscoveredPublicAddressesRequest,
   InstanceEventWindowDisassociationRequest,
   InstanceFamilyCreditSpecification,
   InstanceMetadataDefaultsResponse,
@@ -3604,8 +3618,6 @@ import {
   InstanceUsage,
   IntegrateServices,
   IpamAddressHistoryRecord,
-  IpamDiscoveredAccount,
-  IpamDiscoveryFailureReason,
   Ipv6CidrAssociation,
   MetricPoint,
   PrivateDnsDetails,
@@ -3646,6 +3658,10 @@ import {
   DiskImageDetail,
   DnsServersOptionsModifyStructure,
   EbsInstanceBlockDeviceSpecification,
+  GetIpamAddressHistoryResult,
+  GetIpamDiscoveredAccountsRequest,
+  GetIpamDiscoveredAccountsResult,
+  GetIpamDiscoveredPublicAddressesRequest,
   GetIpamDiscoveredPublicAddressesResult,
   GetIpamDiscoveredResourceCidrsRequest,
   GetIpamDiscoveredResourceCidrsResult,
@@ -3723,9 +3739,10 @@ import {
   InstanceCreditSpecificationRequest,
   InstanceMonitoring,
   InstanceRequirementsWithMetadataRequest,
-  IpamCidrAuthorizationContext,
+  IpamDiscoveredAccount,
   IpamDiscoveredPublicAddress,
   IpamDiscoveredResourceCidr,
+  IpamDiscoveryFailureReason,
   IpamPublicAddressSecurityGroup,
   IpamPublicAddressTag,
   IpamPublicAddressTags,
@@ -3882,14 +3899,6 @@ import {
   ProvisionByoipCidrRequest,
   ProvisionByoipCidrResult,
   ProvisionIpamByoasnRequest,
-  ProvisionIpamByoasnResult,
-  ProvisionIpamPoolCidrRequest,
-  ProvisionIpamPoolCidrResult,
-  ProvisionPublicIpv4PoolCidrRequest,
-  ProvisionPublicIpv4PoolCidrResult,
-  PurchaseCapacityBlockRequest,
-  PurchaseCapacityBlockResult,
-  PurchaseHostReservationRequest,
   RemoveIpamOperatingRegion,
   RemovePrefixListEntry,
   ReservationValue,
@@ -3932,9 +3941,18 @@ import {
   InstanceMarketOptionsRequest,
   InstanceMetadataOptionsRequest,
   InstanceStateChange,
+  IpamCidrAuthorizationContext,
   LaunchTemplateSpecification,
   LicenseConfigurationRequest,
   PrivateDnsNameOptionsRequest,
+  ProvisionIpamByoasnResult,
+  ProvisionIpamPoolCidrRequest,
+  ProvisionIpamPoolCidrResult,
+  ProvisionPublicIpv4PoolCidrRequest,
+  ProvisionPublicIpv4PoolCidrResult,
+  PurchaseCapacityBlockRequest,
+  PurchaseCapacityBlockResult,
+  PurchaseHostReservationRequest,
   PurchaseHostReservationResult,
   PurchaseRequest,
   PurchaseReservedInstancesOfferingRequest,
@@ -10580,6 +10598,23 @@ export const se_DisableImageDeprecationCommand = async (
 };
 
 /**
+ * serializeAws_ec2DisableImageDeregistrationProtectionCommand
+ */
+export const se_DisableImageDeregistrationProtectionCommand = async (
+  input: DisableImageDeregistrationProtectionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = SHARED_HEADERS;
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...se_DisableImageDeregistrationProtectionRequest(input, context),
+    [_A]: _DIDP,
+    [_V]: _,
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+/**
  * serializeAws_ec2DisableIpamOrganizationAdminAccountCommand
  */
 export const se_DisableIpamOrganizationAdminAccountCommand = async (
@@ -11090,6 +11125,23 @@ export const se_EnableImageDeprecationCommand = async (
 };
 
 /**
+ * serializeAws_ec2EnableImageDeregistrationProtectionCommand
+ */
+export const se_EnableImageDeregistrationProtectionCommand = async (
+  input: EnableImageDeregistrationProtectionCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = SHARED_HEADERS;
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...se_EnableImageDeregistrationProtectionRequest(input, context),
+    [_A]: _EIDP,
+    [_V]: _,
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+/**
  * serializeAws_ec2EnableIpamOrganizationAdminAccountCommand
  */
 export const se_EnableIpamOrganizationAdminAccountCommand = async (
@@ -11560,6 +11612,23 @@ export const se_GetInstanceMetadataDefaultsCommand = async (
   body = buildFormUrlencodedString({
     ...se_GetInstanceMetadataDefaultsRequest(input, context),
     [_A]: _GIMD,
+    [_V]: _,
+  });
+  return buildHttpRpcRequest(context, headers, "/", undefined, body);
+};
+
+/**
+ * serializeAws_ec2GetInstanceTpmEkPubCommand
+ */
+export const se_GetInstanceTpmEkPubCommand = async (
+  input: GetInstanceTpmEkPubCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const headers: __HeaderBag = SHARED_HEADERS;
+  let body: any;
+  body = buildFormUrlencodedString({
+    ...se_GetInstanceTpmEkPubRequest(input, context),
+    [_A]: _GITEP,
     [_V]: _,
   });
   return buildHttpRpcRequest(context, headers, "/", undefined, body);
@@ -22145,6 +22214,26 @@ export const de_DisableImageDeprecationCommand = async (
 };
 
 /**
+ * deserializeAws_ec2DisableImageDeregistrationProtectionCommand
+ */
+export const de_DisableImageDeregistrationProtectionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DisableImageDeregistrationProtectionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = de_DisableImageDeregistrationProtectionResult(data, context);
+  const response: DisableImageDeregistrationProtectionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return response;
+};
+
+/**
  * deserializeAws_ec2DisableIpamOrganizationAdminAccountCommand
  */
 export const de_DisableIpamOrganizationAdminAccountCommand = async (
@@ -22736,6 +22825,26 @@ export const de_EnableImageDeprecationCommand = async (
 };
 
 /**
+ * deserializeAws_ec2EnableImageDeregistrationProtectionCommand
+ */
+export const de_EnableImageDeregistrationProtectionCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<EnableImageDeregistrationProtectionCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = de_EnableImageDeregistrationProtectionResult(data, context);
+  const response: EnableImageDeregistrationProtectionCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return response;
+};
+
+/**
  * deserializeAws_ec2EnableIpamOrganizationAdminAccountCommand
  */
 export const de_EnableIpamOrganizationAdminAccountCommand = async (
@@ -23283,6 +23392,26 @@ export const de_GetInstanceMetadataDefaultsCommand = async (
   let contents: any = {};
   contents = de_GetInstanceMetadataDefaultsResult(data, context);
   const response: GetInstanceMetadataDefaultsCommandOutput = {
+    $metadata: deserializeMetadata(output),
+    ...contents,
+  };
+  return response;
+};
+
+/**
+ * deserializeAws_ec2GetInstanceTpmEkPubCommand
+ */
+export const de_GetInstanceTpmEkPubCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetInstanceTpmEkPubCommandOutput> => {
+  if (output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const data: any = await parseBody(output.body, context);
+  let contents: any = {};
+  contents = de_GetInstanceTpmEkPubResult(data, context);
+  const response: GetInstanceTpmEkPubCommandOutput = {
     $metadata: deserializeMetadata(output),
     ...contents,
   };
@@ -40159,6 +40288,23 @@ const se_DisableImageDeprecationRequest = (input: DisableImageDeprecationRequest
 };
 
 /**
+ * serializeAws_ec2DisableImageDeregistrationProtectionRequest
+ */
+const se_DisableImageDeregistrationProtectionRequest = (
+  input: DisableImageDeregistrationProtectionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input[_IIma] != null) {
+    entries[_IIma] = input[_IIma];
+  }
+  if (input[_DRr] != null) {
+    entries[_DRr] = input[_DRr];
+  }
+  return entries;
+};
+
+/**
  * serializeAws_ec2DisableImageRequest
  */
 const se_DisableImageRequest = (input: DisableImageRequest, context: __SerdeContext): any => {
@@ -41017,6 +41163,26 @@ const se_EnableImageDeprecationRequest = (input: EnableImageDeprecationRequest, 
 };
 
 /**
+ * serializeAws_ec2EnableImageDeregistrationProtectionRequest
+ */
+const se_EnableImageDeregistrationProtectionRequest = (
+  input: EnableImageDeregistrationProtectionRequest,
+  context: __SerdeContext
+): any => {
+  const entries: any = {};
+  if (input[_IIma] != null) {
+    entries[_IIma] = input[_IIma];
+  }
+  if (input[_WC] != null) {
+    entries[_WC] = input[_WC];
+  }
+  if (input[_DRr] != null) {
+    entries[_DRr] = input[_DRr];
+  }
+  return entries;
+};
+
+/**
  * serializeAws_ec2EnableImageRequest
  */
 const se_EnableImageRequest = (input: EnableImageRequest, context: __SerdeContext): any => {
@@ -41657,8 +41823,8 @@ const se_FleetLaunchTemplateOverridesRequest = (
   if (input[_AZ] != null) {
     entries[_AZ] = input[_AZ];
   }
-  if (input[_WC] != null) {
-    entries[_WC] = __serializeFloat(input[_WC]);
+  if (input[_WCe] != null) {
+    entries[_WCe] = __serializeFloat(input[_WCe]);
   }
   if (input[_Pri] != null) {
     entries[_Pri] = __serializeFloat(input[_Pri]);
@@ -42101,6 +42267,26 @@ const se_GetInstanceMetadataDefaultsRequest = (
   context: __SerdeContext
 ): any => {
   const entries: any = {};
+  if (input[_DRr] != null) {
+    entries[_DRr] = input[_DRr];
+  }
+  return entries;
+};
+
+/**
+ * serializeAws_ec2GetInstanceTpmEkPubRequest
+ */
+const se_GetInstanceTpmEkPubRequest = (input: GetInstanceTpmEkPubRequest, context: __SerdeContext): any => {
+  const entries: any = {};
+  if (input[_IIn] != null) {
+    entries[_IIn] = input[_IIn];
+  }
+  if (input[_KT] != null) {
+    entries[_KT] = input[_KT];
+  }
+  if (input[_KF] != null) {
+    entries[_KF] = input[_KF];
+  }
   if (input[_DRr] != null) {
     entries[_DRr] = input[_DRr];
   }
@@ -45692,8 +45878,8 @@ const se_LaunchTemplateOverrides = (input: LaunchTemplateOverrides, context: __S
   if (input[_AZ] != null) {
     entries[_AZ] = input[_AZ];
   }
-  if (input[_WC] != null) {
-    entries[_WC] = __serializeFloat(input[_WC]);
+  if (input[_WCe] != null) {
+    entries[_WCe] = __serializeFloat(input[_WCe]);
   }
   if (input[_Pri] != null) {
     entries[_Pri] = __serializeFloat(input[_Pri]);
@@ -47365,6 +47551,9 @@ const se_ModifyNetworkInterfaceAttributeRequest = (
       const loc = `ConnectionTrackingSpecification.${key}`;
       entries[loc] = value;
     });
+  }
+  if (input[_APIAs] != null) {
+    entries[_APIAs] = input[_APIAs];
   }
   return entries;
 };
@@ -53358,8 +53547,8 @@ const se_SpotFleetLaunchSpecification = (input: SpotFleetLaunchSpecification, co
   if (input[_UD] != null) {
     entries[_UD] = input[_UD];
   }
-  if (input[_WC] != null) {
-    entries[_WC] = __serializeFloat(input[_WC]);
+  if (input[_WCe] != null) {
+    entries[_WCe] = __serializeFloat(input[_WCe]);
   }
   if (input[_TS] != null) {
     const memberEntries = se_SpotFleetTagSpecificationList(input[_TS], context);
@@ -62599,6 +62788,9 @@ const de_DescribeNetworkInterfaceAttributeResult = (
   if (output[_sDC] != null) {
     contents[_SDC] = de_AttributeBooleanValue(output[_sDC], context);
   }
+  if (output[_aPIA] != null) {
+    contents[_APIAs] = __parseBoolean(output[_aPIA]);
+  }
   return contents;
 };
 
@@ -64209,6 +64401,20 @@ const de_DisableImageDeprecationResult = (output: any, context: __SerdeContext):
 };
 
 /**
+ * deserializeAws_ec2DisableImageDeregistrationProtectionResult
+ */
+const de_DisableImageDeregistrationProtectionResult = (
+  output: any,
+  context: __SerdeContext
+): DisableImageDeregistrationProtectionResult => {
+  const contents: any = {};
+  if (output[_r] != null) {
+    contents[_Ret] = __expectString(output[_r]);
+  }
+  return contents;
+};
+
+/**
  * deserializeAws_ec2DisableImageResult
  */
 const de_DisableImageResult = (output: any, context: __SerdeContext): DisableImageResult => {
@@ -65212,6 +65418,20 @@ const de_EnableImageDeprecationResult = (output: any, context: __SerdeContext): 
 };
 
 /**
+ * deserializeAws_ec2EnableImageDeregistrationProtectionResult
+ */
+const de_EnableImageDeregistrationProtectionResult = (
+  output: any,
+  context: __SerdeContext
+): EnableImageDeregistrationProtectionResult => {
+  const contents: any = {};
+  if (output[_r] != null) {
+    contents[_Ret] = __expectString(output[_r]);
+  }
+  return contents;
+};
+
+/**
  * deserializeAws_ec2EnableImageResult
  */
 const de_EnableImageResult = (output: any, context: __SerdeContext): EnableImageResult => {
@@ -66174,7 +66394,7 @@ const de_FleetLaunchTemplateOverrides = (output: any, context: __SerdeContext): 
     contents[_AZ] = __expectString(output[_aZ]);
   }
   if (output[_wC] != null) {
-    contents[_WC] = __strictParseFloat(output[_wC]) as number;
+    contents[_WCe] = __strictParseFloat(output[_wC]) as number;
   }
   if (output[_pri] != null) {
     contents[_Pri] = __strictParseFloat(output[_pri]) as number;
@@ -66761,6 +66981,26 @@ const de_GetInstanceMetadataDefaultsResult = (
   const contents: any = {};
   if (output[_aL] != null) {
     contents[_ALc] = de_InstanceMetadataDefaultsResponse(output[_aL], context);
+  }
+  return contents;
+};
+
+/**
+ * deserializeAws_ec2GetInstanceTpmEkPubResult
+ */
+const de_GetInstanceTpmEkPubResult = (output: any, context: __SerdeContext): GetInstanceTpmEkPubResult => {
+  const contents: any = {};
+  if (output[_iI] != null) {
+    contents[_IIn] = __expectString(output[_iI]);
+  }
+  if (output[_kT] != null) {
+    contents[_KT] = __expectString(output[_kT]);
+  }
+  if (output[_kF] != null) {
+    contents[_KF] = __expectString(output[_kF]);
+  }
+  if (output[_kV] != null) {
+    contents[_KV] = __expectString(output[_kV]);
   }
   return contents;
 };
@@ -68017,6 +68257,12 @@ const de_Image = (output: any, context: __SerdeContext): Image => {
   if (output[_sII] != null) {
     contents[_SIIo] = __expectString(output[_sII]);
   }
+  if (output[_dP] != null) {
+    contents[_DPer] = __expectString(output[_dP]);
+  }
+  if (output[_lLT] != null) {
+    contents[_LLT] = __expectString(output[_lLT]);
+  }
   return contents;
 };
 
@@ -68069,6 +68315,9 @@ const de_ImageAttribute = (output: any, context: __SerdeContext): ImageAttribute
   }
   if (output[_iSmd] != null) {
     contents[_ISm] = de_AttributeValue(output[_iSmd], context);
+  }
+  if (output[_dP] != null) {
+    contents[_DPer] = de_AttributeValue(output[_dP], context);
   }
   return contents;
 };
@@ -68376,8 +68625,8 @@ const de_ImportInstanceVolumeDetailSet = (output: any, context: __SerdeContext):
  */
 const de_ImportKeyPairResult = (output: any, context: __SerdeContext): ImportKeyPairResult => {
   const contents: any = {};
-  if (output[_kF] != null) {
-    contents[_KFe] = __expectString(output[_kF]);
+  if (output[_kFe] != null) {
+    contents[_KFe] = __expectString(output[_kFe]);
   }
   if (output[_kN] != null) {
     contents[_KN] = __expectString(output[_kN]);
@@ -70031,6 +70280,9 @@ const de_InstanceTypeInfo = (output: any, context: __SerdeContext): InstanceType
   if (output[_nIeu] != null) {
     contents[_NIeu] = de_NeuronInfo(output[_nIeu], context);
   }
+  if (output[_pSh] != null) {
+    contents[_PSh] = __expectString(output[_pSh]);
+  }
   return contents;
 };
 
@@ -71404,8 +71656,8 @@ const de_Ipv6RangeList = (output: any, context: __SerdeContext): Ipv6Range[] => 
  */
 const de_KeyPair = (output: any, context: __SerdeContext): KeyPair => {
   const contents: any = {};
-  if (output[_kF] != null) {
-    contents[_KFe] = __expectString(output[_kF]);
+  if (output[_kFe] != null) {
+    contents[_KFe] = __expectString(output[_kFe]);
   }
   if (output[_kM] != null) {
     contents[_KM] = __expectString(output[_kM]);
@@ -71432,8 +71684,8 @@ const de_KeyPairInfo = (output: any, context: __SerdeContext): KeyPairInfo => {
   if (output[_kPI] != null) {
     contents[_KPI] = __expectString(output[_kPI]);
   }
-  if (output[_kF] != null) {
-    contents[_KFe] = __expectString(output[_kF]);
+  if (output[_kFe] != null) {
+    contents[_KFe] = __expectString(output[_kFe]);
   }
   if (output[_kN] != null) {
     contents[_KN] = __expectString(output[_kN]);
@@ -72067,7 +72319,7 @@ const de_LaunchTemplateOverrides = (output: any, context: __SerdeContext): Launc
     contents[_AZ] = __expectString(output[_aZ]);
   }
   if (output[_wC] != null) {
-    contents[_WC] = __strictParseFloat(output[_wC]) as number;
+    contents[_WCe] = __strictParseFloat(output[_wC]) as number;
   }
   if (output[_pri] != null) {
     contents[_Pri] = __strictParseFloat(output[_pri]) as number;
@@ -74396,8 +74648,8 @@ const de_NetworkInsightsPath = (output: any, context: __SerdeContext): NetworkIn
   if (output[_pr] != null) {
     contents[_P] = __expectString(output[_pr]);
   }
-  if (output[_dP] != null) {
-    contents[_DP] = __strictParseInt32(output[_dP]) as number;
+  if (output[_dPe] != null) {
+    contents[_DP] = __strictParseInt32(output[_dPe]) as number;
   }
   if (output.tagSet === "") {
     contents[_Ta] = [];
@@ -78608,7 +78860,7 @@ const de_SpotFleetLaunchSpecification = (output: any, context: __SerdeContext): 
     contents[_UD] = __expectString(output[_uDs]);
   }
   if (output[_wC] != null) {
-    contents[_WC] = __strictParseFloat(output[_wC]) as number;
+    contents[_WCe] = __strictParseFloat(output[_wC]) as number;
   }
   if (output.tagSpecificationSet === "") {
     contents[_TS] = [];
@@ -84106,6 +84358,7 @@ const _DICE = "DeleteInstanceConnectEndpoint";
 const _DICEe = "DescribeInstanceConnectEndpoints";
 const _DICS = "DescribeInstanceCreditSpecifications";
 const _DID = "DisableImageDeprecation";
+const _DIDP = "DisableImageDeregistrationProtection";
 const _DIENA = "DeregisterInstanceEventNotificationAttributes";
 const _DIENAe = "DescribeInstanceEventNotificationAttributes";
 const _DIEW = "DeleteInstanceEventWindow";
@@ -84224,6 +84477,7 @@ const _DPR = "DestinationPortRange";
 const _DPRT = "DefaultPropagationRouteTable";
 const _DPRe = "DestinationPortRanges";
 const _DPe = "DestinationPorts";
+const _DPer = "DeregistrationProtection";
 const _DQ = "DataQueries";
 const _DQRI = "DeleteQueuedReservedInstances";
 const _DR = "DeleteRoute";
@@ -84433,6 +84687,7 @@ const _EIAAT = "ElasticInferenceAcceleratorAssociationTime";
 const _EIAAl = "ElasticInferenceAcceleratorAssociations";
 const _EIBPA = "EnableImageBlockPublicAccess";
 const _EID = "EnableImageDeprecation";
+const _EIDP = "EnableImageDeregistrationProtection";
 const _EIOAA = "EnableIpamOrganizationAdminAccount";
 const _EIT = "ExcludedInstanceTypes";
 const _EITI = "ExportImageTaskIds";
@@ -84594,6 +84849,7 @@ const _GIMD = "GetInstanceMetadataDefaults";
 const _GIPA = "GetIpamPoolAllocations";
 const _GIPC = "GetIpamPoolCidrs";
 const _GIRC = "GetIpamResourceCidrs";
+const _GITEP = "GetInstanceTpmEkPub";
 const _GITFIR = "GetInstanceTypesFromInstanceRequirements";
 const _GIUD = "GetInstanceUefiData";
 const _GIp = "GpuInfo";
@@ -84872,6 +85128,7 @@ const _KP = "KeyPairs";
 const _KPI = "KeyPairId";
 const _KPIe = "KeyPairIds";
 const _KT = "KeyType";
+const _KV = "KeyValue";
 const _Ke = "Key";
 const _Key = "Keyword";
 const _L = "Locale";
@@ -85366,6 +85623,7 @@ const _PSK = "PreSharedKey";
 const _PSKU = "PublicSigningKeyUrl";
 const _PSe = "PeeringStatus";
 const _PSer = "PermissionState";
+const _PSh = "PhcSupport";
 const _PSr = "PreviousState";
 const _PSre = "PreviousStatus";
 const _PT = "PurchaseToken";
@@ -86042,7 +86300,8 @@ const _Vp = "Vpc";
 const _Vpc = "Vpcs";
 const _W = "Weight";
 const _WBC = "WithdrawByoipCidr";
-const _WC = "WeightedCapacity";
+const _WC = "WithCooldown";
+const _WCe = "WeightedCapacity";
 const _WM = "WarningMessage";
 const _WU = "WakeUp";
 const _Wa = "Warning";
@@ -86386,13 +86645,14 @@ const _dOT = "deleteOnTermination";
 const _dOe = "destinationOptions";
 const _dOev = "deviceOptions";
 const _dOn = "dnsOptions";
-const _dP = "destinationPort";
+const _dP = "deregistrationProtection";
 const _dPLI = "destinationPrefixListId";
 const _dPLS = "destinationPrefixListSet";
 const _dPR = "destinationPortRange";
 const _dPRS = "destinationPortRangeSet";
 const _dPRT = "defaultPropagationRouteTable";
 const _dPS = "destinationPortSet";
+const _dPe = "destinationPort";
 const _dR = "discoveryRegion";
 const _dRDAI = "defaultResourceDiscoveryAssociationId";
 const _dRDI = "defaultResourceDiscoveryId";
@@ -86786,7 +87046,8 @@ const _ip = "ipam";
 const _is = "issuer";
 const _k = "key";
 const _kDF = "kinesisDataFirehose";
-const _kF = "keyFingerprint";
+const _kF = "keyFormat";
+const _kFe = "keyFingerprint";
 const _kI = "kernelId";
 const _kKA = "kmsKeyArn";
 const _kKI = "kmsKeyId";
@@ -86795,6 +87056,7 @@ const _kN = "keyName";
 const _kPI = "keyPairId";
 const _kS = "keySet";
 const _kT = "keyType";
+const _kV = "keyValue";
 const _ke = "kernel";
 const _key = "keyword";
 const _l = "lifecycle";
@@ -87150,6 +87412,7 @@ const _pSK = "preSharedKey";
 const _pSKU = "publicSigningKeyUrl";
 const _pSe = "permissionState";
 const _pSee = "peeringStatus";
+const _pSh = "phcSupport";
 const _pSr = "principalSet";
 const _pSre = "previousStatus";
 const _pSri = "priceSchedules";

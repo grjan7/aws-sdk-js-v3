@@ -3347,6 +3347,27 @@ export interface DescribeInstanceTypeOfferingsRequest {
 
   /**
    * <p>The location type.</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <code>availability-zone</code> - The Availability Zone. When you specify a location filter, it must be
+   *      an Availability Zone for the current Region.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>availability-zone-id</code> - The AZ ID. When you specify a location filter, it must be
+   *     an AZ ID for the current Region.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>outpost</code> - The Outpost ARN. When you specify a location filter, it must be an Outpost ARN
+   *     for the current Region.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>region</code> - The current Region. If you specify a location filter, it must match the current Region.</p>
+   *             </li>
+   *          </ul>
    * @public
    */
   LocationType?: LocationType;
@@ -3356,13 +3377,12 @@ export interface DescribeInstanceTypeOfferingsRequest {
    *          <ul>
    *             <li>
    *                <p>
-   *                   <code>location</code> - This depends on the location type. For example, if the location type is
-   *       <code>region</code> (default), the location is the Region code (for example, <code>us-east-2</code>.)</p>
+   *                   <code>instance-type</code> - The instance type. For a list of possible values, see
+   *      <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Instance.html">Instance</a>.</p>
    *             </li>
    *             <li>
    *                <p>
-   *                   <code>instance-type</code> - The instance type. For example,
-   *      <code>c5.2xlarge</code>.</p>
+   *                   <code>location</code> - The location. For a list of possible identifiers, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions and Zones</a>.</p>
    *             </li>
    *          </ul>
    * @public
@@ -3414,7 +3434,7 @@ export interface InstanceTypeOffering {
  */
 export interface DescribeInstanceTypeOfferingsResult {
   /**
-   * <p>The instance types offered.</p>
+   * <p>The instance types offered in the location.</p>
    * @public
    */
   InstanceTypeOfferings?: InstanceTypeOffering[];
@@ -3440,7 +3460,7 @@ export interface DescribeInstanceTypesRequest {
   DryRun?: boolean;
 
   /**
-   * <p>The instance types. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance types</a> in the <i>Amazon EC2 User Guide</i>.</p>
+   * <p>The instance types.</p>
    * @public
    */
   InstanceTypes?: _InstanceType[];
@@ -4459,6 +4479,20 @@ export type NitroTpmSupport = (typeof NitroTpmSupport)[keyof typeof NitroTpmSupp
  * @public
  * @enum
  */
+export const PhcSupport = {
+  SUPPORTED: "supported",
+  UNSUPPORTED: "unsupported",
+} as const;
+
+/**
+ * @public
+ */
+export type PhcSupport = (typeof PhcSupport)[keyof typeof PhcSupport];
+
+/**
+ * @public
+ * @enum
+ */
 export const PlacementGroupStrategy = {
   cluster: "cluster",
   partition: "partition",
@@ -4806,6 +4840,13 @@ export interface InstanceTypeInfo {
    * @public
    */
   NeuronInfo?: NeuronInfo;
+
+  /**
+   * <p>Indicates whether a local Precision Time Protocol (PTP) hardware clock (PHC) is
+   *    supported.</p>
+   * @public
+   */
+  PhcSupport?: PhcSupport;
 }
 
 /**
@@ -4813,7 +4854,7 @@ export interface InstanceTypeInfo {
  */
 export interface DescribeInstanceTypesResult {
   /**
-   * <p>The instance type. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-types.html">Instance types</a> in the <i>Amazon EC2 User Guide</i>.</p>
+   * <p>The instance type.</p>
    * @public
    */
   InstanceTypes?: InstanceTypeInfo[];
@@ -5577,8 +5618,7 @@ export interface DescribeLaunchTemplateVersionsRequest {
   /**
    * <p>The ID of the launch template.</p>
    *          <p>To describe one or more versions of a specified launch template, you must specify
-   *             either the <code>LaunchTemplateId</code> or the <code>LaunchTemplateName</code>, but not
-   *             both.</p>
+   *             either the launch template ID or the launch template name, but not both.</p>
    *          <p>To describe all the latest or default launch template versions in your account, you
    *             must omit this parameter.</p>
    * @public
@@ -5588,8 +5628,7 @@ export interface DescribeLaunchTemplateVersionsRequest {
   /**
    * <p>The name of the launch template.</p>
    *          <p>To describe one or more versions of a specified launch template, you must specify
-   *             either the <code>LaunchTemplateName</code> or the <code>LaunchTemplateId</code>, but not
-   *             both.</p>
+   *             either the launch template name or the launch template ID, but not both.</p>
    *          <p>To describe all the latest or default launch template versions in your account, you
    *             must omit this parameter.</p>
    * @public
@@ -7521,6 +7560,7 @@ export interface DescribeNetworkInsightsPathsResult {
  * @enum
  */
 export const NetworkInterfaceAttribute = {
+  associatePublicIpAddress: "associatePublicIpAddress",
   attachment: "attachment",
   description: "description",
   groupSet: "groupSet",
@@ -7592,6 +7632,13 @@ export interface DescribeNetworkInterfaceAttributeResult {
    * @public
    */
   SourceDestCheck?: AttributeBooleanValue;
+
+  /**
+   * <p>Indicates whether to assign a public IPv4 address to a network interface.
+   *             This option can be enabled for any network interface but will only apply to the primary network interface (eth0).</p>
+   * @public
+   */
+  AssociatePublicIpAddress?: boolean;
 }
 
 /**
@@ -7885,7 +7932,7 @@ export interface DescribeNetworkInterfacesRequest {
  */
 export interface DescribeNetworkInterfacesResult {
   /**
-   * <p>Information about one or more network interfaces.</p>
+   * <p>Information about the network interfaces.</p>
    * @public
    */
   NetworkInterfaces?: NetworkInterface[];
@@ -11296,6 +11343,8 @@ export interface SpotFleetTagSpecification {
 export interface SpotFleetLaunchSpecification {
   /**
    * <p>The security groups.</p>
+   *          <p>If you specify a network interface, you must specify any security groups as part of
+   *         the network interface instead of using this parameter.</p>
    * @public
    */
   SecurityGroups?: GroupIdentifier[];
@@ -11360,11 +11409,11 @@ export interface SpotFleetLaunchSpecification {
   Monitoring?: SpotFleetMonitoring;
 
   /**
-   * <p>One or more network interfaces. If you specify a network interface, you must specify
-   *           subnet IDs and security group IDs using the network interface.</p>
+   * <p>The network interfaces.</p>
    *          <note>
    *             <p>
-   *                <code>SpotFleetLaunchSpecification</code> currently does not support Elastic Fabric Adapter (EFA). To specify an EFA, you must use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html">LaunchTemplateConfig</a>.</p>
+   *                <code>SpotFleetLaunchSpecification</code> does not support Elastic Fabric Adapter (EFA).
+   *              You must use <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_LaunchTemplateConfig.html">LaunchTemplateConfig</a> instead.</p>
    *          </note>
    * @public
    */
@@ -11396,7 +11445,9 @@ export interface SpotFleetLaunchSpecification {
 
   /**
    * <p>The IDs of the subnets in which to launch the instances. To specify multiple subnets, separate
-   *           them using commas; for example, "subnet-1234abcdeexample1, subnet-0987cdef6example2".</p>
+   *          them using commas; for example, "subnet-1234abcdeexample1, subnet-0987cdef6example2".</p>
+   *          <p>If you specify a network interface, you must specify any subnets as part of the
+   *          network interface instead of using this parameter.</p>
    * @public
    */
   SubnetId?: string;
@@ -12606,110 +12657,6 @@ export interface DescribeSpotInstanceRequestsResult {
    * @public
    */
   NextToken?: string;
-}
-
-/**
- * <p>Contains the parameters for DescribeSpotPriceHistory.</p>
- * @public
- */
-export interface DescribeSpotPriceHistoryRequest {
-  /**
-   * <p>The filters.</p>
-   *          <ul>
-   *             <li>
-   *                <p>
-   *                   <code>availability-zone</code> - The Availability Zone for which prices should
-   *                     be returned.</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <code>instance-type</code> - The type of instance (for example,
-   *                     <code>m3.medium</code>).</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <code>product-description</code> - The product description for the Spot price
-   *                     (<code>Linux/UNIX</code> | <code>Red Hat Enterprise Linux</code> |
-   *                     <code>SUSE Linux</code> | <code>Windows</code> | <code>Linux/UNIX (Amazon
-   *                         VPC)</code> | <code>Red Hat Enterprise Linux (Amazon VPC)</code> |
-   *                     <code>SUSE Linux (Amazon VPC)</code> | <code>Windows (Amazon
-   *                         VPC)</code>).</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <code>spot-price</code> - The Spot price. The value must match exactly (or use
-   *                     wildcards; greater than or less than comparison is not supported).</p>
-   *             </li>
-   *             <li>
-   *                <p>
-   *                   <code>timestamp</code> - The time stamp of the Spot price history, in UTC format
-   *                     (for example, <i>ddd MMM dd
-   *                         HH</i>:<i>mm</i>:<i>ss</i> UTC
-   *                         <i>YYYY</i>). You can use wildcards (<code>*</code> and
-   *                         <code>?</code>). Greater than or less than comparison is not
-   *                     supported.</p>
-   *             </li>
-   *          </ul>
-   * @public
-   */
-  Filters?: Filter[];
-
-  /**
-   * <p>Filters the results by the specified Availability Zone.</p>
-   * @public
-   */
-  AvailabilityZone?: string;
-
-  /**
-   * <p>Checks whether you have the required permissions for the action, without actually
-   *             making the request, and provides an error response. If you have the required
-   *             permissions, the error response is <code>DryRunOperation</code>. Otherwise, it is
-   *             <code>UnauthorizedOperation</code>.</p>
-   * @public
-   */
-  DryRun?: boolean;
-
-  /**
-   * <p>The date and time, up to the current date, from which to stop retrieving the price
-   *             history data, in UTC format (for example,
-   *             <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).</p>
-   * @public
-   */
-  EndTime?: Date;
-
-  /**
-   * <p>Filters the results by the specified instance types.</p>
-   * @public
-   */
-  InstanceTypes?: _InstanceType[];
-
-  /**
-   * <p>The maximum number of items to return for this request.
-   *          To get the next page of items, make another request with the token returned in the output.
-   * 	        For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Query-Requests.html#api-pagination">Pagination</a>.</p>
-   * @public
-   */
-  MaxResults?: number;
-
-  /**
-   * <p>The token returned from a previous paginated request. Pagination continues from the end of the items returned by the previous request.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>Filters the results by the specified basic product descriptions.</p>
-   * @public
-   */
-  ProductDescriptions?: string[];
-
-  /**
-   * <p>The date and time, up to the past 90 days, from which to start retrieving the price
-   *             history data, in UTC format (for example,
-   *             <i>YYYY</i>-<i>MM</i>-<i>DD</i>T<i>HH</i>:<i>MM</i>:<i>SS</i>Z).</p>
-   * @public
-   */
-  StartTime?: Date;
 }
 
 /**

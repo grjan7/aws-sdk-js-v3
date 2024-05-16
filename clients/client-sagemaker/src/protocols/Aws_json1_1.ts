@@ -1569,6 +1569,7 @@ import {
   SelectedStep,
   SelectiveExecutionConfig,
   ServiceCatalogProvisionedProductDetails,
+  SessionChainingConfig,
   SourceIpConfig,
   TensorBoardOutputConfig,
   ThroughputConfigDescription,
@@ -1775,7 +1776,6 @@ import {
   ListNotebookInstancesOutput,
   ListPipelineExecutionsRequest,
   ListPipelineExecutionsResponse,
-  ListPipelineExecutionStepsRequest,
   MetricData,
   MetricSpecification,
   ModelCardExportJobSummary,
@@ -1821,6 +1821,7 @@ import {
   Workteam,
 } from "../models/models_3";
 import {
+  ListPipelineExecutionStepsRequest,
   ListPipelineExecutionStepsResponse,
   ListPipelineParametersForExecutionRequest,
   ListPipelineParametersForExecutionResponse,
@@ -15410,6 +15411,8 @@ const se_SendPipelineExecutionStepSuccessRequest = (
 
 // se_ServiceCatalogProvisioningUpdateDetails omitted.
 
+// se_SessionChainingConfig omitted.
+
 // se_ShadowModeConfig omitted.
 
 // se_ShadowModelVariantConfig omitted.
@@ -18586,10 +18589,14 @@ const de_DefaultEbsStorageSettings = (output: any, context: __SerdeContext): Def
  */
 const de_DefaultSpaceSettings = (output: any, context: __SerdeContext): DefaultSpaceSettings => {
   return take(output, {
+    CustomFileSystemConfigs: (_: any) => de_CustomFileSystemConfigs(_, context),
+    CustomPosixUserConfig: (_: any) => de_CustomPosixUserConfig(_, context),
     ExecutionRole: __expectString,
+    JupyterLabAppSettings: (_: any) => de_JupyterLabAppSettings(_, context),
     JupyterServerAppSettings: (_: any) => de_JupyterServerAppSettings(_, context),
     KernelGatewayAppSettings: (_: any) => de_KernelGatewayAppSettings(_, context),
     SecurityGroups: (_: any) => de_SecurityGroupIds(_, context),
+    SpaceStorageSettings: (_: any) => de_DefaultSpaceStorageSettings(_, context),
   }) as any;
 };
 

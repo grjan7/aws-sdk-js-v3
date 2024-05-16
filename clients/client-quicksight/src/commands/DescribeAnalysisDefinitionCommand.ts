@@ -405,6 +405,18 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //                 InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
  * //               },
  * //             },
+ * //             CrossSheet: { // FilterCrossSheetControl
+ * //               FilterControlId: "STRING_VALUE", // required
+ * //               SourceFilterId: "STRING_VALUE", // required
+ * //               CascadingControlConfiguration: {
+ * //                 SourceControls: [
+ * //                   {
+ * //                     SourceSheetControlId: "STRING_VALUE",
+ * //                     ColumnToMatch: "<ColumnIdentifier>",
+ * //                   },
+ * //                 ],
+ * //               },
+ * //             },
  * //           },
  * //         ],
  * //         Visuals: [ // VisualList
@@ -2877,6 +2889,10 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //                     },
  * //                   ],
  * //                 },
+ * //                 ColorConfiguration: { // GaugeChartColorConfiguration
+ * //                   ForegroundColor: "STRING_VALUE",
+ * //                   BackgroundColor: "STRING_VALUE",
+ * //                 },
  * //                 Interactions: "<VisualInteractionOptions>",
  * //               },
  * //               ConditionalFormatting: { // GaugeChartConditionalFormatting
@@ -4449,6 +4465,82 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //                   NullOption: "ALL_VALUES" || "NULLS_ONLY" || "NON_NULLS_ONLY", // required
  * //                 },
  * //               },
+ * //               DefaultFilterControlConfiguration: { // DefaultFilterControlConfiguration
+ * //                 Title: "STRING_VALUE", // required
+ * //                 ControlOptions: { // DefaultFilterControlOptions
+ * //                   DefaultDateTimePickerOptions: { // DefaultDateTimePickerControlOptions
+ * //                     Type: "SINGLE_VALUED" || "DATE_RANGE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultListOptions: { // DefaultFilterListControlOptions
+ * //                     DisplayOptions: {
+ * //                       SearchOptions: {
+ * //                         Visibility: "HIDDEN" || "VISIBLE",
+ * //                       },
+ * //                       SelectAllOptions: {
+ * //                         Visibility: "HIDDEN" || "VISIBLE",
+ * //                       },
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: {
+ * //                       Values: [
+ * //                         "STRING_VALUE",
+ * //                       ],
+ * //                     },
+ * //                   },
+ * //                   DefaultDropdownOptions: { // DefaultFilterDropDownControlOptions
+ * //                     DisplayOptions: {
+ * //                       SelectAllOptions: "<ListControlSelectAllOptions>",
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: {
+ * //                       Values: "<ParameterSelectableValueList>",
+ * //                     },
+ * //                   },
+ * //                   DefaultTextFieldOptions: { // DefaultTextFieldControlOptions
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: {
+ * //                         Visibility: "HIDDEN" || "VISIBLE",
+ * //                       },
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultTextAreaOptions: { // DefaultTextAreaControlOptions
+ * //                     Delimiter: "STRING_VALUE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: "<TextControlPlaceholderOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultSliderOptions: { // DefaultSliderControlOptions
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "SINGLE_POINT" || "RANGE",
+ * //                     MaximumValue: Number("double"), // required
+ * //                     MinimumValue: Number("double"), // required
+ * //                     StepSize: Number("double"), // required
+ * //                   },
+ * //                   DefaultRelativeDateTimeOptions: { // DefaultRelativeDateTimeControlOptions
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                 },
+ * //               },
  * //             },
  * //             NumericRangeFilter: { // NumericRangeFilter
  * //               FilterId: "STRING_VALUE", // required
@@ -4466,6 +4558,74 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //               SelectAllOptions: "FILTER_ALL_VALUES",
  * //               AggregationFunction: "<AggregationFunction>",
  * //               NullOption: "ALL_VALUES" || "NULLS_ONLY" || "NON_NULLS_ONLY", // required
+ * //               DefaultFilterControlConfiguration: {
+ * //                 Title: "STRING_VALUE", // required
+ * //                 ControlOptions: {
+ * //                   DefaultDateTimePickerOptions: {
+ * //                     Type: "SINGLE_VALUED" || "DATE_RANGE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultListOptions: {
+ * //                     DisplayOptions: {
+ * //                       SearchOptions: {
+ * //                         Visibility: "HIDDEN" || "VISIBLE",
+ * //                       },
+ * //                       SelectAllOptions: "<ListControlSelectAllOptions>",
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: {
+ * //                       Values: "<ParameterSelectableValueList>",
+ * //                     },
+ * //                   },
+ * //                   DefaultDropdownOptions: {
+ * //                     DisplayOptions: {
+ * //                       SelectAllOptions: "<ListControlSelectAllOptions>",
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultTextFieldOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: "<TextControlPlaceholderOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultTextAreaOptions: {
+ * //                     Delimiter: "STRING_VALUE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: "<TextControlPlaceholderOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultSliderOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "SINGLE_POINT" || "RANGE",
+ * //                     MaximumValue: Number("double"), // required
+ * //                     MinimumValue: Number("double"), // required
+ * //                     StepSize: Number("double"), // required
+ * //                   },
+ * //                   DefaultRelativeDateTimeOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                 },
+ * //               },
  * //             },
  * //             NumericEqualityFilter: { // NumericEqualityFilter
  * //               FilterId: "STRING_VALUE", // required
@@ -4476,6 +4636,72 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //               AggregationFunction: "<AggregationFunction>",
  * //               ParameterName: "STRING_VALUE",
  * //               NullOption: "ALL_VALUES" || "NULLS_ONLY" || "NON_NULLS_ONLY", // required
+ * //               DefaultFilterControlConfiguration: {
+ * //                 Title: "STRING_VALUE", // required
+ * //                 ControlOptions: {
+ * //                   DefaultDateTimePickerOptions: {
+ * //                     Type: "SINGLE_VALUED" || "DATE_RANGE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultListOptions: {
+ * //                     DisplayOptions: {
+ * //                       SearchOptions: {
+ * //                         Visibility: "HIDDEN" || "VISIBLE",
+ * //                       },
+ * //                       SelectAllOptions: "<ListControlSelectAllOptions>",
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultDropdownOptions: {
+ * //                     DisplayOptions: {
+ * //                       SelectAllOptions: "<ListControlSelectAllOptions>",
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultTextFieldOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: "<TextControlPlaceholderOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultTextAreaOptions: {
+ * //                     Delimiter: "STRING_VALUE",
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       PlaceholderOptions: "<TextControlPlaceholderOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                   DefaultSliderOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                     Type: "SINGLE_POINT" || "RANGE",
+ * //                     MaximumValue: Number("double"), // required
+ * //                     MinimumValue: Number("double"), // required
+ * //                     StepSize: Number("double"), // required
+ * //                   },
+ * //                   DefaultRelativeDateTimeOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                 },
+ * //               },
  * //             },
  * //             TimeEqualityFilter: { // TimeEqualityFilter
  * //               FilterId: "STRING_VALUE", // required
@@ -4486,6 +4712,46 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //               RollingDate: {
  * //                 DataSetIdentifier: "STRING_VALUE",
  * //                 Expression: "STRING_VALUE", // required
+ * //               },
+ * //               DefaultFilterControlConfiguration: {
+ * //                 Title: "STRING_VALUE", // required
+ * //                 ControlOptions: {
+ * //                   DefaultDateTimePickerOptions: {
+ * //                     Type: "SINGLE_VALUED" || "DATE_RANGE",
+ * //                     DisplayOptions: "<DateTimePickerControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultListOptions: {
+ * //                     DisplayOptions: "<ListControlDisplayOptions>",
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultDropdownOptions: {
+ * //                     DisplayOptions: "<DropDownControlDisplayOptions>",
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultTextFieldOptions: {
+ * //                     DisplayOptions: "<TextFieldControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultTextAreaOptions: {
+ * //                     Delimiter: "STRING_VALUE",
+ * //                     DisplayOptions: "<TextAreaControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultSliderOptions: {
+ * //                     DisplayOptions: "<SliderControlDisplayOptions>",
+ * //                     Type: "SINGLE_POINT" || "RANGE",
+ * //                     MaximumValue: Number("double"), // required
+ * //                     MinimumValue: Number("double"), // required
+ * //                     StepSize: Number("double"), // required
+ * //                   },
+ * //                   DefaultRelativeDateTimeOptions: {
+ * //                     DisplayOptions: {
+ * //                       TitleOptions: "<LabelOptions>",
+ * //                       DateTimeFormat: "STRING_VALUE",
+ * //                       InfoIconLabelOptions: "<SheetControlInfoIconLabelOptions>",
+ * //                     },
+ * //                   },
+ * //                 },
  * //               },
  * //             },
  * //             TimeRangeFilter: { // TimeRangeFilter
@@ -4510,6 +4776,42 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //                 Status: "ENABLED" || "DISABLED",
  * //               },
  * //               TimeGranularity: "YEAR" || "QUARTER" || "MONTH" || "WEEK" || "DAY" || "HOUR" || "MINUTE" || "SECOND" || "MILLISECOND",
+ * //               DefaultFilterControlConfiguration: {
+ * //                 Title: "STRING_VALUE", // required
+ * //                 ControlOptions: {
+ * //                   DefaultDateTimePickerOptions: {
+ * //                     Type: "SINGLE_VALUED" || "DATE_RANGE",
+ * //                     DisplayOptions: "<DateTimePickerControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultListOptions: {
+ * //                     DisplayOptions: "<ListControlDisplayOptions>",
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultDropdownOptions: {
+ * //                     DisplayOptions: "<DropDownControlDisplayOptions>",
+ * //                     Type: "MULTI_SELECT" || "SINGLE_SELECT",
+ * //                     SelectableValues: "<FilterSelectableValues>",
+ * //                   },
+ * //                   DefaultTextFieldOptions: {
+ * //                     DisplayOptions: "<TextFieldControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultTextAreaOptions: {
+ * //                     Delimiter: "STRING_VALUE",
+ * //                     DisplayOptions: "<TextAreaControlDisplayOptions>",
+ * //                   },
+ * //                   DefaultSliderOptions: {
+ * //                     DisplayOptions: "<SliderControlDisplayOptions>",
+ * //                     Type: "SINGLE_POINT" || "RANGE",
+ * //                     MaximumValue: Number("double"), // required
+ * //                     MinimumValue: Number("double"), // required
+ * //                     StepSize: Number("double"), // required
+ * //                   },
+ * //                   DefaultRelativeDateTimeOptions: {
+ * //                     DisplayOptions: "<RelativeDateTimeControlDisplayOptions>",
+ * //                   },
+ * //                 },
+ * //               },
  * //             },
  * //             RelativeDatesFilter: { // RelativeDatesFilter
  * //               FilterId: "STRING_VALUE", // required
@@ -4529,6 +4831,7 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //                 Granularity: "YEAR" || "QUARTER" || "MONTH" || "WEEK" || "DAY" || "HOUR" || "MINUTE" || "SECOND" || "MILLISECOND", // required
  * //                 Status: "ENABLED" || "DISABLED",
  * //               },
+ * //               DefaultFilterControlConfiguration: "<DefaultFilterControlConfiguration>",
  * //             },
  * //             TopBottomFilter: { // TopBottomFilter
  * //               FilterId: "STRING_VALUE", // required
@@ -4543,6 +4846,7 @@ export interface DescribeAnalysisDefinitionCommandOutput extends DescribeAnalysi
  * //               ],
  * //               TimeGranularity: "YEAR" || "QUARTER" || "MONTH" || "WEEK" || "DAY" || "HOUR" || "MINUTE" || "SECOND" || "MILLISECOND",
  * //               ParameterName: "STRING_VALUE",
+ * //               DefaultFilterControlConfiguration: "<DefaultFilterControlConfiguration>",
  * //             },
  * //           },
  * //         ],

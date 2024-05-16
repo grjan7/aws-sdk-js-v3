@@ -9,7 +9,7 @@ import { Inspector2ClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes }
 import {
   ListCisScanResultsAggregatedByTargetResourceRequest,
   ListCisScanResultsAggregatedByTargetResourceResponse,
-} from "../models/models_0";
+} from "../models/models_1";
 import {
   de_ListCisScanResultsAggregatedByTargetResourceCommand,
   se_ListCisScanResultsAggregatedByTargetResourceCommand,

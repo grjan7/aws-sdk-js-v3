@@ -5624,7 +5624,10 @@ export type VolumeState = (typeof VolumeState)[keyof typeof VolumeState];
  */
 export interface Volume {
   /**
-   * <p>Information about the volume attachments.</p>
+   * <note>
+   *             <p>This parameter is not returned by CreateVolume.</p>
+   *          </note>
+   *          <p>Information about the volume attachments.</p>
    * @public
    */
   Attachments?: VolumeAttachment[];
@@ -5705,7 +5708,10 @@ export interface Volume {
   VolumeType?: VolumeType;
 
   /**
-   * <p>Indicates whether the volume was created using fast snapshot restore.</p>
+   * <note>
+   *             <p>This parameter is not returned by CreateVolume.</p>
+   *          </note>
+   *          <p>Indicates whether the volume was created using fast snapshot restore.</p>
    * @public
    */
   FastRestored?: boolean;
@@ -5723,7 +5729,10 @@ export interface Volume {
   Throughput?: number;
 
   /**
-   * <p>Reserved for future use.</p>
+   * <note>
+   *             <p>This parameter is not returned by CreateVolume.</p>
+   *          </note>
+   *          <p>Reserved for future use.</p>
    * @public
    */
   SseType?: SSEType;
@@ -8237,6 +8246,8 @@ export interface DeleteFleetsRequest {
 
   /**
    * <p>The IDs of the EC2 Fleets.</p>
+   *          <p>Constraints: In a single request, you can specify up to 25 <code>instant</code> fleet
+   *          IDs and up to 100 <code>maintain</code> or <code>request</code> fleet IDs. </p>
    * @public
    */
   FleetIds: string[] | undefined;
@@ -8745,16 +8756,16 @@ export interface DeleteLaunchTemplateRequest {
 
   /**
    * <p>The ID of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateId</code> or the
-   *                 <code>LaunchTemplateName</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateId?: string;
 
   /**
    * <p>The name of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateName</code> or the
-   *                 <code>LaunchTemplateId</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateName?: string;
@@ -8786,16 +8797,16 @@ export interface DeleteLaunchTemplateVersionsRequest {
 
   /**
    * <p>The ID of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateId</code> or the
-   *                 <code>LaunchTemplateName</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateId?: string;
 
   /**
    * <p>The name of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateName</code> or the
-   *                 <code>LaunchTemplateId</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateName?: string;

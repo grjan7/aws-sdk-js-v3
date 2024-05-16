@@ -96,11 +96,19 @@ import {
   BatchDisassociateAnalyticsDataSetCommandOutput,
 } from "../commands/BatchDisassociateAnalyticsDataSetCommand";
 import {
+  BatchGetAttachedFileMetadataCommandInput,
+  BatchGetAttachedFileMetadataCommandOutput,
+} from "../commands/BatchGetAttachedFileMetadataCommand";
+import {
   BatchGetFlowAssociationCommandInput,
   BatchGetFlowAssociationCommandOutput,
 } from "../commands/BatchGetFlowAssociationCommand";
 import { BatchPutContactCommandInput, BatchPutContactCommandOutput } from "../commands/BatchPutContactCommand";
 import { ClaimPhoneNumberCommandInput, ClaimPhoneNumberCommandOutput } from "../commands/ClaimPhoneNumberCommand";
+import {
+  CompleteAttachedFileUploadCommandInput,
+  CompleteAttachedFileUploadCommandOutput,
+} from "../commands/CompleteAttachedFileUploadCommand";
 import { CreateAgentStatusCommandInput, CreateAgentStatusCommandOutput } from "../commands/CreateAgentStatusCommand";
 import { CreateContactFlowCommandInput, CreateContactFlowCommandOutput } from "../commands/CreateContactFlowCommand";
 import {
@@ -159,6 +167,7 @@ import {
   DeactivateEvaluationFormCommandInput,
   DeactivateEvaluationFormCommandOutput,
 } from "../commands/DeactivateEvaluationFormCommand";
+import { DeleteAttachedFileCommandInput, DeleteAttachedFileCommandOutput } from "../commands/DeleteAttachedFileCommand";
 import {
   DeleteContactEvaluationCommandInput,
   DeleteContactEvaluationCommandOutput,
@@ -327,6 +336,7 @@ import {
   DisassociateUserProficienciesCommandOutput,
 } from "../commands/DisassociateUserProficienciesCommand";
 import { DismissUserContactCommandInput, DismissUserContactCommandOutput } from "../commands/DismissUserContactCommand";
+import { GetAttachedFileCommandInput, GetAttachedFileCommandOutput } from "../commands/GetAttachedFileCommand";
 import {
   GetContactAttributesCommandInput,
   GetContactAttributesCommandOutput,
@@ -486,6 +496,11 @@ import {
   SearchAvailablePhoneNumbersCommandInput,
   SearchAvailablePhoneNumbersCommandOutput,
 } from "../commands/SearchAvailablePhoneNumbersCommand";
+import {
+  SearchContactFlowModulesCommandInput,
+  SearchContactFlowModulesCommandOutput,
+} from "../commands/SearchContactFlowModulesCommand";
+import { SearchContactFlowsCommandInput, SearchContactFlowsCommandOutput } from "../commands/SearchContactFlowsCommand";
 import { SearchContactsCommandInput, SearchContactsCommandOutput } from "../commands/SearchContactsCommand";
 import {
   SearchHoursOfOperationsCommandInput,
@@ -516,6 +531,10 @@ import {
   SendChatIntegrationEventCommandInput,
   SendChatIntegrationEventCommandOutput,
 } from "../commands/SendChatIntegrationEventCommand";
+import {
+  StartAttachedFileUploadCommandInput,
+  StartAttachedFileUploadCommandOutput,
+} from "../commands/StartAttachedFileUploadCommand";
 import { StartChatContactCommandInput, StartChatContactCommandOutput } from "../commands/StartChatContactCommand";
 import {
   StartContactEvaluationCommandInput,
@@ -732,6 +751,7 @@ import {
   ContactInitiationMethod,
   ContactState,
   CreateCaseActionDefinition,
+  CreatedByInfo,
   CrossChannelBehavior,
   Distribution,
   DuplicateResourceException,
@@ -758,11 +778,9 @@ import {
   EventBridgeActionDefinition,
   FieldValue,
   FieldValueUnion,
-  HoursOfOperation,
   HoursOfOperationConfig,
   HoursOfOperationTimeSlice,
   IdempotencyException,
-  Instance,
   InstanceStorageConfig,
   InternalServiceException,
   InvalidContactFlowException,
@@ -783,7 +801,6 @@ import {
   OutboundCallerConfig,
   ParticipantCapabilities,
   ParticipantDetailsToAdd,
-  PhoneNumberCountryCode,
   PhoneNumberQuickConnectConfig,
   PredefinedAttributeValues,
   PropertyValidationException,
@@ -805,6 +822,7 @@ import {
   SendNotificationActionDefinition,
   ServiceQuotaExceededException,
   SingleSelectQuestionRuleCategoryAutomation,
+  SubmitAutoEvaluationActionDefinition,
   TaskActionDefinition,
   TaskTemplateConstraints,
   TaskTemplateDefaultFieldValue,
@@ -823,7 +841,6 @@ import {
 } from "../models/models_0";
 import {
   ConflictException,
-  ContactAnalysis,
   ContactFilter,
   Credentials,
   CurrentMetric,
@@ -844,7 +861,9 @@ import {
   HistoricalMetric,
   HistoricalMetricData,
   HistoricalMetricResult,
+  HoursOfOperation,
   HoursOfOperationSummary,
+  Instance,
   InstanceSummary,
   IntervalDetails,
   MetricDataV2,
@@ -853,6 +872,7 @@ import {
   MetricResultV2,
   MetricV2,
   OutputTypeNotFoundException,
+  PhoneNumberCountryCode,
   PhoneNumberType,
   PredefinedAttribute,
   PredefinedAttributeSummary,
@@ -872,21 +892,15 @@ import {
   RoutingProfileSummary,
   Rule,
   RuleSummary,
-  SearchableContactAttributes,
-  SearchableContactAttributesCriteria,
-  SearchCriteria,
   SecurityKey,
   SecurityProfile,
   SecurityProfileSummary,
   SignInConfig,
   SignInDistribution,
-  Sort,
   TaskTemplateMetadata,
   TelephonyConfig,
   Threshold,
   ThresholdV2,
-  Transcript,
-  TranscriptCriteria,
   User,
   UserData,
   UserDataFilters,
@@ -902,6 +916,11 @@ import {
   ChatMessage,
   ChatParticipantRoleConfig,
   ChatStreamingConfiguration,
+  ContactAnalysis,
+  ContactFlowModuleSearchCriteria,
+  ContactFlowModuleSearchFilter,
+  ContactFlowSearchCriteria,
+  ContactFlowSearchFilter,
   ContactNotFoundException,
   ContactSearchSummary,
   ContactSearchSummaryAgentInfo,
@@ -937,13 +956,19 @@ import {
   ResourceTagsSearchCriteria,
   RoutingProfileSearchCriteria,
   RoutingProfileSearchFilter,
+  SearchableContactAttributes,
+  SearchableContactAttributesCriteria,
   SearchContactsTimeRange,
+  SearchCriteria,
   SecurityProfileSearchCriteria,
   SecurityProfilesSearchFilter,
   SegmentAttributeValue,
+  Sort,
   StringCondition,
   TagCondition,
   TagSearchCondition,
+  Transcript,
+  TranscriptCriteria,
   UpdateParticipantRoleConfigChannelInfo,
   UserSearchCriteria,
   UserSearchFilter,
@@ -1357,6 +1382,32 @@ export const se_BatchDisassociateAnalyticsDataSetCommand = async (
 };
 
 /**
+ * serializeAws_restJson1BatchGetAttachedFileMetadataCommand
+ */
+export const se_BatchGetAttachedFileMetadataCommand = async (
+  input: BatchGetAttachedFileMetadataCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {
+    "content-type": "application/json",
+  };
+  b.bp("/attached-files/{InstanceId}");
+  b.p("InstanceId", () => input.InstanceId!, "{InstanceId}", false);
+  const query: any = map({
+    [_aRA]: [, __expectNonNull(input[_ARA]!, `AssociatedResourceArn`)],
+  });
+  let body: any;
+  body = JSON.stringify(
+    take(input, {
+      FileIds: (_) => _json(_),
+    })
+  );
+  b.m("POST").h(headers).q(query).b(body);
+  return b.build();
+};
+
+/**
  * serializeAws_restJson1BatchGetFlowAssociationCommand
  */
 export const se_BatchGetFlowAssociationCommand = async (
@@ -1432,6 +1483,26 @@ export const se_ClaimPhoneNumberCommand = async (
 };
 
 /**
+ * serializeAws_restJson1CompleteAttachedFileUploadCommand
+ */
+export const se_CompleteAttachedFileUploadCommand = async (
+  input: CompleteAttachedFileUploadCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/attached-files/{InstanceId}/{FileId}");
+  b.p("InstanceId", () => input.InstanceId!, "{InstanceId}", false);
+  b.p("FileId", () => input.FileId!, "{FileId}", false);
+  const query: any = map({
+    [_aRA]: [, __expectNonNull(input[_ARA]!, `AssociatedResourceArn`)],
+  });
+  let body: any;
+  b.m("POST").h(headers).q(query).b(body);
+  return b.build();
+};
+
+/**
  * serializeAws_restJson1CreateAgentStatusCommand
  */
 export const se_CreateAgentStatusCommand = async (
@@ -1477,6 +1548,7 @@ export const se_CreateContactFlowCommand = async (
       Content: [],
       Description: [],
       Name: [],
+      Status: [],
       Tags: (_) => _json(_),
       Type: [],
     })
@@ -2104,6 +2176,26 @@ export const se_DeactivateEvaluationFormCommand = async (
     })
   );
   b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1DeleteAttachedFileCommand
+ */
+export const se_DeleteAttachedFileCommand = async (
+  input: DeleteAttachedFileCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/attached-files/{InstanceId}/{FileId}");
+  b.p("InstanceId", () => input.InstanceId!, "{InstanceId}", false);
+  b.p("FileId", () => input.FileId!, "{FileId}", false);
+  const query: any = map({
+    [_aRA]: [, __expectNonNull(input[_ARA]!, `AssociatedResourceArn`)],
+  });
+  let body: any;
+  b.m("DELETE").h(headers).q(query).b(body);
   return b.build();
 };
 
@@ -3187,6 +3279,27 @@ export const se_DismissUserContactCommand = async (
     })
   );
   b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1GetAttachedFileCommand
+ */
+export const se_GetAttachedFileCommand = async (
+  input: GetAttachedFileCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/attached-files/{InstanceId}/{FileId}");
+  b.p("InstanceId", () => input.InstanceId!, "{InstanceId}", false);
+  b.p("FileId", () => input.FileId!, "{FileId}", false);
+  const query: any = map({
+    [_uEIS]: [() => input.UrlExpiryInSeconds !== void 0, () => input[_UEIS]!.toString()],
+    [_aRA]: [, __expectNonNull(input[_ARA]!, `AssociatedResourceArn`)],
+  });
+  let body: any;
+  b.m("GET").h(headers).q(query).b(body);
   return b.build();
 };
 
@@ -4555,6 +4668,58 @@ export const se_SearchAvailablePhoneNumbersCommand = async (
 };
 
 /**
+ * serializeAws_restJson1SearchContactFlowModulesCommand
+ */
+export const se_SearchContactFlowModulesCommand = async (
+  input: SearchContactFlowModulesCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {
+    "content-type": "application/json",
+  };
+  b.bp("/search-contact-flow-modules");
+  let body: any;
+  body = JSON.stringify(
+    take(input, {
+      InstanceId: [],
+      MaxResults: [],
+      NextToken: [],
+      SearchCriteria: (_) => se_ContactFlowModuleSearchCriteria(_, context),
+      SearchFilter: (_) => _json(_),
+    })
+  );
+  b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1SearchContactFlowsCommand
+ */
+export const se_SearchContactFlowsCommand = async (
+  input: SearchContactFlowsCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {
+    "content-type": "application/json",
+  };
+  b.bp("/search-contact-flows");
+  let body: any;
+  body = JSON.stringify(
+    take(input, {
+      InstanceId: [],
+      MaxResults: [],
+      NextToken: [],
+      SearchCriteria: (_) => se_ContactFlowSearchCriteria(_, context),
+      SearchFilter: (_) => _json(_),
+    })
+  );
+  b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
  * serializeAws_restJson1SearchContactsCommand
  */
 export const se_SearchContactsCommand = async (
@@ -4864,6 +5029,38 @@ export const se_SendChatIntegrationEventCommand = async (
     })
   );
   b.m("POST").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1StartAttachedFileUploadCommand
+ */
+export const se_StartAttachedFileUploadCommand = async (
+  input: StartAttachedFileUploadCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {
+    "content-type": "application/json",
+  };
+  b.bp("/attached-files/{InstanceId}");
+  b.p("InstanceId", () => input.InstanceId!, "{InstanceId}", false);
+  const query: any = map({
+    [_aRA]: [, __expectNonNull(input[_ARA]!, `AssociatedResourceArn`)],
+  });
+  let body: any;
+  body = JSON.stringify(
+    take(input, {
+      ClientToken: [true, (_) => _ ?? generateIdempotencyToken()],
+      CreatedBy: (_) => _json(_),
+      FileName: [],
+      FileSizeInBytes: [],
+      FileUseCaseType: [],
+      Tags: (_) => _json(_),
+      UrlExpiryInSeconds: [],
+    })
+  );
+  b.m("PUT").h(headers).q(query).b(body);
   return b.build();
 };
 
@@ -6785,6 +6982,28 @@ export const de_BatchDisassociateAnalyticsDataSetCommand = async (
 };
 
 /**
+ * deserializeAws_restJson1BatchGetAttachedFileMetadataCommand
+ */
+export const de_BatchGetAttachedFileMetadataCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<BatchGetAttachedFileMetadataCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    Errors: _json,
+    Files: _json,
+  });
+  Object.assign(contents, doc);
+  return contents;
+};
+
+/**
  * deserializeAws_restJson1BatchGetFlowAssociationCommand
  */
 export const de_BatchGetFlowAssociationCommand = async (
@@ -6846,6 +7065,23 @@ export const de_ClaimPhoneNumberCommand = async (
     PhoneNumberId: __expectString,
   });
   Object.assign(contents, doc);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1CompleteAttachedFileUploadCommand
+ */
+export const de_CompleteAttachedFileUploadCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<CompleteAttachedFileUploadCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  await collectBody(output.body, context);
   return contents;
 };
 
@@ -7390,6 +7626,23 @@ export const de_DeactivateEvaluationFormCommand = async (
     EvaluationFormVersion: __expectInt32,
   });
   Object.assign(contents, doc);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1DeleteAttachedFileCommand
+ */
+export const de_DeleteAttachedFileCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteAttachedFileCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  await collectBody(output.body, context);
   return contents;
 };
 
@@ -8513,6 +8766,37 @@ export const de_DismissUserContactCommand = async (
     $metadata: deserializeMetadata(output),
   });
   await collectBody(output.body, context);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1GetAttachedFileCommand
+ */
+export const de_GetAttachedFileCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<GetAttachedFileCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    AssociatedResourceArn: __expectString,
+    CreatedBy: (_) => _json(__expectUnion(_)),
+    CreationTime: __expectString,
+    DownloadUrlMetadata: _json,
+    FileArn: __expectString,
+    FileId: __expectString,
+    FileName: __expectString,
+    FileSizeInBytes: __expectLong,
+    FileStatus: __expectString,
+    FileUseCaseType: __expectString,
+    Tags: _json,
+  });
+  Object.assign(contents, doc);
   return contents;
 };
 
@@ -9909,6 +10193,52 @@ export const de_SearchAvailablePhoneNumbersCommand = async (
 };
 
 /**
+ * deserializeAws_restJson1SearchContactFlowModulesCommand
+ */
+export const de_SearchContactFlowModulesCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<SearchContactFlowModulesCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    ApproximateTotalCount: __expectLong,
+    ContactFlowModules: _json,
+    NextToken: __expectString,
+  });
+  Object.assign(contents, doc);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1SearchContactFlowsCommand
+ */
+export const de_SearchContactFlowsCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<SearchContactFlowsCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    ApproximateTotalCount: __expectLong,
+    ContactFlows: _json,
+    NextToken: __expectString,
+  });
+  Object.assign(contents, doc);
+  return contents;
+};
+
+/**
  * deserializeAws_restJson1SearchContactsCommand
  */
 export const de_SearchContactsCommand = async (
@@ -10176,6 +10506,32 @@ export const de_SendChatIntegrationEventCommand = async (
   const doc = take(data, {
     InitialContactId: __expectString,
     NewChatCreated: __expectBoolean,
+  });
+  Object.assign(contents, doc);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1StartAttachedFileUploadCommand
+ */
+export const de_StartAttachedFileUploadCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<StartAttachedFileUploadCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
+  const doc = take(data, {
+    CreatedBy: (_) => _json(__expectUnion(_)),
+    CreationTime: __expectString,
+    FileArn: __expectString,
+    FileId: __expectString,
+    FileStatus: __expectString,
+    UploadUrlMetadata: _json,
   });
   Object.assign(contents, doc);
   return contents;
@@ -11657,6 +12013,7 @@ const de_InvalidRequestExceptionRes = async (
   const data: any = parsedOutput.body;
   const doc = take(data, {
     Message: __expectString,
+    Reason: (_) => _json(__expectUnion(_)),
   });
   Object.assign(contents, doc);
   const exception = new InvalidRequestException({
@@ -11978,6 +12335,60 @@ const de_UserNotFoundExceptionRes = async (
 
 // se_ContactFilter omitted.
 
+/**
+ * serializeAws_restJson1ContactFlowModuleSearchConditionList
+ */
+const se_ContactFlowModuleSearchConditionList = (
+  input: ContactFlowModuleSearchCriteria[],
+  context: __SerdeContext
+): any => {
+  return input
+    .filter((e: any) => e != null)
+    .map((entry) => {
+      return se_ContactFlowModuleSearchCriteria(entry, context);
+    });
+};
+
+/**
+ * serializeAws_restJson1ContactFlowModuleSearchCriteria
+ */
+const se_ContactFlowModuleSearchCriteria = (input: ContactFlowModuleSearchCriteria, context: __SerdeContext): any => {
+  return take(input, {
+    AndConditions: (_) => se_ContactFlowModuleSearchConditionList(_, context),
+    OrConditions: (_) => se_ContactFlowModuleSearchConditionList(_, context),
+    StringCondition: _json,
+  });
+};
+
+// se_ContactFlowModuleSearchFilter omitted.
+
+/**
+ * serializeAws_restJson1ContactFlowSearchConditionList
+ */
+const se_ContactFlowSearchConditionList = (input: ContactFlowSearchCriteria[], context: __SerdeContext): any => {
+  return input
+    .filter((e: any) => e != null)
+    .map((entry) => {
+      return se_ContactFlowSearchCriteria(entry, context);
+    });
+};
+
+/**
+ * serializeAws_restJson1ContactFlowSearchCriteria
+ */
+const se_ContactFlowSearchCriteria = (input: ContactFlowSearchCriteria, context: __SerdeContext): any => {
+  return take(input, {
+    AndConditions: (_) => se_ContactFlowSearchConditionList(_, context),
+    OrConditions: (_) => se_ContactFlowSearchConditionList(_, context),
+    StateCondition: [],
+    StatusCondition: [],
+    StringCondition: _json,
+    TypeCondition: [],
+  });
+};
+
+// se_ContactFlowSearchFilter omitted.
+
 // se_ContactReferences omitted.
 
 // se_ContactStates omitted.
@@ -11997,6 +12408,8 @@ const se_CreateCaseActionDefinition = (input: CreateCaseActionDefinition, contex
     TemplateId: [],
   });
 };
+
+// se_CreatedByInfo omitted.
 
 // se_CrossChannelBehavior omitted.
 
@@ -12170,6 +12583,8 @@ const se_FieldValueUnion = (input: FieldValueUnion, context: __SerdeContext): an
     StringValue: [],
   });
 };
+
+// se_FileIdList omitted.
 
 // se_Filters omitted.
 
@@ -12511,6 +12926,7 @@ const se_RuleAction = (input: RuleAction, context: __SerdeContext): any => {
     EndAssociatedTasksAction: _json,
     EventBridgeAction: _json,
     SendNotificationAction: _json,
+    SubmitAutoEvaluationAction: _json,
     TaskAction: _json,
     UpdateCaseAction: (_) => se_UpdateCaseActionDefinition(_, context),
   });
@@ -12602,6 +13018,8 @@ const se_SecurityProfileSearchCriteria = (input: SecurityProfileSearchCriteria, 
 // se_Sort omitted.
 
 // se_StringCondition omitted.
+
+// se_SubmitAutoEvaluationActionDefinition omitted.
 
 // se_SupportedMessagingContentTypes omitted.
 
@@ -12867,6 +13285,14 @@ const de_AgentStatusSummaryList = (output: any, context: __SerdeContext): AgentS
 
 // de_AssignContactCategoryActionDefinition omitted.
 
+// de_AttachedFile omitted.
+
+// de_AttachedFileError omitted.
+
+// de_AttachedFileErrorsList omitted.
+
+// de_AttachedFilesList omitted.
+
 // de_AttachmentReference omitted.
 
 // de_Attendee omitted.
@@ -12924,9 +13350,13 @@ const de_Contact = (output: any, context: __SerdeContext): Contact => {
 
 // de_ContactFlowModule omitted.
 
+// de_ContactFlowModuleSearchSummaryList omitted.
+
 // de_ContactFlowModulesSummaryList omitted.
 
 // de_ContactFlowModuleSummary omitted.
+
+// de_ContactFlowSearchSummaryList omitted.
 
 // de_ContactFlowSummary omitted.
 
@@ -12996,6 +13426,8 @@ const de_CreateCaseActionDefinition = (output: any, context: __SerdeContext): Cr
     TemplateId: __expectString,
   }) as any;
 };
+
+// de_CreatedByInfo omitted.
 
 /**
  * deserializeAws_restJson1Credentials
@@ -13072,6 +13504,8 @@ const de_CurrentMetricResults = (output: any, context: __SerdeContext): CurrentM
 // de_Distribution omitted.
 
 // de_DistributionList omitted.
+
+// de_DownloadUrlMetadata omitted.
 
 // de_EmailReference omitted.
 
@@ -13700,6 +14134,8 @@ const de_InstanceSummaryList = (output: any, context: __SerdeContext): InstanceS
 
 // de_IntegrationAssociationSummaryList omitted.
 
+// de_InvalidRequestExceptionReason omitted.
+
 // de_InvisibleFieldInfo omitted.
 
 // de_InvisibleTaskTemplateFields omitted.
@@ -14320,6 +14756,7 @@ const de_RuleAction = (output: any, context: __SerdeContext): RuleAction => {
     EndAssociatedTasksAction: _json,
     EventBridgeAction: _json,
     SendNotificationAction: _json,
+    SubmitAutoEvaluationAction: _json,
     TaskAction: _json,
     UpdateCaseAction: (_: any) => de_UpdateCaseActionDefinition(_, context),
   }) as any;
@@ -14457,6 +14894,8 @@ const de_SecurityProfileSummaryList = (output: any, context: __SerdeContext): Se
 
 // de_StringReference omitted.
 
+// de_SubmitAutoEvaluationActionDefinition omitted.
+
 // de_SuccessfulRequest omitted.
 
 // de_SuccessfulRequestList omitted.
@@ -14564,6 +15003,10 @@ const de_UpdateCaseActionDefinition = (output: any, context: __SerdeContext): Up
     Fields: (_: any) => de_FieldValues(_, context),
   }) as any;
 };
+
+// de_UploadUrlMetadata omitted.
+
+// de_UrlMetadataSignedHeaders omitted.
 
 // de_UrlReference omitted.
 
@@ -14784,6 +15227,7 @@ const isSerializableHeaderValue = (value: any): boolean =>
   (!Object.getOwnPropertyNames(value).includes("length") || value.length != 0) &&
   (!Object.getOwnPropertyNames(value).includes("size") || value.size != 0);
 
+const _ARA = "AssociatedResourceArn";
 const _AST = "AgentStatusTypes";
 const _BN = "BotName";
 const _CFMS = "ContactFlowModuleState";
@@ -14814,7 +15258,9 @@ const _S = "Status";
 const _SV = "SnapshotVersion";
 const _T = "Type";
 const _TK = "TagKeys";
+const _UEIS = "UrlExpiryInSeconds";
 const _UI = "UserId";
+const _aRA = "associatedResourceArn";
 const _bN = "botName";
 const _cFT = "contactFlowTypes";
 const _cI = "contactId";
@@ -14841,4 +15287,5 @@ const _sV = "snapshotVersion";
 const _st = "status";
 const _t = "type";
 const _tK = "tagKeys";
+const _uEIS = "urlExpiryInSeconds";
 const _v = "version";

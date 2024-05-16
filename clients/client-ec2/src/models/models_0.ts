@@ -4230,7 +4230,7 @@ export interface AssociateEnclaveCertificateIamRoleResult {
 
   /**
    * <p>The Amazon S3 object key where the certificate, certificate chain, and encrypted private key bundle are stored. The
-   * 			object key is formatted as follows:  <code>role_arn</code>/<code>certificate_arn</code>.</p>
+   * 			object key is formatted as follows: <code>role_arn</code>/<code>certificate_arn</code>.</p>
    * @public
    */
   CertificateS3ObjectKey?: string;
@@ -7527,6 +7527,7 @@ export interface CancelSpotFleetRequestsRequest {
 
   /**
    * <p>The IDs of the Spot Fleet requests.</p>
+   *          <p>Constraint: You can specify up to 100 IDs in a single request.</p>
    * @public
    */
   SpotFleetRequestIds: string[] | undefined;

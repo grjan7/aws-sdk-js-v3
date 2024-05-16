@@ -6,7 +6,7 @@ import { MetadataBearer as __MetadataBearer } from "@smithy/types";
 
 import { commonParams } from "../endpoint/EndpointParameters";
 import { MediaLiveClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../MediaLiveClient";
-import { DescribeChannelRequest, DescribeChannelResponse } from "../models/models_1";
+import { DescribeChannelRequest, DescribeChannelResponse } from "../models/models_2";
 import { de_DescribeChannelCommand, se_DescribeChannelCommand } from "../protocols/Aws_restJson1";
 
 /**
@@ -217,6 +217,7 @@ export interface DescribeChannelCommandOutput extends DescribeChannelResponse, _
  * //           WebDeliveryAllowedFlag: "FOLLOW" || "IGNORE",
  * //         },
  * //       },
+ * //       Scte35SegmentationScope: "ALL_OUTPUT_GROUPS" || "SCTE35_ENABLED_OUTPUT_GROUPS",
  * //     },
  * //     BlackoutSlate: { // BlackoutSlate
  * //       BlackoutSlateImage: {

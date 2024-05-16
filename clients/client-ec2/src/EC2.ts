@@ -1874,6 +1874,11 @@ import {
   DisableImageDeprecationCommandOutput,
 } from "./commands/DisableImageDeprecationCommand";
 import {
+  DisableImageDeregistrationProtectionCommand,
+  DisableImageDeregistrationProtectionCommandInput,
+  DisableImageDeregistrationProtectionCommandOutput,
+} from "./commands/DisableImageDeregistrationProtectionCommand";
+import {
   DisableIpamOrganizationAdminAccountCommand,
   DisableIpamOrganizationAdminAccountCommandInput,
   DisableIpamOrganizationAdminAccountCommandOutput,
@@ -2020,6 +2025,11 @@ import {
   EnableImageDeprecationCommandOutput,
 } from "./commands/EnableImageDeprecationCommand";
 import {
+  EnableImageDeregistrationProtectionCommand,
+  EnableImageDeregistrationProtectionCommandInput,
+  EnableImageDeregistrationProtectionCommandOutput,
+} from "./commands/EnableImageDeregistrationProtectionCommand";
+import {
   EnableIpamOrganizationAdminAccountCommand,
   EnableIpamOrganizationAdminAccountCommandInput,
   EnableIpamOrganizationAdminAccountCommandOutput,
@@ -2155,6 +2165,11 @@ import {
   GetInstanceMetadataDefaultsCommandInput,
   GetInstanceMetadataDefaultsCommandOutput,
 } from "./commands/GetInstanceMetadataDefaultsCommand";
+import {
+  GetInstanceTpmEkPubCommand,
+  GetInstanceTpmEkPubCommandInput,
+  GetInstanceTpmEkPubCommandOutput,
+} from "./commands/GetInstanceTpmEkPubCommand";
 import {
   GetInstanceTypesFromInstanceRequirementsCommand,
   GetInstanceTypesFromInstanceRequirementsCommandInput,
@@ -3410,6 +3425,7 @@ const commands = {
   DisableImageCommand,
   DisableImageBlockPublicAccessCommand,
   DisableImageDeprecationCommand,
+  DisableImageDeregistrationProtectionCommand,
   DisableIpamOrganizationAdminAccountCommand,
   DisableSerialConsoleAccessCommand,
   DisableSnapshotBlockPublicAccessCommand,
@@ -3440,6 +3456,7 @@ const commands = {
   EnableImageCommand,
   EnableImageBlockPublicAccessCommand,
   EnableImageDeprecationCommand,
+  EnableImageDeregistrationProtectionCommand,
   EnableIpamOrganizationAdminAccountCommand,
   EnableReachabilityAnalyzerOrganizationSharingCommand,
   EnableSerialConsoleAccessCommand,
@@ -3468,6 +3485,7 @@ const commands = {
   GetHostReservationPurchasePreviewCommand,
   GetImageBlockPublicAccessStateCommand,
   GetInstanceMetadataDefaultsCommand,
+  GetInstanceTpmEkPubCommand,
   GetInstanceTypesFromInstanceRequirementsCommand,
   GetInstanceUefiDataCommand,
   GetIpamAddressHistoryCommand,
@@ -10078,6 +10096,23 @@ export interface EC2 {
   ): void;
 
   /**
+   * @see {@link DisableImageDeregistrationProtectionCommand}
+   */
+  disableImageDeregistrationProtection(
+    args: DisableImageDeregistrationProtectionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<DisableImageDeregistrationProtectionCommandOutput>;
+  disableImageDeregistrationProtection(
+    args: DisableImageDeregistrationProtectionCommandInput,
+    cb: (err: any, data?: DisableImageDeregistrationProtectionCommandOutput) => void
+  ): void;
+  disableImageDeregistrationProtection(
+    args: DisableImageDeregistrationProtectionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: DisableImageDeregistrationProtectionCommandOutput) => void
+  ): void;
+
+  /**
    * @see {@link DisableIpamOrganizationAdminAccountCommand}
    */
   disableIpamOrganizationAdminAccount(
@@ -10588,6 +10623,23 @@ export interface EC2 {
   ): void;
 
   /**
+   * @see {@link EnableImageDeregistrationProtectionCommand}
+   */
+  enableImageDeregistrationProtection(
+    args: EnableImageDeregistrationProtectionCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<EnableImageDeregistrationProtectionCommandOutput>;
+  enableImageDeregistrationProtection(
+    args: EnableImageDeregistrationProtectionCommandInput,
+    cb: (err: any, data?: EnableImageDeregistrationProtectionCommandOutput) => void
+  ): void;
+  enableImageDeregistrationProtection(
+    args: EnableImageDeregistrationProtectionCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: EnableImageDeregistrationProtectionCommandOutput) => void
+  ): void;
+
+  /**
    * @see {@link EnableIpamOrganizationAdminAccountCommand}
    */
   enableIpamOrganizationAdminAccount(
@@ -11060,6 +11112,23 @@ export interface EC2 {
     args: GetInstanceMetadataDefaultsCommandInput,
     options: __HttpHandlerOptions,
     cb: (err: any, data?: GetInstanceMetadataDefaultsCommandOutput) => void
+  ): void;
+
+  /**
+   * @see {@link GetInstanceTpmEkPubCommand}
+   */
+  getInstanceTpmEkPub(
+    args: GetInstanceTpmEkPubCommandInput,
+    options?: __HttpHandlerOptions
+  ): Promise<GetInstanceTpmEkPubCommandOutput>;
+  getInstanceTpmEkPub(
+    args: GetInstanceTpmEkPubCommandInput,
+    cb: (err: any, data?: GetInstanceTpmEkPubCommandOutput) => void
+  ): void;
+  getInstanceTpmEkPub(
+    args: GetInstanceTpmEkPubCommandInput,
+    options: __HttpHandlerOptions,
+    cb: (err: any, data?: GetInstanceTpmEkPubCommandOutput) => void
   ): void;
 
   /**

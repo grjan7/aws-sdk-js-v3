@@ -3641,8 +3641,29 @@ export class CreateCustomDBEngineVersionFault extends __BaseException {
  */
 export interface CreateCustomDBEngineVersionMessage {
   /**
-   * <p>The database engine to use for your custom engine version (CEV). The only supported value is
-   *             <code>custom-oracle-ee</code>.</p>
+   * <p>The database engine. RDS Custom for Oracle supports the following values:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code>
+   *                </p>
+   *             </li>
+   *          </ul>
    * @public
    */
   Engine: string | undefined;
@@ -3913,6 +3934,12 @@ export interface UpgradeTarget {
   SupportsBabelfish?: boolean;
 
   /**
+   * <p>Indicates whether the DB engine version supports Aurora Limitless Database.</p>
+   * @public
+   */
+  SupportsLimitlessDatabase?: boolean;
+
+  /**
    * <p>Indicates whether the target engine version supports forwarding write operations from reader DB instances
    *             to the writer DB instance in the DB cluster. By default, write operations aren't allowed on reader DB instances.</p>
    *          <p>Valid for: Aurora DB clusters only</p>
@@ -4129,6 +4156,12 @@ export interface DBEngineVersion {
    * @public
    */
   CustomDBEngineVersionManifest?: string;
+
+  /**
+   * <p>Indicates whether the DB engine version supports Aurora Limitless Database.</p>
+   * @public
+   */
+  SupportsLimitlessDatabase?: boolean;
 
   /**
    * <p>Indicates whether the engine version supports rotating the server certificate without
@@ -4752,7 +4785,8 @@ export interface CreateDBClusterMessage {
 
   /**
    * <p>The DB engine mode of the DB cluster, either <code>provisioned</code> or <code>serverless</code>.</p>
-   *          <p>The <code>serverless</code> engine mode only applies for Aurora Serverless v1 DB clusters.</p>
+   *          <p>The <code>serverless</code> engine mode only applies for Aurora Serverless v1 DB clusters. Aurora Serverless v2 DB clusters use the
+   *         <code>provisioned</code> engine mode.</p>
    *          <p>For information about limitations and requirements for Serverless DB clusters, see the
    *             following sections in the <i>Amazon Aurora User Guide</i>:</p>
    *          <ul>
@@ -7291,6 +7325,15 @@ export interface CreateDBInstanceMessage {
    *             </li>
    *             <li>
    *                <p>
+   *                   <code>custom-oracle-se2</code> (for RDS Custom for Oracle DB instances)</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code> (for RDS Custom for Oracle DB
+   *                     instances)</p>
+   *             </li>
+   *             <li>
+   *                <p>
    *                   <code>custom-sqlserver-ee</code> (for RDS Custom for SQL Server DB instances)</p>
    *             </li>
    *             <li>
@@ -8029,8 +8072,8 @@ export interface CreateDBInstanceMessage {
 
   /**
    * <p>The time zone of the DB instance.
-   *             The time zone parameter is currently supported only by
-   *             <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone">Microsoft SQL Server</a>.</p>
+   *             The time zone parameter is currently supported only by <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/db2-time-zone">RDS for Db2</a> and
+   *             <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/CHAP_SQLServer.html#SQLServer.Concepts.General.TimeZone">RDS for SQL Server</a>.</p>
    * @public
    */
   Timezone?: string;
@@ -9218,7 +9261,7 @@ export interface DBInstance {
    * <p>The time zone of the DB instance.
    *             In most cases, the <code>Timezone</code> element is empty.
    *             <code>Timezone</code> content appears only for
-   *             Microsoft SQL Server DB instances
+   *             RDS for Db2 and RDS for SQL Server DB instances
    *             that were created with a time zone specified.</p>
    * @public
    */
@@ -10274,6 +10317,18 @@ export interface CreateDBInstanceReadReplicaMessage {
    * @public
    */
   UpgradeStorageConfig?: boolean;
+
+  /**
+   * <p>The CA certificate identifier to use for the read replica's server certificate.</p>
+   *          <p>This setting doesn't apply to RDS Custom DB instances.</p>
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">Using SSL/TLS to encrypt a connection to a DB
+   *                 instance</a> in the <i>Amazon RDS User Guide</i> and
+   *                 <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
+   *                     Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon Aurora
+   *                         User Guide</i>.</p>
+   * @public
+   */
+  CACertificateIdentifier?: string;
 }
 
 /**
@@ -12880,7 +12935,29 @@ export class CustomDBEngineVersionNotFoundFault extends __BaseException {
  */
 export interface DeleteCustomDBEngineVersionMessage {
   /**
-   * <p>The database engine. The only supported engines are <code>custom-oracle-ee</code> and <code>custom-oracle-ee-cdb</code>.</p>
+   * <p>The database engine. RDS Custom for Oracle supports the following values:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code>
+   *                </p>
+   *             </li>
+   *          </ul>
    * @public
    */
   Engine: string | undefined;

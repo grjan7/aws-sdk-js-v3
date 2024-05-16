@@ -3,6 +3,163 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.577.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.576.0...v3.577.0) (2024-05-15)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.576.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.575.0...v3.576.0) (2024-05-14)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.575.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.574.0...v3.575.0) (2024-05-13)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.574.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.573.0...v3.574.0) (2024-05-10)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.572.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.571.0...v3.572.0) (2024-05-08)
+
+
+### Features
+
+* **client-ec2:** Adding Precision Hardware Clock (PHC) to public API DescribeInstanceTypes ([711a8ff](https://github.com/aws/aws-sdk-js-v3/commit/711a8ff4e4db701bc19faa32cf84fb4857679717))
+
+
+
+
+
+# [3.569.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.568.0...v3.569.0) (2024-05-03)
+
+
+### Bug Fixes
+
+* **clients:** add deps required by default credential providers ([#6055](https://github.com/aws/aws-sdk-js-v3/issues/6055)) ([bfa8626](https://github.com/aws/aws-sdk-js-v3/commit/bfa86268540d197a21f13e8d2e8bced10b78d480))
+
+
+
+
+
+# [3.568.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.567.0...v3.568.0) (2024-05-02)
+
+
+### Features
+
+* **client-ec2:** This release includes a new API for retrieving the public endorsement key of the EC2 instance's Nitro Trusted Platform Module (NitroTPM). ([0903d38](https://github.com/aws/aws-sdk-js-v3/commit/0903d38f5d8e42c03a022003546ccacff35e0e5e))
+
+
+
+
+
+# [3.567.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.566.0...v3.567.0) (2024-05-01)
+
+
+### Features
+
+* end support for Node.js 14.x ([#6034](https://github.com/aws/aws-sdk-js-v3/issues/6034)) ([d196411](https://github.com/aws/aws-sdk-js-v3/commit/d19641119f07d62c29f12348f448cd834d841533))
+
+
+
+
+
+# [3.565.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.564.0...v3.565.0) (2024-04-29)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.564.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.563.0...v3.564.0) (2024-04-26)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.563.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.562.0...v3.563.0) (2024-04-25)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.562.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.561.0...v3.562.0) (2024-04-24)
+
+
+### Features
+
+* **client-ec2:** Launching capability for customers to enable or disable automatic assignment of public IPv4 addresses to their network interface ([6121a23](https://github.com/aws/aws-sdk-js-v3/commit/6121a23480f7be708bad3b2d4e50eeec7b5fe667))
+
+
+
+
+
+# [3.561.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.560.0...v3.561.0) (2024-04-23)
+
+
+### Features
+
+* **client-ec2:** This release introduces EC2 AMI Deregistration Protection, a new AMI property that can be enabled by customers to protect an AMI against an unintended deregistration. This release also enables the AMI owners to view the AMI 'LastLaunchedTime' in DescribeImages API. ([4fcf9f7](https://github.com/aws/aws-sdk-js-v3/commit/4fcf9f7235d718e620e3fa4df1253aa1fd2dd453))
+
+
+
+
+
+# [3.557.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.556.0...v3.557.0) (2024-04-17)
+
+
+### Features
+
+* **client-ec2:** Documentation updates for Elastic Compute Cloud (EC2). ([08bd27c](https://github.com/aws/aws-sdk-js-v3/commit/08bd27c46fa8739c1c50e5ba4c78a121e89c1685))
+
+
+
+
+
+# [3.556.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.555.0...v3.556.0) (2024-04-16)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.554.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.553.0...v3.554.0) (2024-04-11)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
+# [3.552.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.551.0...v3.552.0) (2024-04-09)
+
+**Note:** Version bump only for package @aws-sdk/client-ec2
+
+
+
+
+
 # [3.549.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.548.0...v3.549.0) (2024-04-04)
 
 

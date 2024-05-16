@@ -50,6 +50,7 @@ export interface UpdateApplicationCommandOutput extends UpdateApplicationRespons
  *         cpu: "STRING_VALUE", // required
  *         memory: "STRING_VALUE", // required
  *         disk: "STRING_VALUE",
+ *         diskType: "STRING_VALUE",
  *       },
  *     },
  *   },
@@ -122,6 +123,9 @@ export interface UpdateApplicationCommandOutput extends UpdateApplicationRespons
  *         ],
  *       },
  *     },
+ *     prometheusMonitoringConfiguration: { // PrometheusMonitoringConfiguration
+ *       remoteWriteUrl: "STRING_VALUE",
+ *     },
  *   },
  * };
  * const command = new UpdateApplicationCommand(input);
@@ -142,6 +146,7 @@ export interface UpdateApplicationCommandOutput extends UpdateApplicationRespons
  * //           cpu: "STRING_VALUE", // required
  * //           memory: "STRING_VALUE", // required
  * //           disk: "STRING_VALUE",
+ * //           diskType: "STRING_VALUE",
  * //         },
  * //       },
  * //     },
@@ -219,6 +224,9 @@ export interface UpdateApplicationCommandOutput extends UpdateApplicationRespons
  * //             "STRING_VALUE",
  * //           ],
  * //         },
+ * //       },
+ * //       prometheusMonitoringConfiguration: { // PrometheusMonitoringConfiguration
+ * //         remoteWriteUrl: "STRING_VALUE",
  * //       },
  * //     },
  * //   },

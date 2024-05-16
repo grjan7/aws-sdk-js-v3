@@ -5,7 +5,7 @@ import { Command as $Command } from "@smithy/smithy-client";
 import { MetadataBearer as __MetadataBearer } from "@smithy/types";
 
 import { commonParams } from "../endpoint/EndpointParameters";
-import { UpdatePluginRequest, UpdatePluginResponse } from "../models/models_0";
+import { UpdatePluginRequest, UpdatePluginRequestFilterSensitiveLog, UpdatePluginResponse } from "../models/models_0";
 import { de_UpdatePluginCommand, se_UpdatePluginCommand } from "../protocols/Aws_restJson1";
 import { QBusinessClientResolvedConfig, ServiceInputTypes, ServiceOutputTypes } from "../QBusinessClient";
 
@@ -27,7 +27,7 @@ export interface UpdatePluginCommandInput extends UpdatePluginRequest {}
 export interface UpdatePluginCommandOutput extends UpdatePluginResponse, __MetadataBearer {}
 
 /**
- * <p>Updates an Amazon Q plugin.</p>
+ * <p>Updates an Amazon Q Business plugin.</p>
  * @example
  * Use a bare-bones client and the command you need to make an API call.
  * ```javascript
@@ -40,6 +40,17 @@ export interface UpdatePluginCommandOutput extends UpdatePluginResponse, __Metad
  *   displayName: "STRING_VALUE",
  *   state: "ENABLED" || "DISABLED",
  *   serverUrl: "STRING_VALUE",
+ *   customPluginConfiguration: { // CustomPluginConfiguration
+ *     description: "STRING_VALUE", // required
+ *     apiSchemaType: "OPEN_API_V3", // required
+ *     apiSchema: { // APISchema Union: only one key present
+ *       payload: "STRING_VALUE",
+ *       s3: { // S3
+ *         bucket: "STRING_VALUE", // required
+ *         key: "STRING_VALUE", // required
+ *       },
+ *     },
+ *   },
  *   authConfiguration: { // PluginAuthConfiguration Union: only one key present
  *     basicAuthConfiguration: { // BasicAuthConfiguration
  *       secretArn: "STRING_VALUE", // required
@@ -49,6 +60,7 @@ export interface UpdatePluginCommandOutput extends UpdatePluginResponse, __Metad
  *       secretArn: "STRING_VALUE", // required
  *       roleArn: "STRING_VALUE", // required
  *     },
+ *     noAuthConfiguration: {},
  *   },
  * };
  * const command = new UpdatePluginCommand(input);
@@ -72,7 +84,7 @@ export interface UpdatePluginCommandOutput extends UpdatePluginResponse, __Metad
  *             resource. Fix any inconsistences with your resources and try again.</p>
  *
  * @throws {@link InternalServerException} (server fault)
- *  <p>An issue occurred with the internal server used for your Amazon Q service. Wait
+ *  <p>An issue occurred with the internal server used for your Amazon Q Business service. Wait
  *             some minutes and try again, or contact <a href="http://aws.amazon.com/contact-us/">Support</a> for help.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
@@ -80,14 +92,14 @@ export interface UpdatePluginCommandOutput extends UpdatePluginResponse, __Metad
  *             resource and try again.</p>
  *
  * @throws {@link ServiceQuotaExceededException} (client fault)
- *  <p>You have exceeded the set limits for your Amazon Q service. </p>
+ *  <p>You have exceeded the set limits for your Amazon Q Business service. </p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The request was denied due to throttling. Reduce the number of requests and try
  *             again.</p>
  *
  * @throws {@link ValidationException} (client fault)
- *  <p>The input doesn't meet the constraints set by the Amazon Q service. Provide the
+ *  <p>The input doesn't meet the constraints set by the Amazon Q Business service. Provide the
  *             correct input and try again.</p>
  *
  * @throws {@link QBusinessServiceException}
@@ -114,7 +126,7 @@ export class UpdatePluginCommand extends $Command
   })
   .s("ExpertQ", "UpdatePlugin", {})
   .n("QBusinessClient", "UpdatePluginCommand")
-  .f(void 0, void 0)
+  .f(UpdatePluginRequestFilterSensitiveLog, void 0)
   .ser(se_UpdatePluginCommand)
   .de(de_UpdatePluginCommand)
   .build() {}

@@ -1328,6 +1328,10 @@ import {
   DisableImageDeprecationCommandOutput,
 } from "./commands/DisableImageDeprecationCommand";
 import {
+  DisableImageDeregistrationProtectionCommandInput,
+  DisableImageDeregistrationProtectionCommandOutput,
+} from "./commands/DisableImageDeregistrationProtectionCommand";
+import {
   DisableIpamOrganizationAdminAccountCommandInput,
   DisableIpamOrganizationAdminAccountCommandOutput,
 } from "./commands/DisableIpamOrganizationAdminAccountCommand";
@@ -1442,6 +1446,10 @@ import {
   EnableImageDeprecationCommandOutput,
 } from "./commands/EnableImageDeprecationCommand";
 import {
+  EnableImageDeregistrationProtectionCommandInput,
+  EnableImageDeregistrationProtectionCommandOutput,
+} from "./commands/EnableImageDeregistrationProtectionCommand";
+import {
   EnableIpamOrganizationAdminAccountCommandInput,
   EnableIpamOrganizationAdminAccountCommandOutput,
 } from "./commands/EnableIpamOrganizationAdminAccountCommand";
@@ -1541,6 +1549,10 @@ import {
   GetInstanceMetadataDefaultsCommandInput,
   GetInstanceMetadataDefaultsCommandOutput,
 } from "./commands/GetInstanceMetadataDefaultsCommand";
+import {
+  GetInstanceTpmEkPubCommandInput,
+  GetInstanceTpmEkPubCommandOutput,
+} from "./commands/GetInstanceTpmEkPubCommand";
 import {
   GetInstanceTypesFromInstanceRequirementsCommandInput,
   GetInstanceTypesFromInstanceRequirementsCommandOutput,
@@ -2539,6 +2551,7 @@ export type ServiceInputTypes =
   | DisableImageBlockPublicAccessCommandInput
   | DisableImageCommandInput
   | DisableImageDeprecationCommandInput
+  | DisableImageDeregistrationProtectionCommandInput
   | DisableIpamOrganizationAdminAccountCommandInput
   | DisableSerialConsoleAccessCommandInput
   | DisableSnapshotBlockPublicAccessCommandInput
@@ -2569,6 +2582,7 @@ export type ServiceInputTypes =
   | EnableImageBlockPublicAccessCommandInput
   | EnableImageCommandInput
   | EnableImageDeprecationCommandInput
+  | EnableImageDeregistrationProtectionCommandInput
   | EnableIpamOrganizationAdminAccountCommandInput
   | EnableReachabilityAnalyzerOrganizationSharingCommandInput
   | EnableSerialConsoleAccessCommandInput
@@ -2597,6 +2611,7 @@ export type ServiceInputTypes =
   | GetHostReservationPurchasePreviewCommandInput
   | GetImageBlockPublicAccessStateCommandInput
   | GetInstanceMetadataDefaultsCommandInput
+  | GetInstanceTpmEkPubCommandInput
   | GetInstanceTypesFromInstanceRequirementsCommandInput
   | GetInstanceUefiDataCommandInput
   | GetIpamAddressHistoryCommandInput
@@ -3162,6 +3177,7 @@ export type ServiceOutputTypes =
   | DisableImageBlockPublicAccessCommandOutput
   | DisableImageCommandOutput
   | DisableImageDeprecationCommandOutput
+  | DisableImageDeregistrationProtectionCommandOutput
   | DisableIpamOrganizationAdminAccountCommandOutput
   | DisableSerialConsoleAccessCommandOutput
   | DisableSnapshotBlockPublicAccessCommandOutput
@@ -3192,6 +3208,7 @@ export type ServiceOutputTypes =
   | EnableImageBlockPublicAccessCommandOutput
   | EnableImageCommandOutput
   | EnableImageDeprecationCommandOutput
+  | EnableImageDeregistrationProtectionCommandOutput
   | EnableIpamOrganizationAdminAccountCommandOutput
   | EnableReachabilityAnalyzerOrganizationSharingCommandOutput
   | EnableSerialConsoleAccessCommandOutput
@@ -3220,6 +3237,7 @@ export type ServiceOutputTypes =
   | GetHostReservationPurchasePreviewCommandOutput
   | GetImageBlockPublicAccessStateCommandOutput
   | GetInstanceMetadataDefaultsCommandOutput
+  | GetInstanceTpmEkPubCommandOutput
   | GetInstanceTypesFromInstanceRequirementsCommandOutput
   | GetInstanceUefiDataCommandOutput
   | GetIpamAddressHistoryCommandOutput

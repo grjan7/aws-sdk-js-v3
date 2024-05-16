@@ -55,6 +55,13 @@ export interface GetMatchingJobCommandOutput extends GetMatchingJobOutput, __Met
  * //   errorDetails: { // ErrorDetails
  * //     errorMessage: "STRING_VALUE",
  * //   },
+ * //   outputSourceConfig: [ // JobOutputSourceConfig
+ * //     { // JobOutputSource
+ * //       roleArn: "STRING_VALUE", // required
+ * //       outputS3Path: "STRING_VALUE", // required
+ * //       KMSArn: "STRING_VALUE",
+ * //     },
+ * //   ],
  * // };
  *
  * ```

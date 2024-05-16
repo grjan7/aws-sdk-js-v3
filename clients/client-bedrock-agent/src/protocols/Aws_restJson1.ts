@@ -136,6 +136,8 @@ import {
   DataSourceConfiguration,
   DataSourceSummary,
   FixedSizeChunkingConfiguration,
+  Function,
+  FunctionSchema,
   InferenceConfiguration,
   IngestionJob,
   IngestionJobFilter,
@@ -145,8 +147,11 @@ import {
   KnowledgeBase,
   KnowledgeBaseConfiguration,
   KnowledgeBaseSummary,
+  MongoDbAtlasConfiguration,
+  MongoDbAtlasFieldMapping,
   OpenSearchServerlessConfiguration,
   OpenSearchServerlessFieldMapping,
+  ParameterDetail,
   PineconeConfiguration,
   PineconeFieldMapping,
   PromptConfiguration,
@@ -247,6 +252,7 @@ export const se_CreateAgentActionGroupCommand = async (
       apiSchema: (_) => _json(_),
       clientToken: [true, (_) => _ ?? generateIdempotencyToken()],
       description: [],
+      functionSchema: (_) => _json(_),
       parentActionGroupSignature: [],
     })
   );
@@ -298,6 +304,7 @@ export const se_CreateDataSourceCommand = async (
   body = JSON.stringify(
     take(input, {
       clientToken: [true, (_) => _ ?? generateIdempotencyToken()],
+      dataDeletionPolicy: [],
       dataSourceConfiguration: (_) => _json(_),
       description: [],
       name: [],
@@ -952,6 +959,7 @@ export const se_UpdateAgentActionGroupCommand = async (
       actionGroupState: [],
       apiSchema: (_) => _json(_),
       description: [],
+      functionSchema: (_) => _json(_),
       parentActionGroupSignature: [],
     })
   );
@@ -1028,6 +1036,7 @@ export const se_UpdateDataSourceCommand = async (
   let body: any;
   body = JSON.stringify(
     take(input, {
+      dataDeletionPolicy: [],
       dataSourceConfiguration: (_) => _json(_),
       description: [],
       name: [],
@@ -2097,6 +2106,12 @@ const de_ValidationExceptionRes = async (parsedOutput: any, context: __SerdeCont
 
 // se_FixedSizeChunkingConfiguration omitted.
 
+// se_Function omitted.
+
+// se_Functions omitted.
+
+// se_FunctionSchema omitted.
+
 /**
  * serializeAws_restJson1InferenceConfiguration
  */
@@ -2120,9 +2135,17 @@ const se_InferenceConfiguration = (input: InferenceConfiguration, context: __Ser
 
 // se_KnowledgeBaseConfiguration omitted.
 
+// se_MongoDbAtlasConfiguration omitted.
+
+// se_MongoDbAtlasFieldMapping omitted.
+
 // se_OpenSearchServerlessConfiguration omitted.
 
 // se_OpenSearchServerlessFieldMapping omitted.
+
+// se_ParameterDetail omitted.
+
+// se_ParameterMap omitted.
 
 // se_PineconeConfiguration omitted.
 
@@ -2257,6 +2280,7 @@ const de_AgentActionGroup = (output: any, context: __SerdeContext): AgentActionG
     clientToken: __expectString,
     createdAt: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
     description: __expectString,
+    functionSchema: (_: any) => _json(__expectUnion(_)),
     parentActionSignature: __expectString,
     updatedAt: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
   }) as any;
@@ -2276,6 +2300,7 @@ const de_AgentAlias = (output: any, context: __SerdeContext): AgentAlias => {
     clientToken: __expectString,
     createdAt: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
     description: __expectString,
+    failureReasons: _json,
     routingConfiguration: _json,
     updatedAt: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
   }) as any;
@@ -2460,9 +2485,11 @@ const de_AgentVersionSummary = (output: any, context: __SerdeContext): AgentVers
 const de_DataSource = (output: any, context: __SerdeContext): DataSource => {
   return take(output, {
     createdAt: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
+    dataDeletionPolicy: __expectString,
     dataSourceConfiguration: _json,
     dataSourceId: __expectString,
     description: __expectString,
+    failureReasons: _json,
     knowledgeBaseId: __expectString,
     name: __expectString,
     serverSideEncryptionConfiguration: _json,
@@ -2503,6 +2530,12 @@ const de_DataSourceSummary = (output: any, context: __SerdeContext): DataSourceS
 // de_FailureReasons omitted.
 
 // de_FixedSizeChunkingConfiguration omitted.
+
+// de_Function omitted.
+
+// de_Functions omitted.
+
+// de_FunctionSchema omitted.
 
 /**
  * deserializeAws_restJson1InferenceConfiguration
@@ -2610,9 +2643,17 @@ const de_KnowledgeBaseSummary = (output: any, context: __SerdeContext): Knowledg
   }) as any;
 };
 
+// de_MongoDbAtlasConfiguration omitted.
+
+// de_MongoDbAtlasFieldMapping omitted.
+
 // de_OpenSearchServerlessConfiguration omitted.
 
 // de_OpenSearchServerlessFieldMapping omitted.
+
+// de_ParameterDetail omitted.
+
+// de_ParameterMap omitted.
 
 // de_PineconeConfiguration omitted.
 

@@ -53,7 +53,7 @@ export interface GetKnowledgeBaseCommandOutput extends GetKnowledgeBaseResponse,
  * //       },
  * //     },
  * //     storageConfiguration: { // StorageConfiguration
- * //       type: "OPENSEARCH_SERVERLESS" || "PINECONE" || "REDIS_ENTERPRISE_CLOUD" || "RDS", // required
+ * //       type: "OPENSEARCH_SERVERLESS" || "PINECONE" || "REDIS_ENTERPRISE_CLOUD" || "RDS" || "MONGO_DB_ATLAS", // required
  * //       opensearchServerlessConfiguration: { // OpenSearchServerlessConfiguration
  * //         collectionArn: "STRING_VALUE", // required
  * //         vectorIndexName: "STRING_VALUE", // required
@@ -94,8 +94,21 @@ export interface GetKnowledgeBaseCommandOutput extends GetKnowledgeBaseResponse,
  * //           metadataField: "STRING_VALUE", // required
  * //         },
  * //       },
+ * //       mongoDbAtlasConfiguration: { // MongoDbAtlasConfiguration
+ * //         endpoint: "STRING_VALUE", // required
+ * //         databaseName: "STRING_VALUE", // required
+ * //         collectionName: "STRING_VALUE", // required
+ * //         vectorIndexName: "STRING_VALUE", // required
+ * //         credentialsSecretArn: "STRING_VALUE", // required
+ * //         fieldMapping: { // MongoDbAtlasFieldMapping
+ * //           vectorField: "STRING_VALUE", // required
+ * //           textField: "STRING_VALUE", // required
+ * //           metadataField: "STRING_VALUE", // required
+ * //         },
+ * //         endpointServiceName: "STRING_VALUE",
+ * //       },
  * //     },
- * //     status: "CREATING" || "ACTIVE" || "DELETING" || "UPDATING" || "FAILED", // required
+ * //     status: "CREATING" || "ACTIVE" || "DELETING" || "UPDATING" || "FAILED" || "DELETE_UNSUCCESSFUL", // required
  * //     createdAt: new Date("TIMESTAMP"), // required
  * //     updatedAt: new Date("TIMESTAMP"), // required
  * //     failureReasons: [ // FailureReasons
@@ -119,7 +132,7 @@ export interface GetKnowledgeBaseCommandOutput extends GetKnowledgeBaseResponse,
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The number of requests exceeds the limit. Resubmit your request later.</p>

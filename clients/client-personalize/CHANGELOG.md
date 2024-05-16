@@ -3,6 +3,138 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.577.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.576.0...v3.577.0) (2024-05-15)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.576.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.575.0...v3.576.0) (2024-05-14)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.575.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.574.0...v3.575.0) (2024-05-13)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.574.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.573.0...v3.574.0) (2024-05-10)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.572.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.571.0...v3.572.0) (2024-05-08)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.569.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.568.0...v3.569.0) (2024-05-03)
+
+
+### Bug Fixes
+
+* **clients:** add deps required by default credential providers ([#6055](https://github.com/aws/aws-sdk-js-v3/issues/6055)) ([bfa8626](https://github.com/aws/aws-sdk-js-v3/commit/bfa86268540d197a21f13e8d2e8bced10b78d480))
+
+
+
+
+
+# [3.568.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.567.0...v3.568.0) (2024-05-02)
+
+
+### Features
+
+* **client-personalize:** This releases ability to delete users and their data, including their metadata and interactions data, from a dataset group. ([3c7432b](https://github.com/aws/aws-sdk-js-v3/commit/3c7432b9c89e34db96247cf5227a9ec1686944ea))
+
+
+
+
+
+# [3.567.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.566.0...v3.567.0) (2024-05-01)
+
+
+### Features
+
+* end support for Node.js 14.x ([#6034](https://github.com/aws/aws-sdk-js-v3/issues/6034)) ([d196411](https://github.com/aws/aws-sdk-js-v3/commit/d19641119f07d62c29f12348f448cd834d841533))
+
+
+
+
+
+# [3.565.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.564.0...v3.565.0) (2024-04-29)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.564.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.563.0...v3.564.0) (2024-04-26)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.563.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.562.0...v3.563.0) (2024-04-25)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.559.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.558.0...v3.559.0) (2024-04-19)
+
+
+### Features
+
+* **client-personalize:** This releases auto training capability while creating a solution and automatically syncing latest solution versions when creating/updating a campaign ([65475aa](https://github.com/aws/aws-sdk-js-v3/commit/65475aac1abd69c56b39547141733e5e52c7b6f5))
+
+
+
+
+
+# [3.556.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.555.0...v3.556.0) (2024-04-16)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.554.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.553.0...v3.554.0) (2024-04-11)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
+# [3.552.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.551.0...v3.552.0) (2024-04-09)
+
+**Note:** Version bump only for package @aws-sdk/client-personalize
+
+
+
+
+
 # [3.549.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.548.0...v3.549.0) (2024-04-04)
 
 **Note:** Version bump only for package @aws-sdk/client-personalize

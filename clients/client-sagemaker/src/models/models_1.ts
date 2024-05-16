@@ -1155,95 +1155,6 @@ export interface CreateDeviceFleetRequest {
 }
 
 /**
- * <p>The JupyterServer app settings.</p>
- * @public
- */
-export interface JupyterServerAppSettings {
-  /**
-   * <p>The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the <code>LifecycleConfigArns</code> parameter, then this parameter is also required.</p>
-   * @public
-   */
-  DefaultResourceSpec?: ResourceSpec;
-
-  /**
-   * <p> The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the <code>DefaultResourceSpec</code> parameter is also required.</p>
-   *          <note>
-   *             <p>To remove a Lifecycle Config, you must set <code>LifecycleConfigArns</code> to an empty list.</p>
-   *          </note>
-   * @public
-   */
-  LifecycleConfigArns?: string[];
-
-  /**
-   * <p>A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.</p>
-   * @public
-   */
-  CodeRepositories?: CodeRepository[];
-}
-
-/**
- * <p>The KernelGateway app settings.</p>
- * @public
- */
-export interface KernelGatewayAppSettings {
-  /**
-   * <p>The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app.</p>
-   *          <note>
-   *             <p>The Amazon SageMaker Studio UI does not use the default instance type value set here. The
-   *         default instance type set here is used when Apps are created using the CLI or
-   *           CloudFormation and the instance type parameter value is not passed.</p>
-   *          </note>
-   * @public
-   */
-  DefaultResourceSpec?: ResourceSpec;
-
-  /**
-   * <p>A list of custom SageMaker images that are configured to run as a KernelGateway app.</p>
-   * @public
-   */
-  CustomImages?: CustomImage[];
-
-  /**
-   * <p> The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain.</p>
-   *          <note>
-   *             <p>To remove a Lifecycle Config, you must set <code>LifecycleConfigArns</code> to an empty list.</p>
-   *          </note>
-   * @public
-   */
-  LifecycleConfigArns?: string[];
-}
-
-/**
- * <p>A collection of settings that apply to spaces created in the domain.</p>
- * @public
- */
-export interface DefaultSpaceSettings {
-  /**
-   * <p>The ARN of the execution role for the space.</p>
-   * @public
-   */
-  ExecutionRole?: string;
-
-  /**
-   * <p>The security group IDs for the Amazon VPC that the space uses for communication.</p>
-   * @public
-   */
-  SecurityGroups?: string[];
-
-  /**
-   * <p>The JupyterServer app settings.</p>
-   * @public
-   */
-  JupyterServerAppSettings?: JupyterServerAppSettings;
-
-  /**
-   * <p>The KernelGateway app settings.</p>
-   * @public
-   */
-  KernelGatewayAppSettings?: KernelGatewayAppSettings;
-}
-
-/**
  * <p>The settings for assigning a custom Amazon EFS file system to a user profile
  *             or space for an Amazon SageMaker Domain.</p>
  * @public
@@ -1351,6 +1262,149 @@ export interface JupyterLabAppSettings {
    * @public
    */
   CodeRepositories?: CodeRepository[];
+}
+
+/**
+ * <p>The JupyterServer app settings.</p>
+ * @public
+ */
+export interface JupyterServerAppSettings {
+  /**
+   * <p>The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the JupyterServer app. If you use the <code>LifecycleConfigArns</code> parameter, then this parameter is also required.</p>
+   * @public
+   */
+  DefaultResourceSpec?: ResourceSpec;
+
+  /**
+   * <p> The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the JupyterServerApp. If you use this parameter, the <code>DefaultResourceSpec</code> parameter is also required.</p>
+   *          <note>
+   *             <p>To remove a Lifecycle Config, you must set <code>LifecycleConfigArns</code> to an empty list.</p>
+   *          </note>
+   * @public
+   */
+  LifecycleConfigArns?: string[];
+
+  /**
+   * <p>A list of Git repositories that SageMaker automatically displays to users for cloning in the JupyterServer application.</p>
+   * @public
+   */
+  CodeRepositories?: CodeRepository[];
+}
+
+/**
+ * <p>The KernelGateway app settings.</p>
+ * @public
+ */
+export interface KernelGatewayAppSettings {
+  /**
+   * <p>The default instance type and the Amazon Resource Name (ARN) of the default SageMaker image used by the KernelGateway app.</p>
+   *          <note>
+   *             <p>The Amazon SageMaker Studio UI does not use the default instance type value set here. The
+   *         default instance type set here is used when Apps are created using the CLI or
+   *           CloudFormation and the instance type parameter value is not passed.</p>
+   *          </note>
+   * @public
+   */
+  DefaultResourceSpec?: ResourceSpec;
+
+  /**
+   * <p>A list of custom SageMaker images that are configured to run as a KernelGateway app.</p>
+   * @public
+   */
+  CustomImages?: CustomImage[];
+
+  /**
+   * <p> The Amazon Resource Name (ARN) of the Lifecycle Configurations attached to the the user profile or domain.</p>
+   *          <note>
+   *             <p>To remove a Lifecycle Config, you must set <code>LifecycleConfigArns</code> to an empty list.</p>
+   *          </note>
+   * @public
+   */
+  LifecycleConfigArns?: string[];
+}
+
+/**
+ * <p>A collection of default EBS storage settings that apply to spaces created within a domain or user profile.</p>
+ * @public
+ */
+export interface DefaultEbsStorageSettings {
+  /**
+   * <p>The default size of the EBS storage volume for a space.</p>
+   * @public
+   */
+  DefaultEbsVolumeSizeInGb: number | undefined;
+
+  /**
+   * <p>The maximum size of the EBS storage volume for a space.</p>
+   * @public
+   */
+  MaximumEbsVolumeSizeInGb: number | undefined;
+}
+
+/**
+ * <p>The default storage settings for a space.</p>
+ * @public
+ */
+export interface DefaultSpaceStorageSettings {
+  /**
+   * <p>The default EBS storage settings for a space.</p>
+   * @public
+   */
+  DefaultEbsStorageSettings?: DefaultEbsStorageSettings;
+}
+
+/**
+ * <p>A collection of settings that apply to spaces created in the domain.</p>
+ * @public
+ */
+export interface DefaultSpaceSettings {
+  /**
+   * <p>The ARN of the execution role for the space.</p>
+   * @public
+   */
+  ExecutionRole?: string;
+
+  /**
+   * <p>The security group IDs for the Amazon VPC that the space uses for communication.</p>
+   * @public
+   */
+  SecurityGroups?: string[];
+
+  /**
+   * <p>The JupyterServer app settings.</p>
+   * @public
+   */
+  JupyterServerAppSettings?: JupyterServerAppSettings;
+
+  /**
+   * <p>The KernelGateway app settings.</p>
+   * @public
+   */
+  KernelGatewayAppSettings?: KernelGatewayAppSettings;
+
+  /**
+   * <p>The settings for the JupyterLab application.</p>
+   * @public
+   */
+  JupyterLabAppSettings?: JupyterLabAppSettings;
+
+  /**
+   * <p>The default storage settings for a space.</p>
+   * @public
+   */
+  SpaceStorageSettings?: DefaultSpaceStorageSettings;
+
+  /**
+   * <p>Details about the POSIX identity that is used for file system operations.</p>
+   * @public
+   */
+  CustomPosixUserConfig?: CustomPosixUserConfig;
+
+  /**
+   * <p>The settings for assigning a custom file system to a domain. Permitted users can access this file system in Amazon SageMaker Studio.</p>
+   * @public
+   */
+  CustomFileSystemConfigs?: CustomFileSystemConfig[];
 }
 
 /**
@@ -1469,36 +1523,6 @@ export interface SharingSettings {
 }
 
 /**
- * <p>A collection of default EBS storage settings that applies to private spaces created within a domain or user profile.</p>
- * @public
- */
-export interface DefaultEbsStorageSettings {
-  /**
-   * <p>The default size of the EBS storage volume for a private space.</p>
-   * @public
-   */
-  DefaultEbsVolumeSizeInGb: number | undefined;
-
-  /**
-   * <p>The maximum size of the EBS storage volume for a private space.</p>
-   * @public
-   */
-  MaximumEbsVolumeSizeInGb: number | undefined;
-}
-
-/**
- * <p>The default storage settings for a private space.</p>
- * @public
- */
-export interface DefaultSpaceStorageSettings {
-  /**
-   * <p>The default EBS storage settings for a private space.</p>
-   * @public
-   */
-  DefaultEbsStorageSettings?: DefaultEbsStorageSettings;
-}
-
-/**
  * @public
  * @enum
  */
@@ -1609,7 +1633,7 @@ export interface UserSettings {
   JupyterLabAppSettings?: JupyterLabAppSettings;
 
   /**
-   * <p>The storage settings for a private space.</p>
+   * <p>The storage settings for a space.</p>
    * @public
    */
   SpaceStorageSettings?: DefaultSpaceStorageSettings;
@@ -2816,7 +2840,7 @@ export interface FeatureDefinition {
    *          <p>The name:</p>
    *          <ul>
    *             <li>
-   *                <p>Must start and end with an alphanumeric character.</p>
+   *                <p>Must start with an alphanumeric character.</p>
    *             </li>
    *             <li>
    *                <p>Can only include alphanumeric characters, underscores, and hyphens. Spaces are not
@@ -3233,7 +3257,7 @@ export interface CreateFeatureGroupRequest {
    *          <p>The name:</p>
    *          <ul>
    *             <li>
-   *                <p>Must start and end with an alphanumeric character.</p>
+   *                <p>Must start with an alphanumeric character.</p>
    *             </li>
    *             <li>
    *                <p>Can only include alphanumeric characters, underscores, and hyphens. Spaces are not
@@ -3255,7 +3279,7 @@ export interface CreateFeatureGroupRequest {
    *          <p>This name:</p>
    *          <ul>
    *             <li>
-   *                <p>Must start and end with an alphanumeric character.</p>
+   *                <p>Must start with an alphanumeric character.</p>
    *             </li>
    *             <li>
    *                <p>Can only contains alphanumeric characters, hyphens, underscores. Spaces are not
@@ -5843,6 +5867,14 @@ export const _InstanceType = {
   ML_G5_4XLARGE: "ml.g5.4xlarge",
   ML_G5_8XLARGE: "ml.g5.8xlarge",
   ML_G5_XLARGE: "ml.g5.xlarge",
+  ML_G6_12XLARGE: "ml.g6.12xlarge",
+  ML_G6_16XLARGE: "ml.g6.16xlarge",
+  ML_G6_24XLARGE: "ml.g6.24xlarge",
+  ML_G6_2XLARGE: "ml.g6.2xlarge",
+  ML_G6_48XLARGE: "ml.g6.48xlarge",
+  ML_G6_4XLARGE: "ml.g6.4xlarge",
+  ML_G6_8XLARGE: "ml.g6.8xlarge",
+  ML_G6_XLARGE: "ml.g6.xlarge",
   ML_INF1_24XLARGE: "ml.inf1.24xlarge",
   ML_INF1_2XLARGE: "ml.inf1.2xlarge",
   ML_INF1_6XLARGE: "ml.inf1.6xlarge",
@@ -11919,7 +11951,7 @@ export interface CreateProjectOutput {
  */
 export interface OwnershipSettings {
   /**
-   * <p>The user profile who is the owner of the private space.</p>
+   * <p>The user profile who is the owner of the space.</p>
    * @public
    */
   OwnerUserProfileName: string | undefined;
@@ -12011,24 +12043,24 @@ export interface SpaceJupyterLabAppSettings {
 }
 
 /**
- * <p>A collection of EBS storage settings that applies to private spaces.</p>
+ * <p>A collection of EBS storage settings that apply to both private and shared spaces.</p>
  * @public
  */
 export interface EbsStorageSettings {
   /**
-   * <p>The size of an EBS storage volume for a private space.</p>
+   * <p>The size of an EBS storage volume for a space.</p>
    * @public
    */
   EbsVolumeSizeInGb: number | undefined;
 }
 
 /**
- * <p>The storage settings for a private space.</p>
+ * <p>The storage settings for a space.</p>
  * @public
  */
 export interface SpaceStorageSettings {
   /**
-   * <p>A collection of EBS storage settings for a private space.</p>
+   * <p>A collection of EBS storage settings for a space.</p>
    * @public
    */
   EbsStorageSettings?: EbsStorageSettings;
@@ -12070,7 +12102,7 @@ export interface SpaceSettings {
   AppType?: AppType;
 
   /**
-   * <p>The storage settings for a private space.</p>
+   * <p>The storage settings for a space.</p>
    * @public
    */
   SpaceStorageSettings?: SpaceStorageSettings;

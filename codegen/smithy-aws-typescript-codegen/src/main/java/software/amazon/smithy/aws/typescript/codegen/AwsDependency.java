@@ -42,7 +42,6 @@ public enum AwsDependency implements Dependency {
     MIDDLEWARE_SIGNING(NORMAL_DEPENDENCY, "@aws-sdk/middleware-signing"),
     MIDDLEWARE_TOKEN(NORMAL_DEPENDENCY, "@aws-sdk/middleware-token"),
     CREDENTIAL_PROVIDER_NODE(NORMAL_DEPENDENCY, "@aws-sdk/credential-provider-node"),
-    CREDENTIAL_PROVIDER_NODE_PEER(PEER_DEPENDENCY, "@aws-sdk/credential-provider-node"),
     ACCEPT_HEADER(NORMAL_DEPENDENCY, "@aws-sdk/middleware-sdk-api-gateway"),
     S3_MIDDLEWARE(NORMAL_DEPENDENCY, "@aws-sdk/middleware-sdk-s3"),
     ADD_EXPECT_CONTINUE(NORMAL_DEPENDENCY, "@aws-sdk/middleware-expect-continue"),
@@ -68,6 +67,7 @@ public enum AwsDependency implements Dependency {
     TRANSCRIBE_STREAMING_MIDDLEWARE(NORMAL_DEPENDENCY, "@aws-sdk/middleware-sdk-transcribe-streaming"),
     STS_MIDDLEWARE(NORMAL_DEPENDENCY, "@aws-sdk/middleware-sdk-sts"),
     STS_CLIENT(NORMAL_DEPENDENCY, "@aws-sdk/client-sts"),
+    SSO_OIDC_CLIENT(NORMAL_DEPENDENCY, "@aws-sdk/client-sso-oidc"),
     MIDDLEWARE_LOGGER(NORMAL_DEPENDENCY, "@aws-sdk/middleware-logger"),
     MIDDLEWARE_USER_AGENT("dependencies", "@aws-sdk/middleware-user-agent"),
     AWS_SDK_UTIL_USER_AGENT_BROWSER(NORMAL_DEPENDENCY, "@aws-sdk/util-user-agent-browser"),
@@ -93,7 +93,11 @@ public enum AwsDependency implements Dependency {
     // feat(experimentalIdentityAndAuth): Conditionally added when @httpBearerAuth is used in an AWS service
     TOKEN_PROVIDERS(NORMAL_DEPENDENCY, "@aws-sdk/token-providers"),
     TYPES(NORMAL_DEPENDENCY, "@aws-sdk/types"),
-    REGION_CONFIG_RESOLVER(NORMAL_DEPENDENCY, "@aws-sdk/region-config-resolver");
+    REGION_CONFIG_RESOLVER(NORMAL_DEPENDENCY, "@aws-sdk/region-config-resolver"),
+
+    CLIENT_DYNAMODB_PEER(PEER_DEPENDENCY, "@aws-sdk/client-dynamodb", "^3.0.0"),
+    UTIL_DYNAMODB(NORMAL_DEPENDENCY, "@aws-sdk/util-dynamodb", "*");
+
 
     public final String packageName;
     public final String version;

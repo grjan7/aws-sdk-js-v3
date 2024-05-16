@@ -57,6 +57,9 @@ export interface GetTemplateCommandOutput extends GetTemplateResponse, __Metadat
  * //     "<keys>": "STRING_VALUE",
  * //   },
  * //   status: "STRING_VALUE", // required
+ * //   deleted: true || false,
+ * //   createdTime: new Date("TIMESTAMP"),
+ * //   lastModifiedTime: new Date("TIMESTAMP"),
  * // };
  *
  * ```

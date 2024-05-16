@@ -5,19 +5,18 @@ import {
   AccountCustomization,
   AccountInfo,
   AccountSettings,
-  ActiveIAMPolicyAssignment,
   Analysis,
   AnalysisError,
   Entity,
+  NumberScale,
   ResourceStatus,
   Sheet,
 } from "./models_0";
 
-import { AnalysisDefinition, FilterOperator } from "./models_1";
-
 import {
   _Parameters,
   _ParametersFilterSensitiveLog,
+  AnalysisDefinition,
   AnalysisSummary,
   AnonymousUserEmbeddingExperienceConfiguration,
   AnonymousUserSnapshotJobResult,
@@ -36,10 +35,10 @@ import {
   AssetBundleImportJobOverrideValidationStrategy,
   AssetBundleImportJobStatus,
   AssetBundleImportJobSummary,
+  AssetBundleImportJobWarning,
   AssetBundleImportSourceDescription,
   AssetBundleImportSourceDescriptionFilterSensitiveLog,
   AssignmentStatus,
-  AuthorizedTargetsByService,
   AuthorSpecifiedAggregation,
   BookmarksConfigurations,
   CategoryFilterFunction,
@@ -56,15 +55,15 @@ import {
   DashboardPublishOptions,
   DashboardVersionDefinition,
   DashboardVisualId,
+  DataColorPalette,
   DataSetConfiguration,
   DataSetImportMode,
   DatasetParameter,
   DataSetUsageConfiguration,
   DataSourceParameters,
   DataSourceType,
-  DefaultAggregation,
-  DefaultFormatting,
   FieldFolder,
+  FilterOperator,
   FolderType,
   Group,
   GroupMember,
@@ -84,18 +83,522 @@ import {
   RowLevelPermissionTagConfigurationFilterSensitiveLog,
   ServiceType,
   SharingModel,
+  SheetStyle,
   SnapshotFile,
   SnapshotS3DestinationConfiguration,
   SslProperties,
   Tag,
   TemplateAlias,
   TemplateVersionDefinition,
-  ThemeAlias,
-  ThemeConfiguration,
+  Typography,
   VpcConnectionProperties,
 } from "./models_2";
 
 import { QuickSightServiceException as __BaseException } from "./QuickSightServiceException";
+
+/**
+ * <p>The theme colors that apply to UI and to charts, excluding data colors. The colors
+ *             description is a hexadecimal color code that consists of six alphanumerical characters,
+ *             prefixed with <code>#</code>, for example #37BFF5. For more information, see <a href="https://docs.aws.amazon.com/quicksight/latest/user/themes-in-quicksight.html">Using Themes in Amazon QuickSight</a> in the <i>Amazon QuickSight User
+ *                 Guide.</i>
+ *          </p>
+ * @public
+ */
+export interface UIColorPalette {
+  /**
+   * <p>The color of text and other foreground elements that appear over the primary
+   *             background regions, such as grid lines, borders, table banding, icons, and so on.</p>
+   * @public
+   */
+  PrimaryForeground?: string;
+
+  /**
+   * <p>The background color that applies to visuals and other high emphasis UI.</p>
+   * @public
+   */
+  PrimaryBackground?: string;
+
+  /**
+   * <p>The foreground color that applies to any sheet title, sheet control text, or UI that
+   *             appears over the secondary background.</p>
+   * @public
+   */
+  SecondaryForeground?: string;
+
+  /**
+   * <p>The background color that applies to the sheet background and sheet controls.</p>
+   * @public
+   */
+  SecondaryBackground?: string;
+
+  /**
+   * <p>This color is that applies to selected states and buttons.</p>
+   * @public
+   */
+  Accent?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             accent color.</p>
+   * @public
+   */
+  AccentForeground?: string;
+
+  /**
+   * <p>The color that applies to error messages.</p>
+   * @public
+   */
+  Danger?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             error color.</p>
+   * @public
+   */
+  DangerForeground?: string;
+
+  /**
+   * <p>This color that applies to warning and informational messages.</p>
+   * @public
+   */
+  Warning?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             warning color.</p>
+   * @public
+   */
+  WarningForeground?: string;
+
+  /**
+   * <p>The color that applies to success messages, for example the check mark for a
+   *             successful download.</p>
+   * @public
+   */
+  Success?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             success color.</p>
+   * @public
+   */
+  SuccessForeground?: string;
+
+  /**
+   * <p>The color that applies to the names of fields that are identified as
+   *             dimensions.</p>
+   * @public
+   */
+  Dimension?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             dimension color.</p>
+   * @public
+   */
+  DimensionForeground?: string;
+
+  /**
+   * <p>The color that applies to the names of fields that are identified as measures.</p>
+   * @public
+   */
+  Measure?: string;
+
+  /**
+   * <p>The foreground color that applies to any text or other elements that appear over the
+   *             measure color.</p>
+   * @public
+   */
+  MeasureForeground?: string;
+}
+
+/**
+ * <p>The theme configuration. This configuration contains all of the display properties for
+ *             a theme.</p>
+ * @public
+ */
+export interface ThemeConfiguration {
+  /**
+   * <p>Color properties that apply to chart data colors.</p>
+   * @public
+   */
+  DataColorPalette?: DataColorPalette;
+
+  /**
+   * <p>Color properties that apply to the UI and to charts, excluding the colors that apply
+   *             to data. </p>
+   * @public
+   */
+  UIColorPalette?: UIColorPalette;
+
+  /**
+   * <p>Display options related to sheets.</p>
+   * @public
+   */
+  Sheet?: SheetStyle;
+
+  /**
+   * <p>Determines the typography options.</p>
+   * @public
+   */
+  Typography?: Typography;
+}
+
+/**
+ * @public
+ */
+export interface CreateThemeRequest {
+  /**
+   * <p>The ID of the Amazon Web Services account where you want to store the new theme. </p>
+   * @public
+   */
+  AwsAccountId: string | undefined;
+
+  /**
+   * <p>An ID for the theme that you want to create. The theme ID is unique per Amazon Web Services Region in
+   * 			each Amazon Web Services account.</p>
+   * @public
+   */
+  ThemeId: string | undefined;
+
+  /**
+   * <p>A display name for the theme.</p>
+   * @public
+   */
+  Name: string | undefined;
+
+  /**
+   * <p>The ID of the theme that a custom theme will inherit from. All themes inherit from one of
+   * 			the starting themes defined by Amazon QuickSight. For a list of the starting themes, use
+   * 				<code>ListThemes</code> or choose <b>Themes</b> from
+   * 			within an analysis. </p>
+   * @public
+   */
+  BaseThemeId: string | undefined;
+
+  /**
+   * <p>A description of the first version of the theme that you're creating. Every time
+   * 				<code>UpdateTheme</code> is called, a new version is created. Each version of the
+   * 			theme has a description of the version in the <code>VersionDescription</code>
+   * 			field.</p>
+   * @public
+   */
+  VersionDescription?: string;
+
+  /**
+   * <p>The theme configuration, which contains the theme display properties.</p>
+   * @public
+   */
+  Configuration: ThemeConfiguration | undefined;
+
+  /**
+   * <p>A valid grouping of resource permissions to apply to the new theme.
+   * 			</p>
+   * @public
+   */
+  Permissions?: ResourcePermission[];
+
+  /**
+   * <p>A map of the key-value pairs for the resource tag or tags that you want to add to the
+   * 			resource.</p>
+   * @public
+   */
+  Tags?: Tag[];
+}
+
+/**
+ * @public
+ */
+export interface CreateThemeResponse {
+  /**
+   * <p>The Amazon Resource Name (ARN) for the theme.</p>
+   * @public
+   */
+  Arn?: string;
+
+  /**
+   * <p>The Amazon Resource Name (ARN) for the new theme.</p>
+   * @public
+   */
+  VersionArn?: string;
+
+  /**
+   * <p>The ID of the theme.</p>
+   * @public
+   */
+  ThemeId?: string;
+
+  /**
+   * <p>The theme creation status.</p>
+   * @public
+   */
+  CreationStatus?: ResourceStatus;
+
+  /**
+   * <p>The HTTP status of the request.</p>
+   * @public
+   */
+  Status?: number;
+
+  /**
+   * <p>The Amazon Web Services request ID for this operation.</p>
+   * @public
+   */
+  RequestId?: string;
+}
+
+/**
+ * @public
+ */
+export interface CreateThemeAliasRequest {
+  /**
+   * <p>The ID of the Amazon Web Services account that contains the theme for the new theme alias.</p>
+   * @public
+   */
+  AwsAccountId: string | undefined;
+
+  /**
+   * <p>An ID for the theme alias.</p>
+   * @public
+   */
+  ThemeId: string | undefined;
+
+  /**
+   * <p>The name that you want to give to the theme alias that you are creating. The
+   * 			alias name can't begin with a <code>$</code>. Alias names that start with <code>$</code>
+   * 			are reserved by Amazon QuickSight. </p>
+   * @public
+   */
+  AliasName: string | undefined;
+
+  /**
+   * <p>The version number of the theme.</p>
+   * @public
+   */
+  ThemeVersionNumber: number | undefined;
+}
+
+/**
+ * <p>An alias for a theme.</p>
+ * @public
+ */
+export interface ThemeAlias {
+  /**
+   * <p>The Amazon Resource Name (ARN) of the theme alias.</p>
+   * @public
+   */
+  Arn?: string;
+
+  /**
+   * <p>The display name of the theme alias.</p>
+   * @public
+   */
+  AliasName?: string;
+
+  /**
+   * <p>The version number of the theme alias.</p>
+   * @public
+   */
+  ThemeVersionNumber?: number;
+}
+
+/**
+ * @public
+ */
+export interface CreateThemeAliasResponse {
+  /**
+   * <p>Information about the theme alias.</p>
+   * @public
+   */
+  ThemeAlias?: ThemeAlias;
+
+  /**
+   * <p>The HTTP status of the request.</p>
+   * @public
+   */
+  Status?: number;
+
+  /**
+   * <p>The Amazon Web Services request ID for this operation.</p>
+   * @public
+   */
+  RequestId?: string;
+}
+
+/**
+ * @public
+ * @enum
+ */
+export const DefaultAggregation = {
+  AVERAGE: "AVERAGE",
+  COUNT: "COUNT",
+  DISTINCT_COUNT: "DISTINCT_COUNT",
+  MAX: "MAX",
+  MEDIAN: "MEDIAN",
+  MIN: "MIN",
+  STDEV: "STDEV",
+  STDEVP: "STDEVP",
+  SUM: "SUM",
+  VAR: "VAR",
+  VARP: "VARP",
+} as const;
+
+/**
+ * @public
+ */
+export type DefaultAggregation = (typeof DefaultAggregation)[keyof typeof DefaultAggregation];
+
+/**
+ * @public
+ * @enum
+ */
+export const DisplayFormat = {
+  AUTO: "AUTO",
+  CURRENCY: "CURRENCY",
+  DATE: "DATE",
+  NUMBER: "NUMBER",
+  PERCENT: "PERCENT",
+  STRING: "STRING",
+} as const;
+
+/**
+ * @public
+ */
+export type DisplayFormat = (typeof DisplayFormat)[keyof typeof DisplayFormat];
+
+/**
+ * @public
+ * @enum
+ */
+export const TopicNumericSeparatorSymbol = {
+  COMMA: "COMMA",
+  DOT: "DOT",
+} as const;
+
+/**
+ * @public
+ */
+export type TopicNumericSeparatorSymbol =
+  (typeof TopicNumericSeparatorSymbol)[keyof typeof TopicNumericSeparatorSymbol];
+
+/**
+ * <p>A structure that represents a negative format.</p>
+ * @public
+ */
+export interface NegativeFormat {
+  /**
+   * <p>The prefix for a negative format.</p>
+   * @public
+   */
+  Prefix?: string;
+
+  /**
+   * <p>The suffix for a negative format.</p>
+   * @public
+   */
+  Suffix?: string;
+}
+
+/**
+ * <p>A structure that represents additional options for display formatting.</p>
+ * @public
+ */
+export interface DisplayFormatOptions {
+  /**
+   * <p>A Boolean value that indicates whether to use blank cell format.</p>
+   * @public
+   */
+  UseBlankCellFormat?: boolean;
+
+  /**
+   * <p>Determines the blank cell format.</p>
+   * @public
+   */
+  BlankCellFormat?: string;
+
+  /**
+   * <p>Determines the <code>DateTime</code> format.</p>
+   * @public
+   */
+  DateFormat?: string;
+
+  /**
+   * <p>Determines the decimal separator.</p>
+   * @public
+   */
+  DecimalSeparator?: TopicNumericSeparatorSymbol;
+
+  /**
+   * <p>Determines the grouping separator.</p>
+   * @public
+   */
+  GroupingSeparator?: string;
+
+  /**
+   * <p>A Boolean value that indicates whether to use grouping.</p>
+   * @public
+   */
+  UseGrouping?: boolean;
+
+  /**
+   * <p>Determines the number of fraction digits.</p>
+   * @public
+   */
+  FractionDigits?: number;
+
+  /**
+   * <p>The prefix value for a display format.</p>
+   * @public
+   */
+  Prefix?: string;
+
+  /**
+   * <p>The suffix value for a display format.</p>
+   * @public
+   */
+  Suffix?: string;
+
+  /**
+   * <p>The unit scaler. Valid values for this structure are: <code>NONE</code>,
+   *             <code>AUTO</code>, <code>THOUSANDS</code>, <code>MILLIONS</code>,
+   *          <code>BILLIONS</code>,
+   *          and <code>TRILLIONS</code>.</p>
+   * @public
+   */
+  UnitScaler?: NumberScale;
+
+  /**
+   * <p>The negative format.</p>
+   * @public
+   */
+  NegativeFormat?: NegativeFormat;
+
+  /**
+   * <p>The currency symbol, such as <code>USD</code>.</p>
+   * @public
+   */
+  CurrencySymbol?: string;
+}
+
+/**
+ * <p>A structure that represents a default formatting definition.</p>
+ * @public
+ */
+export interface DefaultFormatting {
+  /**
+   * <p>The display format. Valid values for this structure are <code>AUTO</code>,
+   *             <code>PERCENT</code>, <code>CURRENCY</code>, <code>NUMBER</code>, <code>DATE</code>, and
+   *             <code>STRING</code>.</p>
+   * @public
+   */
+  DisplayFormat?: DisplayFormat;
+
+  /**
+   * <p>The additional options for display formatting.</p>
+   * @public
+   */
+  DisplayFormatOptions?: DisplayFormatOptions;
+}
 
 /**
  * <p>A structure that represents a semantic type.</p>
@@ -4187,6 +4690,12 @@ export interface DescribeAssetBundleImportJobResponse {
    * @public
    */
   OverrideValidationStrategy?: AssetBundleImportJobOverrideValidationStrategy;
+
+  /**
+   * <p>An array of warning records that describe all permitted errors that are encountered during the import job.</p>
+   * @public
+   */
+  Warnings?: AssetBundleImportJobWarning[];
 }
 
 /**
@@ -7083,8 +7592,11 @@ export type IdentityType = (typeof IdentityType)[keyof typeof IdentityType];
  */
 export const UserRole = {
   ADMIN: "ADMIN",
+  ADMIN_PRO: "ADMIN_PRO",
   AUTHOR: "AUTHOR",
+  AUTHOR_PRO: "AUTHOR_PRO",
   READER: "READER",
+  READER_PRO: "READER_PRO",
   RESTRICTED_AUTHOR: "RESTRICTED_AUTHOR",
   RESTRICTED_READER: "RESTRICTED_READER",
 } as const;
@@ -7136,6 +7648,18 @@ export interface User {
    *                <p>
    *                   <code>ADMIN</code>: A user who is an author, who can also manage Amazon
    *                     Amazon QuickSight settings.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>READER_PRO</code>: Reader Pro adds Generative BI capabilities to the Reader role. Reader Pros have access to Amazon Q Business, can build stories with Amazon Q, and can generate executive summaries from dashboards.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>AUTHOR_PRO</code>: Author Pro adds Generative BI capabilities to the Author role. Author Pros can author dashboards with natural language with Amazon Q, build stories with Amazon Q, create Topics for Q&A, and generate executive summaries from dashboards.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>ADMIN_PRO</code>: Admin Pros are Author Pros who can also manage Amazon QuickSight administrative settings. Admin Pro users are billed at Author Pro pricing.</p>
    *             </li>
    *             <li>
    *                <p>
@@ -7832,17 +8356,29 @@ export interface RegisteredUserDashboardVisualEmbeddingConfiguration {
 }
 
 /**
+ * <p>An object that provides information about the configuration of a Generative Q&A experience.</p>
+ * @public
+ */
+export interface RegisteredUserGenerativeQnAEmbeddingConfiguration {
+  /**
+   * <p>The ID of the new Q reader experience topic that you want to make the starting topic in the Generative Q&A experience.
+   *         You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening
+   *         a topic. The ID is in the URL for the topic that you open.</p>
+   *          <p>If you don't specify an initial topic or you specify a legacy topic, a list of all shared new reader experience topics is shown in the Generative Q&A experience for your readers. When you select an initial new reader experience topic, you can specify whether or not readers are allowed to select other new reader experience topics from the available ones in the list.</p>
+   * @public
+   */
+  InitialTopicId?: string;
+}
+
+/**
  * <p>Information about the Q search bar embedding experience.</p>
  * @public
  */
 export interface RegisteredUserQSearchBarEmbeddingConfiguration {
   /**
-   * <p>The ID of the Q topic that you want to make the starting topic in the Q search bar.
-   *       You can find a topic ID by navigating to the Topics pane in the Amazon QuickSight application and opening
-   *       a topic. The ID is in the URL for the topic that you open.</p>
-   *          <p>If you don't specify an initial topic, a list of all shared topics is shown in the Q bar
-   *       for your readers. When you select an initial topic, you can specify whether or not readers
-   *       are allowed to select other topics from the available ones in the list.</p>
+   * <p>The ID of the legacy Q topic that you want to use as the starting topic in the Q search bar. To locate the topic ID of the topic that you want to use, open the <a href="https://quicksight.aws.amazon.com/">Amazon QuickSight console</a>, navigate to the <b>Topics</b> pane, and choose thre topic that you want to use. The <code>TopicID</code> is located in the URL of the topic that opens. When you select an initial topic, you can specify whether or not readers
+   *       are allowed to select other topics from the list of available topics.</p>
+   *          <p>If you don't specify an initial topic or if you specify a new reader experience topic, a list of all shared legacy topics is shown in the Q bar. </p>
    * @public
    */
   InitialTopicId?: string;
@@ -7973,6 +8509,14 @@ export interface RegisteredUserEmbeddingExperienceConfiguration {
    * @public
    */
   DashboardVisual?: RegisteredUserDashboardVisualEmbeddingConfiguration;
+
+  /**
+   * <p>The configuration details for embedding the Generative Q&A experience.</p>
+   *          <p>For more information about embedding the Generative Q&A experience, see <a href="https://docs.aws.amazon.com/quicksight/latest/user/embedding-overview.html">Embedding Overview</a> in
+   *                 the <i>Amazon QuickSight User Guide</i>.</p>
+   * @public
+   */
+  GenerativeQnA?: RegisteredUserGenerativeQnAEmbeddingConfiguration;
 }
 
 /**
@@ -7998,7 +8542,7 @@ export interface GenerateEmbedUrlForRegisteredUserRequest {
   UserArn: string | undefined;
 
   /**
-   * <p>The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, or the entire Amazon QuickSight console.</p>
+   * <p>The experience that you want to embed. For registered users, you can embed Amazon QuickSight dashboards, Amazon QuickSight visuals, the Amazon QuickSight Q search bar, the Amazon QuickSight Generative Q&A experience, or the entire Amazon QuickSight console.</p>
    * @public
    */
   ExperienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration | undefined;
@@ -8022,7 +8566,7 @@ export interface GenerateEmbedUrlForRegisteredUserRequest {
  */
 export interface GenerateEmbedUrlForRegisteredUserResponse {
   /**
-   * <p>The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, or console.</p>
+   * <p>The embed URL for the Amazon QuickSight dashboard, visual, Q search bar, Generative Q&A experience, or console.</p>
    * @public
    */
   EmbedUrl: string | undefined;
@@ -8871,421 +9415,6 @@ export interface ListFoldersRequest {
 
   /**
    * <p>The maximum number of results to be returned per request.</p>
-   * @public
-   */
-  MaxResults?: number;
-}
-
-/**
- * @public
- */
-export interface ListFoldersResponse {
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-
-  /**
-   * <p>A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.</p>
-   * @public
-   */
-  FolderSummaryList?: FolderSummary[];
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-}
-
-/**
- * @public
- */
-export interface ListGroupMembershipsRequest {
-  /**
-   * <p>The name of the group that you want to see a membership list of.</p>
-   * @public
-   */
-  GroupName: string | undefined;
-
-  /**
-   * <p>A pagination token that can be used in a subsequent request.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The maximum number of results to return from this request.</p>
-   * @public
-   */
-  MaxResults?: number;
-
-  /**
-   * <p>The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-   * 			Amazon Web Services account that contains your Amazon QuickSight account.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>The namespace of the group that you want a list of users from.</p>
-   * @public
-   */
-  Namespace: string | undefined;
-}
-
-/**
- * @public
- */
-export interface ListGroupMembershipsResponse {
-  /**
-   * <p>The list of the members of the group.</p>
-   * @public
-   */
-  GroupMemberList?: GroupMember[];
-
-  /**
-   * <p>A pagination token that can be used in a subsequent request.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-}
-
-/**
- * @public
- */
-export interface ListGroupsRequest {
-  /**
-   * <p>The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the
-   * 			Amazon Web Services account that contains your Amazon QuickSight account.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>A pagination token that can be used in a subsequent request.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The maximum number of results to return.</p>
-   * @public
-   */
-  MaxResults?: number;
-
-  /**
-   * <p>The namespace that you want a list of groups from.</p>
-   * @public
-   */
-  Namespace: string | undefined;
-}
-
-/**
- * @public
- */
-export interface ListGroupsResponse {
-  /**
-   * <p>The list of the groups.</p>
-   * @public
-   */
-  GroupList?: Group[];
-
-  /**
-   * <p>A pagination token that can be used in a subsequent request.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-}
-
-/**
- * @public
- */
-export interface ListIAMPolicyAssignmentsRequest {
-  /**
-   * <p>The ID of the Amazon Web Services account that contains these IAM policy
-   * 			assignments.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>The status of the assignments.</p>
-   * @public
-   */
-  AssignmentStatus?: AssignmentStatus;
-
-  /**
-   * <p>The namespace for the assignments.</p>
-   * @public
-   */
-  Namespace: string | undefined;
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The maximum number of results to be returned per request.</p>
-   * @public
-   */
-  MaxResults?: number;
-}
-
-/**
- * @public
- */
-export interface ListIAMPolicyAssignmentsResponse {
-  /**
-   * <p>Information describing the IAM policy assignments.</p>
-   * @public
-   */
-  IAMPolicyAssignments?: IAMPolicyAssignmentSummary[];
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-}
-
-/**
- * @public
- */
-export interface ListIAMPolicyAssignmentsForUserRequest {
-  /**
-   * <p>The ID of the Amazon Web Services account that contains the assignments.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>The name of the user.</p>
-   * @public
-   */
-  UserName: string | undefined;
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The maximum number of results to be returned per request.</p>
-   * @public
-   */
-  MaxResults?: number;
-
-  /**
-   * <p>The namespace of the assignment.</p>
-   * @public
-   */
-  Namespace: string | undefined;
-}
-
-/**
- * @public
- */
-export interface ListIAMPolicyAssignmentsForUserResponse {
-  /**
-   * <p>The active assignments for this user.</p>
-   * @public
-   */
-  ActiveAssignments?: ActiveIAMPolicyAssignment[];
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-}
-
-/**
- * @public
- */
-export interface ListIdentityPropagationConfigsRequest {
-  /**
-   * <p>The ID of the Amazon Web Services account that contain the identity propagation configurations of.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>The maximum number of results to be returned.</p>
-   * @public
-   */
-  MaxResults?: number;
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-}
-
-/**
- * @public
- */
-export interface ListIdentityPropagationConfigsResponse {
-  /**
-   * <p>A list of services and their authorized targets that the Amazon QuickSight IAM Identity Center application can access.</p>
-   * @public
-   */
-  Services?: AuthorizedTargetsByService[];
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-}
-
-/**
- * @public
- */
-export interface ListIngestionsRequest {
-  /**
-   * <p>The ID of the dataset used in the ingestion.</p>
-   * @public
-   */
-  DataSetId: string | undefined;
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services account ID.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>The maximum number of results to be returned per request.</p>
-   * @public
-   */
-  MaxResults?: number;
-}
-
-/**
- * @public
- */
-export interface ListIngestionsResponse {
-  /**
-   * <p>A list of the ingestions.</p>
-   * @public
-   */
-  Ingestions?: Ingestion[];
-
-  /**
-   * <p>The token for the next set of results, or null if there are no more results.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The Amazon Web Services request ID for this operation.</p>
-   * @public
-   */
-  RequestId?: string;
-
-  /**
-   * <p>The HTTP status of the request.</p>
-   * @public
-   */
-  Status?: number;
-}
-
-/**
- * @public
- */
-export interface ListNamespacesRequest {
-  /**
-   * <p>The ID for the Amazon Web Services account that contains the Amazon QuickSight namespaces that you want to list.</p>
-   * @public
-   */
-  AwsAccountId: string | undefined;
-
-  /**
-   * <p>A unique pagination token that can be used in a subsequent request. You will receive a pagination token in the response body of a previous <code>ListNameSpaces</code> API call if there is more data that can be returned. To receive the data, make another <code>ListNamespaces</code> API call with the returned token to retrieve the next page of data. Each token is valid for 24 hours. If you try to make a <code>ListNamespaces</code> API call with an expired token, you will receive a <code>HTTP 400 InvalidNextTokenException</code> error.</p>
-   * @public
-   */
-  NextToken?: string;
-
-  /**
-   * <p>The maximum number of results to return.</p>
    * @public
    */
   MaxResults?: number;

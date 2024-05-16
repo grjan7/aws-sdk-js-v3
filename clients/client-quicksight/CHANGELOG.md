@@ -3,6 +3,146 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.577.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.576.0...v3.577.0) (2024-05-15)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.576.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.575.0...v3.576.0) (2024-05-14)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.575.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.574.0...v3.575.0) (2024-05-13)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.574.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.573.0...v3.574.0) (2024-05-10)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.572.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.571.0...v3.572.0) (2024-05-08)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.569.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.568.0...v3.569.0) (2024-05-03)
+
+
+### Bug Fixes
+
+* **clients:** add deps required by default credential providers ([#6055](https://github.com/aws/aws-sdk-js-v3/issues/6055)) ([bfa8626](https://github.com/aws/aws-sdk-js-v3/commit/bfa86268540d197a21f13e8d2e8bced10b78d480))
+
+
+
+
+
+# [3.568.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.567.0...v3.568.0) (2024-05-02)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.567.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.566.0...v3.567.0) (2024-05-01)
+
+
+### Features
+
+* end support for Node.js 14.x ([#6034](https://github.com/aws/aws-sdk-js-v3/issues/6034)) ([d196411](https://github.com/aws/aws-sdk-js-v3/commit/d19641119f07d62c29f12348f448cd834d841533))
+
+
+
+
+
+# [3.566.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.565.0...v3.566.0) (2024-04-30)
+
+
+### Features
+
+* **client-quicksight:** New Q embedding supporting Generative Q&A ([90a9ac3](https://github.com/aws/aws-sdk-js-v3/commit/90a9ac3203952a4e52104af9101a3e1dd02c72f1))
+
+
+
+
+
+# [3.565.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.564.0...v3.565.0) (2024-04-29)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.564.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.563.0...v3.564.0) (2024-04-26)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.563.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.562.0...v3.563.0) (2024-04-25)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.558.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.557.0...v3.558.0) (2024-04-18)
+
+
+### Features
+
+* **client-quicksight:** This release adds support for the Cross Sheet Filter and Control features, and support for warnings in asset imports for any permitted errors encountered during execution ([b7bcec5](https://github.com/aws/aws-sdk-js-v3/commit/b7bcec5d2adc7b3cb99c43605b2cd0a52ad42c68))
+
+
+
+
+
+# [3.556.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.555.0...v3.556.0) (2024-04-16)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.554.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.553.0...v3.554.0) (2024-04-11)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
+# [3.552.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.551.0...v3.552.0) (2024-04-09)
+
+**Note:** Version bump only for package @aws-sdk/client-quicksight
+
+
+
+
+
 # [3.550.0](https://github.com/aws/aws-sdk-js-v3/compare/v3.549.0...v3.550.0) (2024-04-05)
 
 

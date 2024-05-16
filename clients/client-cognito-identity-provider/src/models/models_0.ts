@@ -247,7 +247,7 @@ export interface NumberAttributeConstraintsType {
 
   /**
    * <p>The maximum length of a number attribute value. Must be a number less than or equal to
-   *             <code>2^1023</code>, represented as a string with a length of 131072 characters or
+   *                 <code>2^1023</code>, represented as a string with a length of 131072 characters or
    *             fewer.</p>
    * @public
    */
@@ -267,7 +267,7 @@ export interface StringAttributeConstraintsType {
 
   /**
    * <p>The maximum length of a string attribute value. Must be a number less than or equal to
-   *             <code>2^1023</code>, represented as a string with a length of 131072 characters or
+   *                 <code>2^1023</code>, represented as a string with a length of 131072 characters or
    *             fewer.</p>
    * @public
    */
@@ -967,6 +967,7 @@ export const UserStatusType = {
   ARCHIVED: "ARCHIVED",
   COMPROMISED: "COMPROMISED",
   CONFIRMED: "CONFIRMED",
+  EXTERNAL_PROVIDER: "EXTERNAL_PROVIDER",
   FORCE_CHANGE_PASSWORD: "FORCE_CHANGE_PASSWORD",
   RESET_REQUIRED: "RESET_REQUIRED",
   UNCONFIRMED: "UNCONFIRMED",
@@ -1002,7 +1003,8 @@ export interface UserType {
   UserCreateDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   UserLastModifiedDate?: Date;
@@ -1555,7 +1557,8 @@ export interface DeviceType {
   DeviceCreateDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   DeviceLastModifiedDate?: Date;
@@ -1627,7 +1630,8 @@ export interface AdminGetUserResponse {
   UserCreateDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   UserLastModifiedDate?: Date;
@@ -2451,13 +2455,15 @@ export interface GroupType {
   Precedence?: number;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -2745,7 +2751,8 @@ export interface AuthEventType {
   EventType?: EventType;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -4521,13 +4528,15 @@ export interface IdentityProviderType {
   IdpIdentifiers?: string[];
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -4594,9 +4603,12 @@ export interface CreateResourceServerRequest {
   UserPoolId: string | undefined;
 
   /**
-   * <p>A unique resource server identifier for the resource server. This could be an HTTPS
-   *             endpoint where the resource server is located, such as
-   *                 <code>https://my-weather-api.example.com</code>.</p>
+   * <p>A unique resource server identifier for the resource server. The identifier can be an
+   *             API friendly name like <code>solar-system-data</code>. You can also set an API URL like
+   *                 <code>https://solar-system-data-api.example.com</code> as your identifier.</p>
+   *          <p>Amazon Cognito represents scopes in the access token in the format
+   *                 <code>$resource-server-identifier/$scope</code>. Longer scope-identifier strings
+   *             increase the size of your access tokens.</p>
    * @public
    */
   Identifier: string | undefined;
@@ -4627,7 +4639,12 @@ export interface ResourceServerType {
   UserPoolId?: string;
 
   /**
-   * <p>The identifier for the resource server.</p>
+   * <p>A unique resource server identifier for the resource server. The identifier can be an
+   *             API friendly name like <code>solar-system-data</code>. You can also set an API URL like
+   *                 <code>https://solar-system-data-api.example.com</code> as your identifier.</p>
+   *          <p>Amazon Cognito represents scopes in the access token in the format
+   *                 <code>$resource-server-identifier/$scope</code>. Longer scope-identifier strings
+   *             increase the size of your access tokens.</p>
    * @public
    */
   Identifier?: string;
@@ -4730,7 +4747,8 @@ export interface UserImportJobType {
   PreSignedUrl?: string;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -5784,13 +5802,15 @@ export interface UserPoolType {
   Status?: StatusType;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -6363,7 +6383,9 @@ export interface CreateUserPoolClientRequest {
   LogoutURLs?: string[];
 
   /**
-   * <p>The default redirect URI. Must be in the <code>CallbackURLs</code> list.</p>
+   * <p>The default redirect URI. In app clients with one assigned IdP, replaces
+   *                 <code>redirect_uri</code> in authentication requests. Must be in the
+   *                 <code>CallbackURLs</code> list.</p>
    *          <p>A redirect URI must:</p>
    *          <ul>
    *             <li>
@@ -6376,8 +6398,7 @@ export interface CreateUserPoolClientRequest {
    *                <p>Not include a fragment component.</p>
    *             </li>
    *          </ul>
-   *          <p>See <a href="https://tools.ietf.org/html/rfc6749#section-3.1.2">OAuth 2.0 -
-   *                 Redirection Endpoint</a>.</p>
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/cognito/latest/developerguide/user-pool-settings-client-apps.html#cognito-user-pools-app-idp-settings-about">Default redirect URI</a>.</p>
    *          <p>Amazon Cognito requires HTTPS over HTTP except for http://localhost for testing purposes
    *             only.</p>
    *          <p>App callback URLs such as myapp://example are also supported.</p>
@@ -6549,13 +6570,15 @@ export interface UserPoolClientType {
   ClientSecret?: string;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -7217,7 +7240,12 @@ export interface DescribeResourceServerRequest {
   UserPoolId: string | undefined;
 
   /**
-   * <p>The identifier for the resource server</p>
+   * <p>A unique resource server identifier for the resource server. The identifier can be an
+   *             API friendly name like <code>solar-system-data</code>. You can also set an API URL like
+   *                 <code>https://solar-system-data-api.example.com</code> as your identifier.</p>
+   *          <p>Amazon Cognito represents scopes in the access token in the format
+   *                 <code>$resource-server-identifier/$scope</code>. Longer scope-identifier strings
+   *             increase the size of your access tokens.</p>
    * @public
    */
   Identifier: string | undefined;
@@ -7372,7 +7400,8 @@ export interface RiskConfigurationType {
   RiskExceptionConfiguration?: RiskExceptionConfigurationType;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
@@ -8021,13 +8050,15 @@ export interface UICustomizationType {
   CSSVersion?: string;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -8699,7 +8730,8 @@ export interface ProviderDescription {
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -8955,13 +8987,15 @@ export interface UserPoolDescriptionType {
   Status?: StatusType;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was modified.</p>
+   * <p>The date and time when the item was modified. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   LastModifiedDate?: Date;
 
   /**
-   * <p>The date and time, in <a href="https://www.iso.org/iso-8601-date-and-time-format.html">ISO 8601</a> format, when the item was created.</p>
+   * <p>The date and time when the item was created. Amazon Cognito returns this timestamp in UNIX epoch time format. Your SDK might render the output in a
+   * human-readable format like ISO 8601 or a Java <code>Date</code> object.</p>
    * @public
    */
   CreationDate?: Date;
@@ -9030,8 +9064,8 @@ export interface ListUsersRequest {
   /**
    * <p>A filter string of the form "<i>AttributeName</i>
    *             <i>Filter-Type</i> "<i>AttributeValue</i>"". Quotation marks
-   *             within the filter string must be escaped using the backslash (<code>\</code>) character. For example,
-   *             <code>"family_name = \"Reddy\""</code>.</p>
+   *             within the filter string must be escaped using the backslash (<code>\</code>) character.
+   *             For example, <code>"family_name = \"Reddy\""</code>.</p>
    *          <ul>
    *             <li>
    *                <p>
@@ -9040,9 +9074,10 @@ export interface ListUsersRequest {
    *             </li>
    *             <li>
    *                <p>
-   *                   <i>Filter-Type</i>: For an exact match, use <code>=</code>, for example,
-   *                     "<code>given_name = \"Jon\"</code>". For a prefix ("starts with") match, use
-   *                     <code>^=</code>, for example, "<code>given_name ^= \"Jon\"</code>". </p>
+   *                   <i>Filter-Type</i>: For an exact match, use <code>=</code>, for
+   *                     example, "<code>given_name = \"Jon\"</code>". For a prefix ("starts with")
+   *                     match, use <code>^=</code>, for example, "<code>given_name ^= \"Jon\"</code>".
+   *                 </p>
    *             </li>
    *             <li>
    *                <p>

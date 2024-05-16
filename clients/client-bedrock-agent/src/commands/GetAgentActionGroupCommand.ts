@@ -58,6 +58,7 @@ export interface GetAgentActionGroupCommandOutput extends GetAgentActionGroupRes
  * //     parentActionSignature: "AMAZON.UserInput",
  * //     actionGroupExecutor: { // ActionGroupExecutor Union: only one key present
  * //       lambda: "STRING_VALUE",
+ * //       customControl: "RETURN_CONTROL",
  * //     },
  * //     apiSchema: { // APISchema Union: only one key present
  * //       s3: { // S3Identifier
@@ -65,6 +66,21 @@ export interface GetAgentActionGroupCommandOutput extends GetAgentActionGroupRes
  * //         s3ObjectKey: "STRING_VALUE",
  * //       },
  * //       payload: "STRING_VALUE",
+ * //     },
+ * //     functionSchema: { // FunctionSchema Union: only one key present
+ * //       functions: [ // Functions
+ * //         { // Function
+ * //           name: "STRING_VALUE", // required
+ * //           description: "STRING_VALUE",
+ * //           parameters: { // ParameterMap
+ * //             "<keys>": { // ParameterDetail
+ * //               description: "STRING_VALUE",
+ * //               type: "string" || "number" || "integer" || "boolean" || "array", // required
+ * //               required: true || false,
+ * //             },
+ * //           },
+ * //         },
+ * //       ],
  * //     },
  * //     actionGroupState: "ENABLED" || "DISABLED", // required
  * //   },
@@ -85,7 +101,7 @@ export interface GetAgentActionGroupCommandOutput extends GetAgentActionGroupRes
  *  <p>An internal server error occurred. Retry your request.</p>
  *
  * @throws {@link ResourceNotFoundException} (client fault)
- *  <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ *  <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  *
  * @throws {@link ThrottlingException} (client fault)
  *  <p>The number of requests exceeds the limit. Resubmit your request later.</p>

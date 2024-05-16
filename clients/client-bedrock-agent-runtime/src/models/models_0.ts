@@ -26,7 +26,7 @@ export class AccessDeniedException extends __BaseException {
 }
 
 /**
- * <p>A parameter in the Lambda input event.</p>
+ * <p>A parameter for the API request or function.</p>
  * @public
  */
 export interface Parameter {
@@ -50,7 +50,7 @@ export interface Parameter {
 }
 
 /**
- * <p>The parameters in the request body for the Lambda input event.</p>
+ * <p>The parameters in the API request body.</p>
  * @public
  */
 export interface RequestBody {
@@ -62,7 +62,7 @@ export interface RequestBody {
 }
 
 /**
- * <p>Contains information about the action group being invoked.</p>
+ * <p>Contains information about the action group being invoked. For more information about the possible structures, see the InvocationInput tab in <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/trace-orchestration.html">OrchestrationTrace</a> in the Amazon Bedrock User Guide.</p>
  * @public
  */
 export interface ActionGroupInvocationInput {
@@ -95,6 +95,12 @@ export interface ActionGroupInvocationInput {
    * @public
    */
   requestBody?: RequestBody;
+
+  /**
+   * <p>The function in the action group to call.</p>
+   * @public
+   */
+  function?: string;
 }
 
 /**
@@ -204,6 +210,188 @@ export class InternalServerException extends __BaseException {
 }
 
 /**
+ * <p>Contains the body of the API response.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControlInvocationResults</code> field of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax">InvokeAgent request</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ContentBody {
+  /**
+   * <p>The body of the API response.</p>
+   * @public
+   */
+  body?: string;
+}
+
+/**
+ * @public
+ * @enum
+ */
+export const ResponseState = {
+  FAILURE: "FAILURE",
+  REPROMPT: "REPROMPT",
+} as const;
+
+/**
+ * @public
+ */
+export type ResponseState = (typeof ResponseState)[keyof typeof ResponseState];
+
+/**
+ * <p>Contains information about the API operation that was called from the action group and the response body that was returned.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControlInvocationResults</code> of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax">InvokeAgent request</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ApiResult {
+  /**
+   * <p>The action group that the API operation belongs to.</p>
+   * @public
+   */
+  actionGroup: string | undefined;
+
+  /**
+   * <p>The HTTP method for the API operation.</p>
+   * @public
+   */
+  httpMethod?: string;
+
+  /**
+   * <p>The path to the API operation.</p>
+   * @public
+   */
+  apiPath?: string;
+
+  /**
+   * <p>The response body from the API operation. The key of the object is the content type (currently, only <code>TEXT</code> is supported). The response may be returned directly or from the Lambda function.</p>
+   * @public
+   */
+  responseBody?: Record<string, ContentBody>;
+
+  /**
+   * <p>http status code from API execution response (for example: 200, 400, 500).</p>
+   * @public
+   */
+  httpStatusCode?: number;
+
+  /**
+   * <p>Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt</p>
+   * @public
+   */
+  responseState?: ResponseState;
+}
+
+/**
+ * <p>Contains information about the function that was called from the action group and the response that was returned.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControlInvocationResults</code> of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax">InvokeAgent request</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface FunctionResult {
+  /**
+   * <p>The action group that the function belongs to.</p>
+   * @public
+   */
+  actionGroup: string | undefined;
+
+  /**
+   * <p>The name of the function that was called.</p>
+   * @public
+   */
+  function?: string;
+
+  /**
+   * <p>The response from the function call using the parameters. The key of the object is the content type (currently, only <code>TEXT</code> is supported). The response may be returned directly or from the Lambda function.</p>
+   * @public
+   */
+  responseBody?: Record<string, ContentBody>;
+
+  /**
+   * <p>Controls the final response state returned to end user when API/Function execution failed. When this state is FAILURE, the request would fail with dependency failure exception. When this state is REPROMPT, the API/function response will be sent to model for re-prompt</p>
+   * @public
+   */
+  responseState?: ResponseState;
+}
+
+/**
+ * <p>A result from the invocation of an action. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html">Return control to the agent developer</a> and <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control session context</a>.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_RequestSyntax">InvokeAgent request</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export type InvocationResultMember =
+  | InvocationResultMember.ApiResultMember
+  | InvocationResultMember.FunctionResultMember
+  | InvocationResultMember.$UnknownMember;
+
+/**
+ * @public
+ */
+export namespace InvocationResultMember {
+  /**
+   * <p>The result from the API response from the action group invocation.</p>
+   * @public
+   */
+  export interface ApiResultMember {
+    apiResult: ApiResult;
+    functionResult?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>The result from the function from the action group invocation.</p>
+   * @public
+   */
+  export interface FunctionResultMember {
+    apiResult?: never;
+    functionResult: FunctionResult;
+    $unknown?: never;
+  }
+
+  /**
+   * @public
+   */
+  export interface $UnknownMember {
+    apiResult?: never;
+    functionResult?: never;
+    $unknown: [string, any];
+  }
+
+  export interface Visitor<T> {
+    apiResult: (value: ApiResult) => T;
+    functionResult: (value: FunctionResult) => T;
+    _: (name: string, value: any) => T;
+  }
+
+  export const visit = <T>(value: InvocationResultMember, visitor: Visitor<T>): T => {
+    if (value.apiResult !== undefined) return visitor.apiResult(value.apiResult);
+    if (value.functionResult !== undefined) return visitor.functionResult(value.functionResult);
+    return visitor._(value.$unknown[0], value.$unknown[1]);
+  };
+}
+
+/**
  * <p>Contains parameters that specify various attributes that persist across a session or prompt. You can define session state attributes as key-value pairs when writing a <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-lambda.html">Lambda function</a> for an action group or pass them when making an <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html">InvokeAgent</a> request. Use session state attributes to control and provide conversational context for your agent and to help customize your agent's behavior. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control session context</a>.</p>
  * @public
  */
@@ -219,6 +407,21 @@ export interface SessionState {
    * @public
    */
   promptSessionAttributes?: Record<string, string>;
+
+  /**
+   * <p>Contains information about the results from the action group invocation. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html">Return control to the agent developer</a> and <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control session context</a>.</p>
+   *          <note>
+   *             <p>If you include this field, the <code>inputText</code> field will be ignored.</p>
+   *          </note>
+   * @public
+   */
+  returnControlInvocationResults?: InvocationResultMember[];
+
+  /**
+   * <p>The identifier of the invocation of an action. This value must match the <code>invocationId</code> returned in the <code>InvokeAgent</code> response for the action whose results are provided in the <code>returnControlInvocationResults</code> field. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-returncontrol.html">Return control to the agent developer</a> and <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control session context</a>.</p>
+   * @public
+   */
+  invocationId?: string;
 }
 
 /**
@@ -227,6 +430,9 @@ export interface SessionState {
 export interface InvokeAgentRequest {
   /**
    * <p>Contains parameters that specify various attributes of the session. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-session-state.html">Control session context</a>.</p>
+   *          <note>
+   *             <p>If you include <code>returnControlInvocationResults</code> in the <code>sessionState</code> field, the <code>inputText</code> field will be ignored.</p>
+   *          </note>
    * @public
    */
   sessionState?: SessionState;
@@ -263,9 +469,12 @@ export interface InvokeAgentRequest {
 
   /**
    * <p>The prompt text to send the agent.</p>
+   *          <note>
+   *             <p>If you include <code>returnControlInvocationResults</code> in the <code>sessionState</code> field, the <code>inputText</code> field will be ignored.</p>
+   *          </note>
    * @public
    */
-  inputText: string | undefined;
+  inputText?: string;
 }
 
 /**
@@ -278,7 +487,7 @@ export interface InvokeAgentRequest {
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>span</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>span</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -307,7 +516,7 @@ export interface Span {
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>textResponsePart</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>textResponsePart</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -332,7 +541,7 @@ export interface TextResponsePart {
  *          <ul>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>generatedResponsePart</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>generatedResponsePart</code> field</p>
  *             </li>
  *             <li>
  *                <p>
@@ -363,7 +572,7 @@ export interface GeneratedResponsePart {
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>content</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>content</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -390,7 +599,7 @@ export interface RetrievalResultContent {
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>s3Location</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>s3Location</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -431,7 +640,7 @@ export type RetrievalResultLocationType =
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>locatino</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>locatino</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -460,7 +669,7 @@ export interface RetrievalResultLocation {
  *             </li>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>retrievedReferences</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>retrievedReferences</code> field</p>
  *             </li>
  *          </ul>
  * @public
@@ -491,7 +700,7 @@ export interface RetrievedReference {
  *          <ul>
  *             <li>
  *                <p>
- *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_Retrieve.html#API_agent-runtime_Retrieve_ResponseSyntax">Retrieve response</a> – in the <code>citations</code> field</p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a> – in the <code>citations</code> field</p>
  *             </li>
  *             <li>
  *                <p>
@@ -545,7 +754,7 @@ export interface PayloadPart {
 }
 
 /**
- * <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+ * <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
  * @public
  */
 export class ResourceNotFoundException extends __BaseException {
@@ -562,6 +771,264 @@ export class ResourceNotFoundException extends __BaseException {
     });
     Object.setPrototypeOf(this, ResourceNotFoundException.prototype);
   }
+}
+
+/**
+ * <p>Information about a parameter to provide to the API request.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ApiParameter {
+  /**
+   * <p>The name of the parameter.</p>
+   * @public
+   */
+  name?: string;
+
+  /**
+   * <p>The data type for the parameter.</p>
+   * @public
+   */
+  type?: string;
+
+  /**
+   * <p>The value of the parameter.</p>
+   * @public
+   */
+  value?: string;
+}
+
+/**
+ * <p>Contains the parameters in the request body.</p>
+ * @public
+ */
+export interface PropertyParameters {
+  /**
+   * <p>A list of parameters in the request body.</p>
+   * @public
+   */
+  properties?: Parameter[];
+}
+
+/**
+ * <p>The request body to provide for the API request, as the agent elicited from the user.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ApiRequestBody {
+  /**
+   * <p>The content of the request body. The key of the object in this field is a media type defining the format of the request body.</p>
+   * @public
+   */
+  content?: Record<string, PropertyParameters>;
+}
+
+/**
+ * <p>Contains information about the API operation that the agent predicts should be called.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControl</code> field of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ApiInvocationInput {
+  /**
+   * <p>The action group that the API operation belongs to.</p>
+   * @public
+   */
+  actionGroup: string | undefined;
+
+  /**
+   * <p>The HTTP method of the API operation.</p>
+   * @public
+   */
+  httpMethod?: string;
+
+  /**
+   * <p>The path to the API operation.</p>
+   * @public
+   */
+  apiPath?: string;
+
+  /**
+   * <p>The parameters to provide for the API request, as the agent elicited from the user.</p>
+   * @public
+   */
+  parameters?: ApiParameter[];
+
+  /**
+   * <p>The request body to provide for the API request, as the agent elicited from the user.</p>
+   * @public
+   */
+  requestBody?: ApiRequestBody;
+}
+
+/**
+ * <p>Contains information about a parameter of the function.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControl</code> field of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface FunctionParameter {
+  /**
+   * <p>The name of the parameter.</p>
+   * @public
+   */
+  name?: string;
+
+  /**
+   * <p>The data type of the parameter.</p>
+   * @public
+   */
+  type?: string;
+
+  /**
+   * <p>The value of the parameter.</p>
+   * @public
+   */
+  value?: string;
+}
+
+/**
+ * <p>Contains information about the function that the agent predicts should be called.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControl</code> field of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface FunctionInvocationInput {
+  /**
+   * <p>The action group that the function belongs to.</p>
+   * @public
+   */
+  actionGroup: string | undefined;
+
+  /**
+   * <p>A list of parameters of the function.</p>
+   * @public
+   */
+  parameters?: FunctionParameter[];
+
+  /**
+   * <p>The name of the function.</p>
+   * @public
+   */
+  function?: string;
+}
+
+/**
+ * <p>Contains details about the API operation or function that the agent predicts should be called. </p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>In the <code>returnControl</code> field of the <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export type InvocationInputMember =
+  | InvocationInputMember.ApiInvocationInputMember
+  | InvocationInputMember.FunctionInvocationInputMember
+  | InvocationInputMember.$UnknownMember;
+
+/**
+ * @public
+ */
+export namespace InvocationInputMember {
+  /**
+   * <p>Contains information about the API operation that the agent predicts should be called.</p>
+   * @public
+   */
+  export interface ApiInvocationInputMember {
+    apiInvocationInput: ApiInvocationInput;
+    functionInvocationInput?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Contains information about the function that the agent predicts should be called.</p>
+   * @public
+   */
+  export interface FunctionInvocationInputMember {
+    apiInvocationInput?: never;
+    functionInvocationInput: FunctionInvocationInput;
+    $unknown?: never;
+  }
+
+  /**
+   * @public
+   */
+  export interface $UnknownMember {
+    apiInvocationInput?: never;
+    functionInvocationInput?: never;
+    $unknown: [string, any];
+  }
+
+  export interface Visitor<T> {
+    apiInvocationInput: (value: ApiInvocationInput) => T;
+    functionInvocationInput: (value: FunctionInvocationInput) => T;
+    _: (name: string, value: any) => T;
+  }
+
+  export const visit = <T>(value: InvocationInputMember, visitor: Visitor<T>): T => {
+    if (value.apiInvocationInput !== undefined) return visitor.apiInvocationInput(value.apiInvocationInput);
+    if (value.functionInvocationInput !== undefined)
+      return visitor.functionInvocationInput(value.functionInvocationInput);
+    return visitor._(value.$unknown[0], value.$unknown[1]);
+  };
+}
+
+/**
+ * <p>Contains information to return from the action group that the agent has predicted to invoke.</p>
+ *          <p>This data type is used in the following API operations:</p>
+ *          <ul>
+ *             <li>
+ *                <p>
+ *                   <a href="https://docs.aws.amazon.com/bedrock/latest/APIReference/API_agent-runtime_InvokeAgent.html#API_agent-runtime_InvokeAgent_ResponseSyntax">InvokeAgent response</a>
+ *                </p>
+ *             </li>
+ *          </ul>
+ * @public
+ */
+export interface ReturnControlPayload {
+  /**
+   * <p>A list of objects that contain information about the parameters and inputs that need to be sent into the API operation or function, based on what the agent determines from its session with the user.</p>
+   * @public
+   */
+  invocationInputs?: InvocationInputMember[];
+
+  /**
+   * <p>The identifier of the action group invocation.</p>
+   * @public
+   */
+  invocationId?: string;
 }
 
 /**
@@ -1381,6 +1848,12 @@ export interface TracePart {
   sessionId?: string;
 
   /**
+   * <p>The version of the agent.</p>
+   * @public
+   */
+  agentVersion?: string;
+
+  /**
    * <p>Contains one part of the agent's reasoning process and results from calling API actions and querying knowledge bases. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/agents-test.html#trace-enablement">Trace enablement</a>.</p>
    * @public
    */
@@ -1419,6 +1892,7 @@ export type ResponseStream =
   | ResponseStream.DependencyFailedExceptionMember
   | ResponseStream.InternalServerExceptionMember
   | ResponseStream.ResourceNotFoundExceptionMember
+  | ResponseStream.ReturnControlMember
   | ResponseStream.ServiceQuotaExceededExceptionMember
   | ResponseStream.ThrottlingExceptionMember
   | ResponseStream.TraceMember
@@ -1436,6 +1910,7 @@ export namespace ResponseStream {
   export interface ChunkMember {
     chunk: PayloadPart;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1449,12 +1924,33 @@ export namespace ResponseStream {
   }
 
   /**
-   * <p>Contains information about the agent and session, alongside the agent's reasoning process and results from calling API actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html">Trace events</a>.</p>
+   * <p>Contains information about the agent and session, alongside the agent's reasoning process and results from calling actions and querying knowledge bases and metadata about the trace. You can use the trace to understand how the agent arrived at the response it provided the customer. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/trace-events.html">Trace events</a>.</p>
    * @public
    */
   export interface TraceMember {
     chunk?: never;
     trace: TracePart;
+    returnControl?: never;
+    internalServerException?: never;
+    validationException?: never;
+    resourceNotFoundException?: never;
+    serviceQuotaExceededException?: never;
+    throttlingException?: never;
+    accessDeniedException?: never;
+    conflictException?: never;
+    dependencyFailedException?: never;
+    badGatewayException?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Contains the parameters and information that the agent elicited from the customer to carry out an action. This information is returned to the system and can be used in your own setup for fulfilling the action.</p>
+   * @public
+   */
+  export interface ReturnControlMember {
+    chunk?: never;
+    trace?: never;
+    returnControl: ReturnControlPayload;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1474,6 +1970,7 @@ export namespace ResponseStream {
   export interface InternalServerExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException: InternalServerException;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1493,6 +1990,7 @@ export namespace ResponseStream {
   export interface ValidationExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException: ValidationException;
     resourceNotFoundException?: never;
@@ -1506,12 +2004,13 @@ export namespace ResponseStream {
   }
 
   /**
-   * <p>The specified resource ARN was not found. Check the ARN and try your request again.</p>
+   * <p>The specified resource Amazon Resource Name (ARN) was not found. Check the Amazon Resource Name (ARN) and try your request again.</p>
    * @public
    */
   export interface ResourceNotFoundExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException: ResourceNotFoundException;
@@ -1531,6 +2030,7 @@ export namespace ResponseStream {
   export interface ServiceQuotaExceededExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1550,6 +2050,7 @@ export namespace ResponseStream {
   export interface ThrottlingExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1569,6 +2070,7 @@ export namespace ResponseStream {
   export interface AccessDeniedExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1588,6 +2090,7 @@ export namespace ResponseStream {
   export interface ConflictExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1607,6 +2110,7 @@ export namespace ResponseStream {
   export interface DependencyFailedExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1626,6 +2130,7 @@ export namespace ResponseStream {
   export interface BadGatewayExceptionMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1644,6 +2149,7 @@ export namespace ResponseStream {
   export interface $UnknownMember {
     chunk?: never;
     trace?: never;
+    returnControl?: never;
     internalServerException?: never;
     validationException?: never;
     resourceNotFoundException?: never;
@@ -1659,6 +2165,7 @@ export namespace ResponseStream {
   export interface Visitor<T> {
     chunk: (value: PayloadPart) => T;
     trace: (value: TracePart) => T;
+    returnControl: (value: ReturnControlPayload) => T;
     internalServerException: (value: InternalServerException) => T;
     validationException: (value: ValidationException) => T;
     resourceNotFoundException: (value: ResourceNotFoundException) => T;
@@ -1674,6 +2181,7 @@ export namespace ResponseStream {
   export const visit = <T>(value: ResponseStream, visitor: Visitor<T>): T => {
     if (value.chunk !== undefined) return visitor.chunk(value.chunk);
     if (value.trace !== undefined) return visitor.trace(value.trace);
+    if (value.returnControl !== undefined) return visitor.returnControl(value.returnControl);
     if (value.internalServerException !== undefined)
       return visitor.internalServerException(value.internalServerException);
     if (value.validationException !== undefined) return visitor.validationException(value.validationException);
@@ -1734,6 +2242,79 @@ export interface RetrieveAndGenerateInput {
 }
 
 /**
+ * <p>The configuration details for the guardrail.</p>
+ * @public
+ */
+export interface GuardrailConfiguration {
+  /**
+   * <p>The unique identifier for the guardrail.</p>
+   * @public
+   */
+  guardrailId: string | undefined;
+
+  /**
+   * <p>The version of the guardrail.</p>
+   * @public
+   */
+  guardrailVersion: string | undefined;
+}
+
+/**
+ * <p>Configuration settings for text generation using a language model via the
+ *       RetrieveAndGenerate operation. Includes parameters like temperature, top-p, maximum token
+ *       count, and stop sequences. </p>
+ *          <note>
+ *             <p>The valid range of <code>maxTokens</code> depends on the accepted values for your chosen
+ *         model's inference parameters. To see the inference parameters for your model, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html">Inference
+ *           parameters for foundation models.</a>
+ *             </p>
+ *          </note>
+ * @public
+ */
+export interface TextInferenceConfig {
+  /**
+   * <p> Controls the random-ness of text generated by the language model, influencing how much the model sticks to the most predictable next words versus exploring more surprising options. A lower temperature value (e.g. 0.2 or 0.3) makes model outputs more deterministic or predictable, while a higher temperature (e.g. 0.8 or 0.9) makes the outputs more creative or unpredictable.  </p>
+   * @public
+   */
+  temperature?: number;
+
+  /**
+   * <p> A probability distribution threshold which controls what the model considers for the set of possible next tokens. The model will only consider the top p% of the probability distribution when generating the next token. </p>
+   * @public
+   */
+  topP?: number;
+
+  /**
+   * <p>The maximum number of tokens to generate in the output text. Do not use the minimum of 0
+   *       or the maximum of 65536. The limit values described here are arbitary values, for actual
+   *       values consult the limits defined by your specific model.</p>
+   * @public
+   */
+  maxTokens?: number;
+
+  /**
+   * <p>A list of sequences of characters that, if generated, will cause the model to stop
+   *       generating further tokens. Do not use a minimum length of 1 or a maximum length of 1000. The
+   *       limit values described here are arbitary values, for actual values consult the limits defined
+   *       by your specific model.</p>
+   * @public
+   */
+  stopSequences?: string[];
+}
+
+/**
+ * <p> The configuration for inference settings when generating responses using RetrieveAndGenerate. </p>
+ * @public
+ */
+export interface InferenceConfig {
+  /**
+   * <p> Configuration settings specific to text generation while generating responses using RetrieveAndGenerate. </p>
+   * @public
+   */
+  textInferenceConfig?: TextInferenceConfig;
+}
+
+/**
  * <p>Contains the template for the prompt that's sent to the model for response generation. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html#kb-test-config-sysprompt">Knowledge base prompt templates</a>.</p>
  *          <p>This data type is used in the following API operations:</p>
  *          <ul>
@@ -1766,6 +2347,134 @@ export interface PromptTemplate {
 }
 
 /**
+ * <p>Contains the generation configuration of the external source wrapper object.</p>
+ * @public
+ */
+export interface ExternalSourcesGenerationConfiguration {
+  /**
+   * <p>Contain the textPromptTemplate string for the external source wrapper object.</p>
+   * @public
+   */
+  promptTemplate?: PromptTemplate;
+
+  /**
+   * <p>The configuration details for the guardrail.</p>
+   * @public
+   */
+  guardrailConfiguration?: GuardrailConfiguration;
+
+  /**
+   * <p> Configuration settings for inference when using RetrieveAndGenerate to generate responses while using an external source.</p>
+   * @public
+   */
+  inferenceConfig?: InferenceConfig;
+
+  /**
+   * <p> Additional model parameters and their corresponding values not included in the textInferenceConfig structure for an external source. Takes in custom model parameters specific to the language model being used. </p>
+   * @public
+   */
+  additionalModelRequestFields?: Record<string, __DocumentType>;
+}
+
+/**
+ * <p>This property contains the document to chat with, along with its attributes.</p>
+ * @public
+ */
+export interface ByteContentDoc {
+  /**
+   * <p>The file name of the document contained in the wrapper object.</p>
+   * @public
+   */
+  identifier: string | undefined;
+
+  /**
+   * <p>The MIME type of the document contained in the wrapper object.</p>
+   * @public
+   */
+  contentType: string | undefined;
+
+  /**
+   * <p>The byte value of the file to upload, encoded as a Base-64 string.</p>
+   * @public
+   */
+  data: Uint8Array | undefined;
+}
+
+/**
+ * <p>The unique wrapper object of the document from the S3 location.</p>
+ * @public
+ */
+export interface S3ObjectDoc {
+  /**
+   * <p>The file location of the S3 wrapper object.</p>
+   * @public
+   */
+  uri: string | undefined;
+}
+
+/**
+ * @public
+ * @enum
+ */
+export const ExternalSourceType = {
+  BYTE_CONTENT: "BYTE_CONTENT",
+  S3: "S3",
+} as const;
+
+/**
+ * @public
+ */
+export type ExternalSourceType = (typeof ExternalSourceType)[keyof typeof ExternalSourceType];
+
+/**
+ * <p>The unique external source of the content contained in the wrapper object.</p>
+ * @public
+ */
+export interface ExternalSource {
+  /**
+   * <p>The source type of the external source wrapper object.</p>
+   * @public
+   */
+  sourceType: ExternalSourceType | undefined;
+
+  /**
+   * <p>The S3 location of the external source wrapper object.</p>
+   * @public
+   */
+  s3Location?: S3ObjectDoc;
+
+  /**
+   * <p>The identifier, contentType, and data of the external source wrapper object.</p>
+   * @public
+   */
+  byteContent?: ByteContentDoc;
+}
+
+/**
+ * <p>The configurations of the external source wrapper object in the retrieveAndGenerate function.</p>
+ * @public
+ */
+export interface ExternalSourcesRetrieveAndGenerateConfiguration {
+  /**
+   * <p>The modelArn used with the external source wrapper object in the retrieveAndGenerate function.</p>
+   * @public
+   */
+  modelArn: string | undefined;
+
+  /**
+   * <p>The document used with the external source wrapper object in the retrieveAndGenerate function.</p>
+   * @public
+   */
+  sources: ExternalSource[] | undefined;
+
+  /**
+   * <p>The prompt used with the external source wrapper object with the retrieveAndGenerate function.</p>
+   * @public
+   */
+  generationConfiguration?: ExternalSourcesGenerationConfiguration;
+}
+
+/**
  * <p>Contains configurations for response generation based on the knowledge base query results.</p>
  *          <p>This data type is used in the following API operations:</p>
  *          <ul>
@@ -1783,6 +2492,24 @@ export interface GenerationConfiguration {
    * @public
    */
   promptTemplate?: PromptTemplate;
+
+  /**
+   * <p>The configuration details for the guardrail.</p>
+   * @public
+   */
+  guardrailConfiguration?: GuardrailConfiguration;
+
+  /**
+   * <p> Configuration settings for inference when using RetrieveAndGenerate to generate responses while using a knowledge base as a source. </p>
+   * @public
+   */
+  inferenceConfig?: InferenceConfig;
+
+  /**
+   * <p> Additional model parameters and corresponding values not included in the textInferenceConfig structure for a knowledge base. This allows users to provide custom model parameters specific to the language model being used. </p>
+   * @public
+   */
+  additionalModelRequestFields?: Record<string, __DocumentType>;
 }
 
 /**
@@ -1830,6 +2557,7 @@ export type SearchType = (typeof SearchType)[keyof typeof SearchType];
  * @enum
  */
 export const RetrieveAndGenerateType = {
+  EXTERNAL_SOURCES: "EXTERNAL_SOURCES",
   KNOWLEDGE_BASE: "KNOWLEDGE_BASE",
 } as const;
 
@@ -1856,6 +2584,20 @@ export interface RetrieveAndGenerateSessionConfiguration {
    */
   kmsKeyArn: string | undefined;
 }
+
+/**
+ * @public
+ * @enum
+ */
+export const GuadrailAction = {
+  INTERVENED: "INTERVENED",
+  NONE: "NONE",
+} as const;
+
+/**
+ * @public
+ */
+export type GuadrailAction = (typeof GuadrailAction)[keyof typeof GuadrailAction];
 
 /**
  * <p>Contains the response generated from querying the knowledge base.</p>
@@ -1897,6 +2639,12 @@ export interface RetrieveAndGenerateResponse {
    * @public
    */
   citations?: Citation[];
+
+  /**
+   * <p>Specifies if there is a guardrail intervention in the response.</p>
+   * @public
+   */
+  guardrailAction?: GuadrailAction;
 }
 
 /**
@@ -1973,7 +2721,7 @@ export interface RetrieveResponse {
 }
 
 /**
- * <p>Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query configurations</a>.</p>
+ * <p>Specifies the filters to use on the metadata attributes in the knowledge base data sources before returning results. For more information, see <a href="https://docs.aws.amazon.com/bedrock/latest/userguide/kb-test-config.html">Query configurations</a>. See the examples below to see how to use these filters.</p>
  *          <p>This data type is used in the following API operations:</p>
  *          <ul>
  *             <li>
@@ -1995,10 +2743,12 @@ export type RetrievalFilter =
   | RetrievalFilter.InMember
   | RetrievalFilter.LessThanMember
   | RetrievalFilter.LessThanOrEqualsMember
+  | RetrievalFilter.ListContainsMember
   | RetrievalFilter.NotEqualsMember
   | RetrievalFilter.NotInMember
   | RetrievalFilter.OrAllMember
   | RetrievalFilter.StartsWithMember
+  | RetrievalFilter.StringContainsMember
   | RetrievalFilter.$UnknownMember;
 
 /**
@@ -2006,7 +2756,11 @@ export type RetrievalFilter =
  */
 export namespace RetrievalFilter {
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value matches the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value matches the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>animal</code> attribute whose value is <code>cat</code>:</p>
+   *          <p>
+   *             <code>"equals": \{ "key": "animal", "value": "cat" \}</code>
+   *          </p>
    * @public
    */
   export interface EqualsMember {
@@ -2019,6 +2773,8 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
@@ -2026,6 +2782,10 @@ export namespace RetrievalFilter {
 
   /**
    * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value doesn't match the <code>value</code> in this object are returned.</p>
+   *          <p>The following example would return data sources that don't contain an <code>animal</code> attribute whose value is <code>cat</code>.</p>
+   *          <p>
+   *             <code>"notEquals": \{ "key": "animal", "value": "cat" \}</code>
+   *          </p>
    * @public
    */
   export interface NotEqualsMember {
@@ -2038,13 +2798,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value is greater than the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is greater than the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>year</code> attribute whose value is greater than <code>1989</code>:</p>
+   *          <p>
+   *             <code>"greaterThan": \{ "key": "year", "value": 1989 \}</code>
+   *          </p>
    * @public
    */
   export interface GreaterThanMember {
@@ -2057,13 +2823,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value is greater than or equal to the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is greater than or equal to the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>year</code> attribute whose value is greater than or equal to <code>1989</code>:</p>
+   *          <p>
+   *             <code>"greaterThanOrEquals": \{ "key": "year", "value": 1989 \}</code>
+   *          </p>
    * @public
    */
   export interface GreaterThanOrEqualsMember {
@@ -2076,13 +2848,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value is less than the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is less than the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>year</code> attribute whose value is less than to <code>1989</code>.</p>
+   *          <p>
+   *             <code>"lessThan": \{ "key": "year", "value": 1989 \}</code>
+   *          </p>
    * @public
    */
   export interface LessThanMember {
@@ -2095,13 +2873,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value is less than or equal to the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is less than or equal to the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>year</code> attribute whose value is less than or equal to <code>1989</code>.</p>
+   *          <p>
+   *             <code>"lessThanOrEquals": \{ "key": "year", "value": 1989 \}</code>
+   *          </p>
    * @public
    */
   export interface LessThanOrEqualsMember {
@@ -2114,13 +2898,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value is in the list specified in the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is in the list specified in the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources with an <code>animal</code> attribute that is either <code>cat</code> or <code>dog</code>:</p>
+   *          <p>
+   *             <code>"in": \{ "key": "animal", "value": ["cat", "dog"] \}</code>
+   *          </p>
    * @public
    */
   export interface InMember {
@@ -2133,13 +2923,19 @@ export namespace RetrievalFilter {
     in: FilterAttribute;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value isn't in the list specified in the <code>value</code> in this object are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value isn't in the list specified in the <code>value</code> in this object.</p>
+   *          <p>The following example would return data sources whose <code>animal</code> attribute is neither <code>cat</code> nor <code>dog</code>.</p>
+   *          <p>
+   *             <code>"notIn": \{ "key": "animal", "value": ["cat", "dog"] \}</code>
+   *          </p>
    * @public
    */
   export interface NotInMember {
@@ -2152,13 +2948,19 @@ export namespace RetrievalFilter {
     in?: never;
     notIn: FilterAttribute;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources that contain a metadata attribute whose name matches the <code>key</code> and whose value starts with the <code>value</code> in this object are returned. This filter is currently only supported for Amazon OpenSearch Serverless vector stores.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value starts with the <code>value</code> in this object. This filter is currently only supported for Amazon OpenSearch Serverless vector stores.</p>
+   *          <p>The following example would return data sources with an <code>animal</code> attribute starts with <code>ca</code> (for example, <code>cat</code> or <code>camel</code>).</p>
+   *          <p>
+   *             <code>"startsWith": \{ "key": "animal", "value": "ca" \}</code>
+   *          </p>
    * @public
    */
   export interface StartsWithMember {
@@ -2171,13 +2973,75 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith: FilterAttribute;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources whose metadata attributes fulfill all the filter conditions inside this list are returned.</p>
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is a list that contains the <code>value</code> as one of its members.</p>
+   *          <p>The following example would return data sources with an <code>animals</code> attribute that is a list containing a <code>cat</code> member (for example <code>["dog", "cat"]</code>).</p>
+   *          <p>
+   *             <code>"listContains": \{ "key": "animals", "value": "cat" \}</code>
+   *          </p>
+   * @public
+   */
+  export interface ListContainsMember {
+    equals?: never;
+    notEquals?: never;
+    greaterThan?: never;
+    greaterThanOrEquals?: never;
+    lessThan?: never;
+    lessThanOrEquals?: never;
+    in?: never;
+    notIn?: never;
+    startsWith?: never;
+    listContains: FilterAttribute;
+    stringContains?: never;
+    andAll?: never;
+    orAll?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Knowledge base data sources are returned if they contain a metadata attribute whose name matches the <code>key</code> and whose value is one of the following:</p>
+   *          <ul>
+   *             <li>
+   *                <p>A string that contains the <code>value</code> as a substring. The following example would return data sources with an <code>animal</code> attribute that contains the substring <code>at</code> (for example <code>cat</code>).</p>
+   *                <p>
+   *                   <code>"stringContains": \{ "key": "animal", "value": "at" \}</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>A list with a member that contains the <code>value</code> as a substring. The following example would return data sources with an <code>animals</code> attribute that is a list containing a member that contains the substring <code>at</code> (for example <code>["dog", "cat"]</code>).</p>
+   *                <p>
+   *                   <code>"stringContains": \{ "key": "animals", "value": "at" \}</code>
+   *                </p>
+   *             </li>
+   *          </ul>
+   * @public
+   */
+  export interface StringContainsMember {
+    equals?: never;
+    notEquals?: never;
+    greaterThan?: never;
+    greaterThanOrEquals?: never;
+    lessThan?: never;
+    lessThanOrEquals?: never;
+    in?: never;
+    notIn?: never;
+    startsWith?: never;
+    listContains?: never;
+    stringContains: FilterAttribute;
+    andAll?: never;
+    orAll?: never;
+    $unknown?: never;
+  }
+
+  /**
+   * <p>Knowledge base data sources are returned if their metadata attributes fulfill all the filter conditions inside this list.</p>
    * @public
    */
   export interface AndAllMember {
@@ -2190,13 +3054,15 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll: RetrievalFilter[];
     orAll?: never;
     $unknown?: never;
   }
 
   /**
-   * <p>Knowledge base data sources whose metadata attributes fulfill at least one of the filter conditions inside this list are returned.</p>
+   * <p>Knowledge base data sources are returned if their metadata attributes fulfill at least one of the filter conditions inside this list.</p>
    * @public
    */
   export interface OrAllMember {
@@ -2209,6 +3075,8 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll: RetrievalFilter[];
     $unknown?: never;
@@ -2227,6 +3095,8 @@ export namespace RetrievalFilter {
     in?: never;
     notIn?: never;
     startsWith?: never;
+    listContains?: never;
+    stringContains?: never;
     andAll?: never;
     orAll?: never;
     $unknown: [string, any];
@@ -2242,6 +3112,8 @@ export namespace RetrievalFilter {
     in: (value: FilterAttribute) => T;
     notIn: (value: FilterAttribute) => T;
     startsWith: (value: FilterAttribute) => T;
+    listContains: (value: FilterAttribute) => T;
+    stringContains: (value: FilterAttribute) => T;
     andAll: (value: RetrievalFilter[]) => T;
     orAll: (value: RetrievalFilter[]) => T;
     _: (name: string, value: any) => T;
@@ -2257,6 +3129,8 @@ export namespace RetrievalFilter {
     if (value.in !== undefined) return visitor.in(value.in);
     if (value.notIn !== undefined) return visitor.notIn(value.notIn);
     if (value.startsWith !== undefined) return visitor.startsWith(value.startsWith);
+    if (value.listContains !== undefined) return visitor.listContains(value.listContains);
+    if (value.stringContains !== undefined) return visitor.stringContains(value.stringContains);
     if (value.andAll !== undefined) return visitor.andAll(value.andAll);
     if (value.orAll !== undefined) return visitor.orAll(value.orAll);
     return visitor._(value.$unknown[0], value.$unknown[1]);
@@ -2414,6 +3288,12 @@ export interface RetrieveAndGenerateConfiguration {
    * @public
    */
   knowledgeBaseConfiguration?: KnowledgeBaseRetrieveAndGenerateConfiguration;
+
+  /**
+   * <p>The configuration used with the external source wrapper object in the retrieveAndGenerate function.</p>
+   * @public
+   */
+  externalSourcesConfiguration?: ExternalSourcesRetrieveAndGenerateConfiguration;
 }
 
 /**
@@ -2453,6 +3333,7 @@ export const ActionGroupInvocationInputFilterSensitiveLog = (obj: ActionGroupInv
   ...(obj.actionGroupName && { actionGroupName: SENSITIVE_STRING }),
   ...(obj.verb && { verb: SENSITIVE_STRING }),
   ...(obj.apiPath && { apiPath: SENSITIVE_STRING }),
+  ...(obj.function && { function: SENSITIVE_STRING }),
 });
 
 /**
@@ -2466,8 +3347,38 @@ export const ActionGroupInvocationOutputFilterSensitiveLog = (obj: ActionGroupIn
 /**
  * @internal
  */
+export const ApiResultFilterSensitiveLog = (obj: ApiResult): any => ({
+  ...obj,
+  ...(obj.apiPath && { apiPath: SENSITIVE_STRING }),
+});
+
+/**
+ * @internal
+ */
+export const InvocationResultMemberFilterSensitiveLog = (obj: InvocationResultMember): any => {
+  if (obj.apiResult !== undefined) return { apiResult: ApiResultFilterSensitiveLog(obj.apiResult) };
+  if (obj.functionResult !== undefined) return { functionResult: obj.functionResult };
+  if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
+};
+
+/**
+ * @internal
+ */
+export const SessionStateFilterSensitiveLog = (obj: SessionState): any => ({
+  ...obj,
+  ...(obj.returnControlInvocationResults && {
+    returnControlInvocationResults: obj.returnControlInvocationResults.map((item) =>
+      InvocationResultMemberFilterSensitiveLog(item)
+    ),
+  }),
+});
+
+/**
+ * @internal
+ */
 export const InvokeAgentRequestFilterSensitiveLog = (obj: InvokeAgentRequest): any => ({
   ...obj,
+  ...(obj.sessionState && { sessionState: SessionStateFilterSensitiveLog(obj.sessionState) }),
   ...(obj.inputText && { inputText: SENSITIVE_STRING }),
 });
 
@@ -2538,6 +3449,34 @@ export const PayloadPartFilterSensitiveLog = (obj: PayloadPart): any => ({
   ...obj,
   ...(obj.bytes && { bytes: SENSITIVE_STRING }),
   ...(obj.attribution && { attribution: AttributionFilterSensitiveLog(obj.attribution) }),
+});
+
+/**
+ * @internal
+ */
+export const ApiInvocationInputFilterSensitiveLog = (obj: ApiInvocationInput): any => ({
+  ...obj,
+  ...(obj.apiPath && { apiPath: SENSITIVE_STRING }),
+});
+
+/**
+ * @internal
+ */
+export const InvocationInputMemberFilterSensitiveLog = (obj: InvocationInputMember): any => {
+  if (obj.apiInvocationInput !== undefined)
+    return { apiInvocationInput: ApiInvocationInputFilterSensitiveLog(obj.apiInvocationInput) };
+  if (obj.functionInvocationInput !== undefined) return { functionInvocationInput: obj.functionInvocationInput };
+  if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
+};
+
+/**
+ * @internal
+ */
+export const ReturnControlPayloadFilterSensitiveLog = (obj: ReturnControlPayload): any => ({
+  ...obj,
+  ...(obj.invocationInputs && {
+    invocationInputs: obj.invocationInputs.map((item) => InvocationInputMemberFilterSensitiveLog(item)),
+  }),
 });
 
 /**
@@ -2715,6 +3654,7 @@ export const TracePartFilterSensitiveLog = (obj: TracePart): any => ({
 export const ResponseStreamFilterSensitiveLog = (obj: ResponseStream): any => {
   if (obj.chunk !== undefined) return { chunk: SENSITIVE_STRING };
   if (obj.trace !== undefined) return { trace: SENSITIVE_STRING };
+  if (obj.returnControl !== undefined) return { returnControl: SENSITIVE_STRING };
   if (obj.internalServerException !== undefined) return { internalServerException: obj.internalServerException };
   if (obj.validationException !== undefined) return { validationException: obj.validationException };
   if (obj.resourceNotFoundException !== undefined) return { resourceNotFoundException: obj.resourceNotFoundException };
@@ -2749,6 +3689,46 @@ export const RetrieveAndGenerateInputFilterSensitiveLog = (obj: RetrieveAndGener
 export const PromptTemplateFilterSensitiveLog = (obj: PromptTemplate): any => ({
   ...obj,
   ...(obj.textPromptTemplate && { textPromptTemplate: SENSITIVE_STRING }),
+});
+
+/**
+ * @internal
+ */
+export const ExternalSourcesGenerationConfigurationFilterSensitiveLog = (
+  obj: ExternalSourcesGenerationConfiguration
+): any => ({
+  ...obj,
+  ...(obj.promptTemplate && { promptTemplate: PromptTemplateFilterSensitiveLog(obj.promptTemplate) }),
+});
+
+/**
+ * @internal
+ */
+export const ByteContentDocFilterSensitiveLog = (obj: ByteContentDoc): any => ({
+  ...obj,
+  ...(obj.identifier && { identifier: SENSITIVE_STRING }),
+  ...(obj.data && { data: SENSITIVE_STRING }),
+});
+
+/**
+ * @internal
+ */
+export const ExternalSourceFilterSensitiveLog = (obj: ExternalSource): any => ({
+  ...obj,
+  ...(obj.byteContent && { byteContent: ByteContentDocFilterSensitiveLog(obj.byteContent) }),
+});
+
+/**
+ * @internal
+ */
+export const ExternalSourcesRetrieveAndGenerateConfigurationFilterSensitiveLog = (
+  obj: ExternalSourcesRetrieveAndGenerateConfiguration
+): any => ({
+  ...obj,
+  ...(obj.sources && { sources: obj.sources.map((item) => ExternalSourceFilterSensitiveLog(item)) }),
+  ...(obj.generationConfiguration && {
+    generationConfiguration: ExternalSourcesGenerationConfigurationFilterSensitiveLog(obj.generationConfiguration),
+  }),
 });
 
 /**
@@ -2813,6 +3793,8 @@ export const RetrievalFilterFilterSensitiveLog = (obj: RetrievalFilter): any => 
   if (obj.in !== undefined) return { in: obj.in };
   if (obj.notIn !== undefined) return { notIn: obj.notIn };
   if (obj.startsWith !== undefined) return { startsWith: obj.startsWith };
+  if (obj.listContains !== undefined) return { listContains: obj.listContains };
+  if (obj.stringContains !== undefined) return { stringContains: obj.stringContains };
   if (obj.andAll !== undefined) return { andAll: SENSITIVE_STRING };
   if (obj.orAll !== undefined) return { orAll: SENSITIVE_STRING };
   if (obj.$unknown !== undefined) return { [obj.$unknown[0]]: "UNKNOWN" };
@@ -2874,6 +3856,11 @@ export const RetrieveAndGenerateConfigurationFilterSensitiveLog = (obj: Retrieve
   ...(obj.knowledgeBaseConfiguration && {
     knowledgeBaseConfiguration: KnowledgeBaseRetrieveAndGenerateConfigurationFilterSensitiveLog(
       obj.knowledgeBaseConfiguration
+    ),
+  }),
+  ...(obj.externalSourcesConfiguration && {
+    externalSourcesConfiguration: ExternalSourcesRetrieveAndGenerateConfigurationFilterSensitiveLog(
+      obj.externalSourcesConfiguration
     ),
   }),
 });

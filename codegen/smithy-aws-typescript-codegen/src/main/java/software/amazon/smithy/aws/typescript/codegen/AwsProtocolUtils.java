@@ -108,6 +108,7 @@ final class AwsProtocolUtils {
      */
     static void generateJsonParseBody(GenerationContext context) {
         TypeScriptWriter writer = context.getWriter();
+        writer.addDependency(AwsDependency.AWS_SDK_CORE);
         writer.addImport("parseJsonBody", "parseBody", AwsDependency.AWS_SDK_CORE);
     }
 
@@ -126,6 +127,7 @@ final class AwsProtocolUtils {
      */
     static void generateJsonParseErrorBody(GenerationContext context) {
         TypeScriptWriter writer = context.getWriter();
+        writer.addDependency(AwsDependency.AWS_SDK_CORE);
         writer.addImport("parseJsonErrorBody", "parseErrorBody", AwsDependency.AWS_SDK_CORE);
     }
 
@@ -137,6 +139,7 @@ final class AwsProtocolUtils {
      */
     static void generateXmlParseBody(GenerationContext context) {
         TypeScriptWriter writer = context.getWriter();
+        writer.addDependency(AwsDependency.AWS_SDK_CORE);
         writer.addImport("parseXmlBody", "parseBody", AwsDependency.AWS_SDK_CORE);
     }
 
@@ -148,6 +151,7 @@ final class AwsProtocolUtils {
      */
     static void generateXmlParseErrorBody(GenerationContext context) {
         TypeScriptWriter writer = context.getWriter();
+        writer.addDependency(AwsDependency.AWS_SDK_CORE);
         writer.addImport("parseXmlErrorBody", "parseErrorBody", AwsDependency.AWS_SDK_CORE);
     }
 
@@ -309,13 +313,6 @@ final class AwsProtocolUtils {
         }
 
         if (testCase.getTags().contains("defaults")) {
-            return true;
-        }
-
-        // TODO: Remove when this test case is fixed upstream.
-        // https://github.com/smithy-lang/smithy/pull/2167
-        if (settings.generateServerSdk()
-            && testCase.getId().equals("RestJsonZeroAndFalseQueryValues")) {
             return true;
         }
 

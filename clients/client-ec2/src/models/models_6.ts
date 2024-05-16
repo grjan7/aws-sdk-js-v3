@@ -12,9 +12,6 @@ import {
   ApplianceModeSupportValue,
   AutoPlacement,
   ByoipCidr,
-  CapacityReservation,
-  CapacityReservationInstancePlatform,
-  CurrencyCodeValues,
   DnsSupportValue,
   EnaSrdSpecification,
   EndDateType,
@@ -113,7 +110,6 @@ import {
 import {
   ArchitectureValues,
   BootModeValues,
-  Byoasn,
   ConversionTask,
   ConversionTaskFilterSensitiveLog,
   Filter,
@@ -145,7 +141,6 @@ import {
   LaunchTemplateConfig,
   LockState,
   Monitoring,
-  PublicIpv4PoolRange,
   ReservedInstancesConfiguration,
   SnapshotAttributeName,
   SnapshotTaskDetail,
@@ -154,16 +149,262 @@ import {
 
 import {
   InstanceFamilyCreditSpecification,
+  IpamAddressHistoryRecord,
   IpamComplianceStatus,
   IpamOverlapStatus,
-  IpamPublicAddressAssociationStatus,
-  IpamPublicAddressType,
   SnapshotBlockPublicAccessState,
   TransitGatewayPropagationState,
   UnlimitedSupportedInstanceFamily,
   VerifiedAccessInstanceLoggingConfiguration,
   VolumeModification,
 } from "./models_5";
+
+/**
+ * @public
+ */
+export interface GetIpamAddressHistoryResult {
+  /**
+   * <p>A historical record for a CIDR within an IPAM scope. If the CIDR is associated with an EC2 instance, you will see an object in the response for the instance and one for the network interface.</p>
+   * @public
+   */
+  HistoryRecords?: IpamAddressHistoryRecord[];
+
+  /**
+   * <p>The token to use to retrieve the next page of results. This value is <code>null</code> when there are no more results to return.</p>
+   * @public
+   */
+  NextToken?: string;
+}
+
+/**
+ * @public
+ */
+export interface GetIpamDiscoveredAccountsRequest {
+  /**
+   * <p>A check for whether you have the required permissions for the action without actually making the request
+   *    and provides an error response. If you have the required permissions, the error response is <code>DryRunOperation</code>.
+   *    Otherwise, it is <code>UnauthorizedOperation</code>.</p>
+   * @public
+   */
+  DryRun?: boolean;
+
+  /**
+   * <p>A resource discovery ID.</p>
+   * @public
+   */
+  IpamResourceDiscoveryId: string | undefined;
+
+  /**
+   * <p>The Amazon Web Services Region that the account information is returned from.</p>
+   * @public
+   */
+  DiscoveryRegion: string | undefined;
+
+  /**
+   * <p>Discovered account filters.</p>
+   * @public
+   */
+  Filters?: Filter[];
+
+  /**
+   * <p>Specify the pagination token from a previous request to retrieve the next page of results.</p>
+   * @public
+   */
+  NextToken?: string;
+
+  /**
+   * <p>The maximum number of discovered accounts to return in one page of results.</p>
+   * @public
+   */
+  MaxResults?: number;
+}
+
+/**
+ * @public
+ * @enum
+ */
+export const IpamDiscoveryFailureCode = {
+  assume_role_failure: "assume-role-failure",
+  throttling_failure: "throttling-failure",
+  unauthorized_failure: "unauthorized-failure",
+} as const;
+
+/**
+ * @public
+ */
+export type IpamDiscoveryFailureCode = (typeof IpamDiscoveryFailureCode)[keyof typeof IpamDiscoveryFailureCode];
+
+/**
+ * <p>The discovery failure reason.</p>
+ * @public
+ */
+export interface IpamDiscoveryFailureReason {
+  /**
+   * <p>The discovery failure code.</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <code>assume-role-failure</code> - IPAM could not assume the Amazon Web Services IAM service-linked role. This could be because of any of the following:</p>
+   *                <ul>
+   *                   <li>
+   *                      <p>SLR has not been created yet and IPAM is still creating it.</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>You have opted-out of the IPAM home Region.</p>
+   *                   </li>
+   *                   <li>
+   *                      <p>Account you are using as your IPAM account has been suspended.</p>
+   *                   </li>
+   *                </ul>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>throttling-failure</code> - IPAM account is already using the allotted transactions per second and IPAM is receiving a throttling error when assuming the Amazon Web Services IAM SLR.</p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>unauthorized-failure</code> - Amazon Web Services account making the request is not authorized. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/errors-overview.html">AuthFailure</a> in the <i>Amazon Elastic Compute Cloud API Reference</i>.</p>
+   *             </li>
+   *          </ul>
+   * @public
+   */
+  Code?: IpamDiscoveryFailureCode;
+
+  /**
+   * <p>The discovery failure message.</p>
+   * @public
+   */
+  Message?: string;
+}
+
+/**
+ * <p>An IPAM discovered account. A discovered account is an Amazon Web Services account that is monitored under a resource discovery. If you have integrated IPAM with Amazon Web Services Organizations, all accounts in the organization are discovered accounts.</p>
+ * @public
+ */
+export interface IpamDiscoveredAccount {
+  /**
+   * <p>The account ID.</p>
+   * @public
+   */
+  AccountId?: string;
+
+  /**
+   * <p>The Amazon Web Services Region that the account information is returned from.
+   *          An account can be discovered in multiple regions and will have a separate discovered account for each Region.</p>
+   * @public
+   */
+  DiscoveryRegion?: string;
+
+  /**
+   * <p>The resource discovery failure reason.</p>
+   * @public
+   */
+  FailureReason?: IpamDiscoveryFailureReason;
+
+  /**
+   * <p>The last attempted resource discovery time.</p>
+   * @public
+   */
+  LastAttemptedDiscoveryTime?: Date;
+
+  /**
+   * <p>The last successful resource discovery time.</p>
+   * @public
+   */
+  LastSuccessfulDiscoveryTime?: Date;
+}
+
+/**
+ * @public
+ */
+export interface GetIpamDiscoveredAccountsResult {
+  /**
+   * <p>Discovered accounts.</p>
+   * @public
+   */
+  IpamDiscoveredAccounts?: IpamDiscoveredAccount[];
+
+  /**
+   * <p>Specify the pagination token from a previous request to retrieve the next page of results.</p>
+   * @public
+   */
+  NextToken?: string;
+}
+
+/**
+ * @public
+ */
+export interface GetIpamDiscoveredPublicAddressesRequest {
+  /**
+   * <p>A check for whether you have the required permissions for the action without actually making the request
+   *    and provides an error response. If you have the required permissions, the error response is <code>DryRunOperation</code>.
+   *    Otherwise, it is <code>UnauthorizedOperation</code>.</p>
+   * @public
+   */
+  DryRun?: boolean;
+
+  /**
+   * <p>An IPAM resource discovery ID.</p>
+   * @public
+   */
+  IpamResourceDiscoveryId: string | undefined;
+
+  /**
+   * <p>The Amazon Web Services Region for the IP address.</p>
+   * @public
+   */
+  AddressRegion: string | undefined;
+
+  /**
+   * <p>Filters.</p>
+   * @public
+   */
+  Filters?: Filter[];
+
+  /**
+   * <p>The token for the next page of results.</p>
+   * @public
+   */
+  NextToken?: string;
+
+  /**
+   * <p>The maximum number of IPAM discovered public addresses to return in one page of results.</p>
+   * @public
+   */
+  MaxResults?: number;
+}
+
+/**
+ * @public
+ * @enum
+ */
+export const IpamPublicAddressType = {
+  AMAZON_OWNED_EIP: "amazon-owned-eip",
+  BYOIP: "byoip",
+  EC2_PUBLIC_IP: "ec2-public-ip",
+  SERVICE_MANAGED_BYOIP: "service-managed-byoip",
+  SERVICE_MANAGED_IP: "service-managed-ip",
+} as const;
+
+/**
+ * @public
+ */
+export type IpamPublicAddressType = (typeof IpamPublicAddressType)[keyof typeof IpamPublicAddressType];
+
+/**
+ * @public
+ * @enum
+ */
+export const IpamPublicAddressAssociationStatus = {
+  ASSOCIATED: "associated",
+  DISASSOCIATED: "disassociated",
+} as const;
+
+/**
+ * @public
+ */
+export type IpamPublicAddressAssociationStatus =
+  (typeof IpamPublicAddressAssociationStatus)[keyof typeof IpamPublicAddressAssociationStatus];
 
 /**
  * <p>The security group that the resource with the public IP address is in.</p>
@@ -5519,11 +5760,10 @@ export interface ModifyInstanceMetadataDefaultsRequest {
   HttpTokens?: MetadataDefaultHttpTokensState;
 
   /**
-   * <p>The maximum number of hops that the metadata token can travel.</p>
-   *          <p>Minimum: <code>1</code>
-   *          </p>
-   *          <p>Maximum: <code>64</code>
-   *          </p>
+   * <p>The maximum number of hops that the metadata token can travel. To indicate no
+   *             preference, specify <code>-1</code>.</p>
+   *          <p>Possible values: Integers from <code>1</code> to <code>64</code>, and <code>-1</code>
+   *             to indicate no preference</p>
    * @public
    */
   HttpPutResponseHopLimit?: number;
@@ -6093,16 +6333,16 @@ export interface ModifyLaunchTemplateRequest {
 
   /**
    * <p>The ID of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateId</code> or the
-   *                 <code>LaunchTemplateName</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateId?: string;
 
   /**
    * <p>The name of the launch template.</p>
-   *          <p>You must specify either the <code>LaunchTemplateName</code> or the
-   *                 <code>LaunchTemplateId</code>, but not both.</p>
+   *          <p>You must specify either the launch template ID or the
+   *             launch template name, but not both.</p>
    * @public
    */
   LaunchTemplateName?: string;
@@ -6357,6 +6597,13 @@ export interface ModifyNetworkInterfaceAttributeRequest {
    * @public
    */
   ConnectionTrackingSpecification?: ConnectionTrackingSpecificationRequest;
+
+  /**
+   * <p>Indicates whether to assign a public IPv4 address to a network interface.
+   *             This option can be enabled for any network interface but will only apply to the primary network interface (eth0).</p>
+   * @public
+   */
+  AssociatePublicIpAddress?: boolean;
 }
 
 /**
@@ -9324,225 +9571,6 @@ export interface ProvisionIpamByoasnRequest {
    * @public
    */
   AsnAuthorizationContext: AsnAuthorizationContext | undefined;
-}
-
-/**
- * @public
- */
-export interface ProvisionIpamByoasnResult {
-  /**
-   * <p>An ASN and BYOIP CIDR association.</p>
-   * @public
-   */
-  Byoasn?: Byoasn;
-}
-
-/**
- * <p>A signed document that proves that you are authorized to bring the specified IP address range to Amazon using BYOIP.</p>
- * @public
- */
-export interface IpamCidrAuthorizationContext {
-  /**
-   * <p>The plain-text authorization message for the prefix and account.</p>
-   * @public
-   */
-  Message?: string;
-
-  /**
-   * <p>The signed authorization message for the prefix and account.</p>
-   * @public
-   */
-  Signature?: string;
-}
-
-/**
- * @public
- */
-export interface ProvisionIpamPoolCidrRequest {
-  /**
-   * <p>A check for whether you have the required permissions for the action without actually making the request
-   *    and provides an error response. If you have the required permissions, the error response is <code>DryRunOperation</code>.
-   *    Otherwise, it is <code>UnauthorizedOperation</code>.</p>
-   * @public
-   */
-  DryRun?: boolean;
-
-  /**
-   * <p>The ID of the IPAM pool to which you want to assign a CIDR.</p>
-   * @public
-   */
-  IpamPoolId: string | undefined;
-
-  /**
-   * <p>The CIDR you want to assign to the IPAM pool. Either "NetmaskLength" or "Cidr" is required. This value will be null if you specify "NetmaskLength" and will be filled in during the provisioning process.</p>
-   * @public
-   */
-  Cidr?: string;
-
-  /**
-   * <p>A signed document that proves that you are authorized to bring a specified IP address range to Amazon using BYOIP. This option applies to public pools only.</p>
-   * @public
-   */
-  CidrAuthorizationContext?: IpamCidrAuthorizationContext;
-
-  /**
-   * <p>The netmask length of the CIDR you'd like to provision to a pool. Can be used for provisioning Amazon-provided IPv6 CIDRs to top-level pools and for provisioning CIDRs to pools with source pools. Cannot be used to provision BYOIP CIDRs to top-level pools. Either "NetmaskLength" or "Cidr" is required.</p>
-   * @public
-   */
-  NetmaskLength?: number;
-
-  /**
-   * <p>A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring Idempotency</a>.</p>
-   * @public
-   */
-  ClientToken?: string;
-}
-
-/**
- * @public
- */
-export interface ProvisionIpamPoolCidrResult {
-  /**
-   * <p>Information about the provisioned CIDR.</p>
-   * @public
-   */
-  IpamPoolCidr?: IpamPoolCidr;
-}
-
-/**
- * @public
- */
-export interface ProvisionPublicIpv4PoolCidrRequest {
-  /**
-   * <p>A check for whether you have the required permissions for the action without actually making the request
-   *    and provides an error response. If you have the required permissions, the error response is <code>DryRunOperation</code>.
-   *    Otherwise, it is <code>UnauthorizedOperation</code>.</p>
-   * @public
-   */
-  DryRun?: boolean;
-
-  /**
-   * <p>The ID of the IPAM pool you would like to use to allocate this CIDR.</p>
-   * @public
-   */
-  IpamPoolId: string | undefined;
-
-  /**
-   * <p>The ID of the public IPv4 pool you would like to use for this CIDR.</p>
-   * @public
-   */
-  PoolId: string | undefined;
-
-  /**
-   * <p>The netmask length of the CIDR you would like to allocate to the public IPv4 pool.</p>
-   * @public
-   */
-  NetmaskLength: number | undefined;
-}
-
-/**
- * @public
- */
-export interface ProvisionPublicIpv4PoolCidrResult {
-  /**
-   * <p>The ID of the pool that you want to provision the CIDR to.</p>
-   * @public
-   */
-  PoolId?: string;
-
-  /**
-   * <p>Information about the address range of the public IPv4 pool.</p>
-   * @public
-   */
-  PoolAddressRange?: PublicIpv4PoolRange;
-}
-
-/**
- * @public
- */
-export interface PurchaseCapacityBlockRequest {
-  /**
-   * <p>Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is <code>DryRunOperation</code>. Otherwise, it is <code>UnauthorizedOperation</code>.</p>
-   * @public
-   */
-  DryRun?: boolean;
-
-  /**
-   * <p>The tags to apply to the Capacity Block during launch.</p>
-   * @public
-   */
-  TagSpecifications?: TagSpecification[];
-
-  /**
-   * <p>The ID of the Capacity Block offering.</p>
-   * @public
-   */
-  CapacityBlockOfferingId: string | undefined;
-
-  /**
-   * <p>The type of operating system for which to reserve capacity.</p>
-   * @public
-   */
-  InstancePlatform: CapacityReservationInstancePlatform | undefined;
-}
-
-/**
- * @public
- */
-export interface PurchaseCapacityBlockResult {
-  /**
-   * <p>The Capacity Reservation.</p>
-   * @public
-   */
-  CapacityReservation?: CapacityReservation;
-}
-
-/**
- * @public
- */
-export interface PurchaseHostReservationRequest {
-  /**
-   * <p>Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html">Ensuring Idempotency</a>.</p>
-   * @public
-   */
-  ClientToken?: string;
-
-  /**
-   * <p>The currency in which the <code>totalUpfrontPrice</code>, <code>LimitPrice</code>, and
-   *                 <code>totalHourlyPrice</code> amounts are specified. At this time, the only
-   *             supported currency is <code>USD</code>.</p>
-   * @public
-   */
-  CurrencyCode?: CurrencyCodeValues;
-
-  /**
-   * <p>The IDs of the Dedicated Hosts with which the reservation will be associated.</p>
-   * @public
-   */
-  HostIdSet: string[] | undefined;
-
-  /**
-   * <p>The specified limit is checked against the total upfront cost of the reservation
-   *             (calculated as the offering's upfront cost multiplied by the host count). If the total
-   *             upfront cost is greater than the specified price limit, the request fails. This is used
-   *             to ensure that the purchase does not exceed the expected upfront cost of the purchase.
-   *             At this time, the only supported currency is <code>USD</code>. For example, to indicate
-   *             a limit price of USD 100, specify 100.00.</p>
-   * @public
-   */
-  LimitPrice?: string;
-
-  /**
-   * <p>The ID of the offering.</p>
-   * @public
-   */
-  OfferingId: string | undefined;
-
-  /**
-   * <p>The tags to apply to the Dedicated Host Reservation during purchase.</p>
-   * @public
-   */
-  TagSpecifications?: TagSpecification[];
 }
 
 /**

@@ -184,6 +184,10 @@ subprojects {
          */
         apply(plugin = "checkstyle")
 
+        checkstyle {
+            configDirectory.set(rootProject.file("gradleConfig/checkstyle"))
+        }
+
         tasks["checkstyleTest"].enabled = false
 
         /*
@@ -237,7 +241,7 @@ subprojects {
         // Configure the bug filter for spotbugs.
         spotbugs {
             setEffort("max")
-            val excludeFile = File("${project.rootDir}/config/spotbugs/filter.xml")
+            val excludeFile = rootProject.file("gradleConfig/spotbugs/filter.xml")
             if (excludeFile.exists()) {
                 excludeFilter.set(excludeFile)
             }
@@ -250,6 +254,7 @@ subprojects {
  */
 jreleaser {
     dryrun = false
+    gitRootSearch = true
 
     // Used for creating a tagged release, uploading files and generating changelog.
     // In the future we can set this up to push release tags to GitHub, but for now it's

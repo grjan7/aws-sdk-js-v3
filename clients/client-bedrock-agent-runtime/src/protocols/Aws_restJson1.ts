@@ -19,6 +19,7 @@ import {
   limitedParseFloat32 as __limitedParseFloat32,
   map,
   resolvedPath as __resolvedPath,
+  serializeFloat as __serializeFloat,
   take,
   withBaseException,
 } from "@smithy/smithy-client";
@@ -39,15 +40,25 @@ import { RetrieveCommandInput, RetrieveCommandOutput } from "../commands/Retriev
 import { BedrockAgentRuntimeServiceException as __BaseException } from "../models/BedrockAgentRuntimeServiceException";
 import {
   AccessDeniedException,
+  ApiResult,
   Attribution,
   BadGatewayException,
+  ByteContentDoc,
   Citation,
   ConflictException,
+  ContentBody,
   DependencyFailedException,
+  ExternalSource,
+  ExternalSourcesGenerationConfiguration,
+  ExternalSourcesRetrieveAndGenerateConfiguration,
   FilterAttribute,
+  FunctionResult,
   GenerationConfiguration,
+  GuardrailConfiguration,
+  InferenceConfig,
   InferenceConfiguration,
   InternalServerException,
+  InvocationResultMember,
   KnowledgeBaseLookupOutput,
   KnowledgeBaseQuery,
   KnowledgeBaseRetrievalConfiguration,
@@ -68,8 +79,11 @@ import {
   RetrieveAndGenerateInput,
   RetrieveAndGenerateSessionConfiguration,
   RetrievedReference,
+  ReturnControlPayload,
+  S3ObjectDoc,
   ServiceQuotaExceededException,
   SessionState,
+  TextInferenceConfig,
   ThrottlingException,
   Trace,
   TracePart,
@@ -212,6 +226,7 @@ export const de_RetrieveAndGenerateCommand = async (
   const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
   const doc = take(data, {
     citations: (_) => de_Citations(_, context),
+    guardrailAction: __expectString,
     output: _json,
     sessionId: __expectString,
   });
@@ -455,6 +470,11 @@ const de_ResponseStream = (
         trace: await de_TracePart_event(event["trace"], context),
       };
     }
+    if (event["returnControl"] != null) {
+      return {
+        returnControl: await de_ReturnControlPayload_event(event["returnControl"], context),
+      };
+    }
     if (event["internalServerException"] != null) {
       return {
         internalServerException: await de_InternalServerException_event(event["internalServerException"], context),
@@ -569,6 +589,12 @@ const de_ResourceNotFoundException_event = async (
   };
   return de_ResourceNotFoundExceptionRes(parsedOutput, context);
 };
+const de_ReturnControlPayload_event = async (output: any, context: __SerdeContext): Promise<ReturnControlPayload> => {
+  const contents: ReturnControlPayload = {} as any;
+  const data: any = await parseBody(output.body, context);
+  Object.assign(contents, _json(data));
+  return contents;
+};
 const de_ServiceQuotaExceededException_event = async (
   output: any,
   context: __SerdeContext
@@ -600,6 +626,92 @@ const de_ValidationException_event = async (output: any, context: __SerdeContext
   return de_ValidationExceptionRes(parsedOutput, context);
 };
 /**
+ * serializeAws_restJson1AdditionalModelRequestFields
+ */
+const se_AdditionalModelRequestFields = (input: Record<string, __DocumentType>, context: __SerdeContext): any => {
+  return Object.entries(input).reduce((acc: Record<string, any>, [key, value]: [string, any]) => {
+    if (value === null) {
+      return acc;
+    }
+    acc[key] = se_AdditionalModelRequestFieldsValue(value, context);
+    return acc;
+  }, {});
+};
+
+/**
+ * serializeAws_restJson1AdditionalModelRequestFieldsValue
+ */
+const se_AdditionalModelRequestFieldsValue = (input: __DocumentType, context: __SerdeContext): any => {
+  return input;
+};
+
+// se_ApiResult omitted.
+
+/**
+ * serializeAws_restJson1ByteContentDoc
+ */
+const se_ByteContentDoc = (input: ByteContentDoc, context: __SerdeContext): any => {
+  return take(input, {
+    contentType: [],
+    data: context.base64Encoder,
+    identifier: [],
+  });
+};
+
+// se_ContentBody omitted.
+
+/**
+ * serializeAws_restJson1ExternalSource
+ */
+const se_ExternalSource = (input: ExternalSource, context: __SerdeContext): any => {
+  return take(input, {
+    byteContent: (_) => se_ByteContentDoc(_, context),
+    s3Location: _json,
+    sourceType: [],
+  });
+};
+
+/**
+ * serializeAws_restJson1ExternalSources
+ */
+const se_ExternalSources = (input: ExternalSource[], context: __SerdeContext): any => {
+  return input
+    .filter((e: any) => e != null)
+    .map((entry) => {
+      return se_ExternalSource(entry, context);
+    });
+};
+
+/**
+ * serializeAws_restJson1ExternalSourcesGenerationConfiguration
+ */
+const se_ExternalSourcesGenerationConfiguration = (
+  input: ExternalSourcesGenerationConfiguration,
+  context: __SerdeContext
+): any => {
+  return take(input, {
+    additionalModelRequestFields: (_) => se_AdditionalModelRequestFields(_, context),
+    guardrailConfiguration: _json,
+    inferenceConfig: (_) => se_InferenceConfig(_, context),
+    promptTemplate: _json,
+  });
+};
+
+/**
+ * serializeAws_restJson1ExternalSourcesRetrieveAndGenerateConfiguration
+ */
+const se_ExternalSourcesRetrieveAndGenerateConfiguration = (
+  input: ExternalSourcesRetrieveAndGenerateConfiguration,
+  context: __SerdeContext
+): any => {
+  return take(input, {
+    generationConfiguration: (_) => se_ExternalSourcesGenerationConfiguration(_, context),
+    modelArn: [],
+    sources: (_) => se_ExternalSources(_, context),
+  });
+};
+
+/**
  * serializeAws_restJson1FilterAttribute
  */
 const se_FilterAttribute = (input: FilterAttribute, context: __SerdeContext): any => {
@@ -616,7 +728,32 @@ const se_FilterValue = (input: __DocumentType, context: __SerdeContext): any => 
   return input;
 };
 
-// se_GenerationConfiguration omitted.
+// se_FunctionResult omitted.
+
+/**
+ * serializeAws_restJson1GenerationConfiguration
+ */
+const se_GenerationConfiguration = (input: GenerationConfiguration, context: __SerdeContext): any => {
+  return take(input, {
+    additionalModelRequestFields: (_) => se_AdditionalModelRequestFields(_, context),
+    guardrailConfiguration: _json,
+    inferenceConfig: (_) => se_InferenceConfig(_, context),
+    promptTemplate: _json,
+  });
+};
+
+// se_GuardrailConfiguration omitted.
+
+/**
+ * serializeAws_restJson1InferenceConfig
+ */
+const se_InferenceConfig = (input: InferenceConfig, context: __SerdeContext): any => {
+  return take(input, {
+    textInferenceConfig: (_) => se_TextInferenceConfig(_, context),
+  });
+};
+
+// se_InvocationResultMember omitted.
 
 // se_KnowledgeBaseQuery omitted.
 
@@ -640,7 +777,7 @@ const se_KnowledgeBaseRetrieveAndGenerateConfiguration = (
   context: __SerdeContext
 ): any => {
   return take(input, {
-    generationConfiguration: _json,
+    generationConfiguration: (_) => se_GenerationConfiguration(_, context),
     knowledgeBaseId: [],
     modelArn: [],
     retrievalConfiguration: (_) => se_KnowledgeBaseRetrievalConfiguration(_, context),
@@ -665,6 +802,10 @@ const se_KnowledgeBaseVectorSearchConfiguration = (
 
 // se_PromptTemplate omitted.
 
+// se_RAGStopSequences omitted.
+
+// se_ResponseBody omitted.
+
 /**
  * serializeAws_restJson1RetrievalFilter
  */
@@ -677,10 +818,12 @@ const se_RetrievalFilter = (input: RetrievalFilter, context: __SerdeContext): an
     in: (value) => ({ in: se_FilterAttribute(value, context) }),
     lessThan: (value) => ({ lessThan: se_FilterAttribute(value, context) }),
     lessThanOrEquals: (value) => ({ lessThanOrEquals: se_FilterAttribute(value, context) }),
+    listContains: (value) => ({ listContains: se_FilterAttribute(value, context) }),
     notEquals: (value) => ({ notEquals: se_FilterAttribute(value, context) }),
     notIn: (value) => ({ notIn: se_FilterAttribute(value, context) }),
     orAll: (value) => ({ orAll: se_RetrievalFilterList(value, context) }),
     startsWith: (value) => ({ startsWith: se_FilterAttribute(value, context) }),
+    stringContains: (value) => ({ stringContains: se_FilterAttribute(value, context) }),
     _: (name, value) => ({ name: value } as any),
   });
 };
@@ -701,6 +844,7 @@ const se_RetrievalFilterList = (input: RetrievalFilter[], context: __SerdeContex
  */
 const se_RetrieveAndGenerateConfiguration = (input: RetrieveAndGenerateConfiguration, context: __SerdeContext): any => {
   return take(input, {
+    externalSourcesConfiguration: (_) => se_ExternalSourcesRetrieveAndGenerateConfiguration(_, context),
     knowledgeBaseConfiguration: (_) => se_KnowledgeBaseRetrieveAndGenerateConfiguration(_, context),
     type: [],
   });
@@ -710,13 +854,39 @@ const se_RetrieveAndGenerateConfiguration = (input: RetrieveAndGenerateConfigura
 
 // se_RetrieveAndGenerateSessionConfiguration omitted.
 
+// se_ReturnControlInvocationResults omitted.
+
+// se_S3ObjectDoc omitted.
+
 // se_SessionAttributesMap omitted.
 
 // se_SessionState omitted.
 
+/**
+ * serializeAws_restJson1TextInferenceConfig
+ */
+const se_TextInferenceConfig = (input: TextInferenceConfig, context: __SerdeContext): any => {
+  return take(input, {
+    maxTokens: [],
+    stopSequences: _json,
+    temperature: __serializeFloat,
+    topP: __serializeFloat,
+  });
+};
+
 // de_ActionGroupInvocationInput omitted.
 
 // de_ActionGroupInvocationOutput omitted.
+
+// de_ApiContentMap omitted.
+
+// de_ApiInvocationInput omitted.
+
+// de_ApiParameter omitted.
+
+// de_ApiParameters omitted.
+
+// de_ApiRequestBody omitted.
 
 /**
  * deserializeAws_restJson1Attribution
@@ -755,6 +925,12 @@ const de_Citations = (output: any, context: __SerdeContext): Citation[] => {
 
 // de_FinalResponse omitted.
 
+// de_FunctionInvocationInput omitted.
+
+// de_FunctionParameter omitted.
+
+// de_FunctionParameters omitted.
+
 // de_GeneratedResponsePart omitted.
 
 /**
@@ -771,6 +947,10 @@ const de_InferenceConfiguration = (output: any, context: __SerdeContext): Infere
 };
 
 // de_InvocationInput omitted.
+
+// de_InvocationInputMember omitted.
+
+// de_InvocationInputs omitted.
 
 // de_KnowledgeBaseLookupInput omitted.
 
@@ -865,6 +1045,8 @@ const de_OrchestrationTrace = (output: any, context: __SerdeContext): Orchestrat
 
 // de_Parameter omitted.
 
+// de_ParameterList omitted.
+
 // de_Parameters omitted.
 
 /**
@@ -918,6 +1100,8 @@ const de_PreProcessingTrace = (output: any, context: __SerdeContext): PreProcess
   }
   return { $unknown: Object.entries(output)[0] };
 };
+
+// de_PropertyParameters omitted.
 
 // de_Rationale omitted.
 
@@ -976,6 +1160,8 @@ const de_RetrievedReferences = (output: any, context: __SerdeContext): Retrieved
   return retVal;
 };
 
+// de_ReturnControlPayload omitted.
+
 // de_Span omitted.
 
 // de_StopSequences omitted.
@@ -1016,6 +1202,7 @@ const de_TracePart = (output: any, context: __SerdeContext): TracePart => {
   return take(output, {
     agentAliasId: __expectString,
     agentId: __expectString,
+    agentVersion: __expectString,
     sessionId: __expectString,
     trace: (_: any) => de_Trace(__expectUnion(_), context),
   }) as any;

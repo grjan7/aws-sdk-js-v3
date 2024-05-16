@@ -11045,6 +11045,9 @@ const se_CreateDBInstanceReadReplicaMessage = (
   if (input[_USC] != null) {
     entries[_USC] = input[_USC];
   }
+  if (input[_CACI] != null) {
+    entries[_CACI] = input[_CACI];
+  }
   return entries;
 };
 
@@ -15487,6 +15490,9 @@ const se_RestoreDBInstanceFromDBSnapshotMessage = (
   if (input[_DLV] != null) {
     entries[_DLV] = input[_DLV];
   }
+  if (input[_CACI] != null) {
+    entries[_CACI] = input[_CACI];
+  }
   return entries;
 };
 
@@ -15677,6 +15683,9 @@ const se_RestoreDBInstanceFromS3Message = (input: RestoreDBInstanceFromS3Message
   if (input[_DLV] != null) {
     entries[_DLV] = input[_DLV];
   }
+  if (input[_CACI] != null) {
+    entries[_CACI] = input[_CACI];
+  }
   return entries;
 };
 
@@ -15854,6 +15863,9 @@ const se_RestoreDBInstanceToPointInTimeMessage = (
   }
   if (input[_DLV] != null) {
     entries[_DLV] = input[_DLV];
+  }
+  if (input[_CACI] != null) {
+    entries[_CACI] = input[_CACI];
   }
   return entries;
 };
@@ -18312,6 +18324,9 @@ const de_DBEngineVersion = (output: any, context: __SerdeContext): DBEngineVersi
   }
   if (output[_CDBEVM] != null) {
     contents[_CDBEVM] = __expectString(output[_CDBEVM]);
+  }
+  if (output[_SLD] != null) {
+    contents[_SLD] = __parseBoolean(output[_SLD]);
   }
   if (output[_SCRWR] != null) {
     contents[_SCRWR] = __parseBoolean(output[_SCRWR]);
@@ -24661,6 +24676,9 @@ const de_UpgradeTarget = (output: any, context: __SerdeContext): UpgradeTarget =
   if (output[_SB] != null) {
     contents[_SB] = __parseBoolean(output[_SB]);
   }
+  if (output[_SLD] != null) {
+    contents[_SLD] = __parseBoolean(output[_SLD]);
+  }
   if (output[_SLWF] != null) {
     contents[_SLWF] = __parseBoolean(output[_SLWF]);
   }
@@ -25631,6 +25649,7 @@ const _SIub = "SubnetIdentifier";
 const _SIup = "SupportsIntegrations";
 const _SIupp = "SupportsIops";
 const _SKA = "SupportsKerberosAuthentication";
+const _SLD = "SupportsLimitlessDatabase";
 const _SLETCL = "SupportsLogExportsToCloudwatchLogs";
 const _SLWF = "SupportsLocalWriteForwarding";
 const _SM = "StaticMembers";

@@ -2687,6 +2687,24 @@ export interface CampaignDateRangeKpiResponse {
 }
 
 /**
+ * <p>Contains the name and value pair of an email header to add to your email. You can have up to 15 MessageHeaders. A header can contain information such as the sender, receiver, route, or timestamp.</p>
+ * @public
+ */
+export interface MessageHeader {
+  /**
+   * <p>The name of the message header. The header name can contain up to 126 characters.</p>
+   * @public
+   */
+  Name?: string;
+
+  /**
+   * <p>The value of the message header. The header value can contain up to 870 characters, including the length of any rendered attributes. For example if you add the \{CreationDate\} attribute, it renders as YYYY-MM-DDTHH:MM:SS.SSSZ and is 24 characters in length.</p>
+   * @public
+   */
+  Value?: string;
+}
+
+/**
  * <p>Specifies the content and "From" address for an email message that's sent to recipients of a campaign.</p>
  * @public
  */
@@ -2702,6 +2720,12 @@ export interface CampaignEmailMessage {
    * @public
    */
   FromAddress?: string;
+
+  /**
+   * <p>The list of <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-campaigns-campaign-id.html#apps-application-id-campaigns-campaign-id-model-messageheader">MessageHeaders</a> for the email. You can have up to 15 MessageHeaders for each email.</p>
+   * @public
+   */
+  Headers?: MessageHeader[];
 
   /**
    * <p>The body of the email, in HTML format, for recipients whose email clients render HTML content.</p>
@@ -4178,6 +4202,12 @@ export interface EmailTemplateRequest {
    * @public
    */
   Subject?: string;
+
+  /**
+   * <p>The list of <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader">MessageHeaders</a> for the email. You can have up to 15 Headers.</p>
+   * @public
+   */
+  Headers?: MessageHeader[];
 
   /**
    * <note><p>As of <b>22-05-2023</b> tags has been deprecated for update operations. After this date any value in tags is not processed and an error code is not returned. To manage tags we recommend using either <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/tags-resource-arn.html">Tags</a> in the <i>API Reference for Amazon Pinpoint</i>, <a href="https://docs.aws.amazon.com/cli/latest/reference/resourcegroupstaggingapi/index.html">resourcegroupstaggingapi</a> commands in the <i>AWS Command Line Interface Documentation</i> or <a href="https://sdk.amazonaws.com/java/api/latest/software/amazon/awssdk/services/resourcegroupstaggingapi/package-summary.html">resourcegroupstaggingapi</a> in the <i>AWS SDK</i>.</p></note> <p>(Deprecated) A string-to-string map of key-value pairs that defines the tags to associate with the message template. Each tag consists of a required tag key and an associated tag value.</p>
@@ -6357,6 +6387,12 @@ export interface EmailChannelResponse {
   RoleArn?: string;
 
   /**
+   * <p>The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.</p>
+   * @public
+   */
+  OrchestrationSendingRoleArn?: string;
+
+  /**
    * <p>The current version of the email channel.</p>
    * @public
    */
@@ -7331,6 +7367,12 @@ export interface SimpleEmail {
    * @public
    */
   TextPart?: SimpleEmailPart;
+
+  /**
+   * <p>The list of MessageHeaders for the email. You can have up to 15 Headers.</p>
+   * @public
+   */
+  Headers?: MessageHeader[];
 }
 
 /**
@@ -7685,6 +7727,12 @@ export interface EmailChannelRequest {
    * @public
    */
   RoleArn?: string;
+
+  /**
+   * <p>The ARN of an IAM role for Amazon Pinpoint to use to send email from your campaigns or journeys through Amazon SES.</p>
+   * @public
+   */
+  OrchestrationSendingRoleArn?: string;
 }
 
 /**
@@ -7750,6 +7798,12 @@ export interface EmailTemplateResponse {
    * @public
    */
   Subject?: string;
+
+  /**
+   * <p>The list of <a href="https://docs.aws.amazon.com/pinpoint/latest/apireference/templates-template-name-email.html#templates-template-name-email-model-messageheader">MessageHeaders</a> for the email. You can have up to 15 Headers.</p>
+   * @public
+   */
+  Headers?: MessageHeader[];
 
   /**
    * <p>A string-to-string map of key-value pairs that identifies the tags that are associated with the message template. Each tag consists of a required tag key and an associated tag value.</p>
@@ -7908,7 +7962,7 @@ export interface EndpointMessageResult {
   Address?: string;
 
   /**
-   * <p>The delivery status of the message. Possible values are:</p> <ul> <li><p>DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.</p></li>    <li><p>SUCCESSFUL - The message was successfully delivered to the endpoint.</p></li> <li><p>TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint.</p></li> <li><p>TIMEOUT - The message couldn't be sent within the timeout period.</p></li> <li><p>UNKNOWN_FAILURE - An unknown error occurred.</p></li></ul>
+   * <p>The delivery status of the message. Possible values are:</p> <ul> <li><p>DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>OPT_OUT - The user who's associated with the endpoint has opted out of receiving messages from you. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>PERMANENT_FAILURE - An error occurred when delivering the message to the endpoint. Amazon Pinpoint won't attempt to send the message again.</p></li>    <li><p>SUCCESSFUL - The message was successfully delivered to the endpoint.</p></li> <li><p>TEMPORARY_FAILURE - A temporary error occurred. Amazon Pinpoint won't attempt to send the message again.</p></li> <li><p>THROTTLED - Amazon Pinpoint throttled the operation to send the message to the endpoint.</p></li> <li><p>UNKNOWN_FAILURE - An unknown error occurred.</p></li></ul>
    * @public
    */
   DeliveryStatus: DeliveryStatus | undefined;
@@ -8754,27 +8808,4 @@ export interface GetCampaignsResponse {
    * @public
    */
   CampaignsResponse: CampaignsResponse | undefined;
-}
-
-/**
- * @public
- */
-export interface GetCampaignVersionRequest {
-  /**
-   * <p>The unique identifier for the application. This identifier is displayed as the <b>Project ID</b> on the Amazon Pinpoint console.</p>
-   * @public
-   */
-  ApplicationId: string | undefined;
-
-  /**
-   * <p>The unique identifier for the campaign.</p>
-   * @public
-   */
-  CampaignId: string | undefined;
-
-  /**
-   * <p>The unique version number (Version property) for the campaign version.</p>
-   * @public
-   */
-  Version: string | undefined;
 }

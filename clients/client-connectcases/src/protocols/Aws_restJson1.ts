@@ -44,6 +44,9 @@ import { CreateLayoutCommandInput, CreateLayoutCommandOutput } from "../commands
 import { CreateRelatedItemCommandInput, CreateRelatedItemCommandOutput } from "../commands/CreateRelatedItemCommand";
 import { CreateTemplateCommandInput, CreateTemplateCommandOutput } from "../commands/CreateTemplateCommand";
 import { DeleteDomainCommandInput, DeleteDomainCommandOutput } from "../commands/DeleteDomainCommand";
+import { DeleteFieldCommandInput, DeleteFieldCommandOutput } from "../commands/DeleteFieldCommand";
+import { DeleteLayoutCommandInput, DeleteLayoutCommandOutput } from "../commands/DeleteLayoutCommand";
+import { DeleteTemplateCommandInput, DeleteTemplateCommandOutput } from "../commands/DeleteTemplateCommand";
 import { GetCaseAuditEventsCommandInput, GetCaseAuditEventsCommandOutput } from "../commands/GetCaseAuditEventsCommand";
 import { GetCaseCommandInput, GetCaseCommandOutput } from "../commands/GetCaseCommand";
 import {
@@ -103,6 +106,8 @@ import {
   FieldOption,
   FieldValue,
   FieldValueUnion,
+  FileContent,
+  FileFilter,
   GetFieldResponse,
   InternalServerException,
   LayoutConfiguration,
@@ -332,6 +337,57 @@ export const se_DeleteDomainCommand = async (
   const headers: any = {};
   b.bp("/domains/{domainId}");
   b.p("domainId", () => input.domainId!, "{domainId}", false);
+  let body: any;
+  b.m("DELETE").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1DeleteFieldCommand
+ */
+export const se_DeleteFieldCommand = async (
+  input: DeleteFieldCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/domains/{domainId}/fields/{fieldId}");
+  b.p("domainId", () => input.domainId!, "{domainId}", false);
+  b.p("fieldId", () => input.fieldId!, "{fieldId}", false);
+  let body: any;
+  b.m("DELETE").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1DeleteLayoutCommand
+ */
+export const se_DeleteLayoutCommand = async (
+  input: DeleteLayoutCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/domains/{domainId}/layouts/{layoutId}");
+  b.p("domainId", () => input.domainId!, "{domainId}", false);
+  b.p("layoutId", () => input.layoutId!, "{layoutId}", false);
+  let body: any;
+  b.m("DELETE").h(headers).b(body);
+  return b.build();
+};
+
+/**
+ * serializeAws_restJson1DeleteTemplateCommand
+ */
+export const se_DeleteTemplateCommand = async (
+  input: DeleteTemplateCommandInput,
+  context: __SerdeContext
+): Promise<__HttpRequest> => {
+  const b = rb(input, context);
+  const headers: any = {};
+  b.bp("/domains/{domainId}/templates/{templateId}");
+  b.p("domainId", () => input.domainId!, "{domainId}", false);
+  b.p("templateId", () => input.templateId!, "{templateId}", false);
   let body: any;
   b.m("DELETE").h(headers).b(body);
   return b.build();
@@ -1015,6 +1071,57 @@ export const de_DeleteDomainCommand = async (
 };
 
 /**
+ * deserializeAws_restJson1DeleteFieldCommand
+ */
+export const de_DeleteFieldCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteFieldCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  await collectBody(output.body, context);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1DeleteLayoutCommand
+ */
+export const de_DeleteLayoutCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteLayoutCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  await collectBody(output.body, context);
+  return contents;
+};
+
+/**
+ * deserializeAws_restJson1DeleteTemplateCommand
+ */
+export const de_DeleteTemplateCommand = async (
+  output: __HttpResponse,
+  context: __SerdeContext
+): Promise<DeleteTemplateCommandOutput> => {
+  if (output.statusCode !== 200 && output.statusCode >= 300) {
+    return de_CommandError(output, context);
+  }
+  const contents: any = map({
+    $metadata: deserializeMetadata(output),
+  });
+  await collectBody(output.body, context);
+  return contents;
+};
+
+/**
  * deserializeAws_restJson1GetCaseCommand
  */
 export const de_GetCaseCommand = async (
@@ -1123,6 +1230,9 @@ export const de_GetLayoutCommand = async (
   const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
   const doc = take(data, {
     content: (_) => _json(__expectUnion(_)),
+    createdTime: (_) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
+    deleted: __expectBoolean,
+    lastModifiedTime: (_) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
     layoutArn: __expectString,
     layoutId: __expectString,
     name: __expectString,
@@ -1147,7 +1257,10 @@ export const de_GetTemplateCommand = async (
   });
   const data: Record<string, any> = __expectNonNull(__expectObject(await parseBody(output.body, context)), "body");
   const doc = take(data, {
+    createdTime: (_) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
+    deleted: __expectBoolean,
     description: __expectString,
+    lastModifiedTime: (_) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
     layoutConfiguration: _json,
     name: __expectString,
     requiredFields: _json,
@@ -1763,6 +1876,10 @@ const se_FieldValueUnion = (input: FieldValueUnion, context: __SerdeContext): an
   });
 };
 
+// se_FileContent omitted.
+
+// se_FileFilter omitted.
+
 // se_LayoutConfiguration omitted.
 
 // se_LayoutContent omitted.
@@ -1997,14 +2114,19 @@ const de_FieldValueUnion = (output: any, context: __SerdeContext): FieldValueUni
   return { $unknown: Object.entries(output)[0] };
 };
 
+// de_FileContent omitted.
+
 /**
  * deserializeAws_restJson1GetFieldResponse
  */
 const de_GetFieldResponse = (output: any, context: __SerdeContext): GetFieldResponse => {
   return take(output, {
+    createdTime: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
+    deleted: __expectBoolean,
     description: __expectString,
     fieldArn: __expectString,
     fieldId: __expectString,
+    lastModifiedTime: (_: any) => __expectNonNull(__parseRfc3339DateTimeWithOffset(_)),
     name: __expectString,
     namespace: __expectString,
     tags: (_: any) => de_Tags(_, context),
@@ -2034,6 +2156,11 @@ const de_RelatedItemContent = (output: any, context: __SerdeContext): RelatedIte
   if (output.contact != null) {
     return {
       contact: de_ContactContent(output.contact, context),
+    };
+  }
+  if (output.file != null) {
+    return {
+      file: _json(output.file),
     };
   }
   return { $unknown: Object.entries(output)[0] };

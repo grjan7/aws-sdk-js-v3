@@ -1349,6 +1349,21 @@ export interface DescribeDBEngineVersionsMessage {
    *             </li>
    *             <li>
    *                <p>
+   *                   <code>custom-oracle-ee-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
    *                   <code>db2-ae</code>
    *                </p>
    *             </li>
@@ -4089,6 +4104,11 @@ export interface DescribeEngineDefaultParametersMessage {
    *             </li>
    *             <li>
    *                <p>
+   *                   <code>custom-oracle-ee-cdb-19</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
    *                   <code>db2-ae</code>
    *                </p>
    *             </li>
@@ -5350,7 +5370,7 @@ export interface OptionGroups {
  */
 export interface DescribeOrderableDBInstanceOptionsMessage {
   /**
-   * <p>The name of the engine to describe DB instance options for.</p>
+   * <p>The name of the database engine to describe DB instance options for.</p>
    *          <p>Valid Values:</p>
    *          <ul>
    *             <li>
@@ -5366,6 +5386,21 @@ export interface DescribeOrderableDBInstanceOptionsMessage {
    *             <li>
    *                <p>
    *                   <code>custom-oracle-ee</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code>
    *                </p>
    *             </li>
    *             <li>
@@ -5486,7 +5521,7 @@ export interface DescribeOrderableDBInstanceOptionsMessage {
    *             a pagination token called a marker is included in the response so that
    *             you can retrieve the remaining results.</p>
    *          <p>Default: 100</p>
-   *          <p>Constraints: Minimum 20, maximum 10000.</p>
+   *          <p>Constraints: Minimum 20, maximum 1000.</p>
    * @public
    */
   MaxRecords?: number;
@@ -6993,7 +7028,7 @@ export type AuditPolicyState = (typeof AuditPolicyState)[keyof typeof AuditPolic
 export interface ModifyActivityStreamRequest {
   /**
    * <p>The Amazon Resource Name (ARN) of the RDS for Oracle or Microsoft SQL Server DB instance.
-   *             For example, <code>arn:aws:rds:us-east-1:12345667890:instance:my-orcl-db</code>.</p>
+   *             For example, <code>arn:aws:rds:us-east-1:12345667890:db:my-orcl-db</code>.</p>
    * @public
    */
   ResourceArn?: string;
@@ -7216,7 +7251,29 @@ export type CustomEngineVersionStatus = (typeof CustomEngineVersionStatus)[keyof
  */
 export interface ModifyCustomDBEngineVersionMessage {
   /**
-   * <p>The DB engine. The only supported values are <code>custom-oracle-ee</code> and <code>custom-oracle-ee-cdb</code>.</p>
+   * <p>The database engine. RDS Custom for Oracle supports the following values:</p>
+   *          <ul>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-ee-cdb</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2</code>
+   *                </p>
+   *             </li>
+   *             <li>
+   *                <p>
+   *                   <code>custom-oracle-se2-cdb</code>
+   *                </p>
+   *             </li>
+   *          </ul>
    * @public
    */
   Engine: string | undefined;
@@ -8210,6 +8267,15 @@ export interface ModifyDBInstanceMessage {
    *           so that they are 10% greater than the current value.</p>
    *          <p>For the valid values for allocated storage for each engine,
    *           see <code>CreateDBInstance</code>.</p>
+   *          <p>Constraints:</p>
+   *          <ul>
+   *             <li>
+   *                <p>When you increase the allocated storage for a DB instance that uses
+   *                     Provisioned IOPS (<code>gp3</code>, <code>io1</code>, or <code>io2</code>
+   *                     storage type), you must also specify the <code>Iops</code> parameter. You can
+   *                     use the current value for <code>Iops</code>.</p>
+   *             </li>
+   *          </ul>
    * @public
    */
   AllocatedStorage?: number;
@@ -8249,7 +8315,7 @@ export interface ModifyDBInstanceMessage {
    *          <p>Changing the subnet group causes an outage during the change.
    *         The change is applied during the next maintenance window,
    *         unless you enable <code>ApplyImmediately</code>.</p>
-   *          <p>This parameter doesn't apply to RDS Custom DB instances.</p>
+   *          <p>This setting doesn't apply to RDS Custom DB instances.</p>
    *          <p>Constraints:</p>
    *          <ul>
    *             <li>
@@ -8609,6 +8675,11 @@ export interface ModifyDBInstanceMessage {
    *             <li>
    *                <p>For RDS for MariaDB, RDS for MySQL, RDS for Oracle, and RDS for PostgreSQL - The value supplied must be at least 10% greater than the current value.
    *           Values that are not at least 10% greater than the existing value are rounded up so that they are 10% greater than the current value.</p>
+   *             </li>
+   *             <li>
+   *                <p>When you increase the Provisioned IOPS, you must also specify the
+   *                         <code>AllocatedStorage</code> parameter. You can use the current value for
+   *                         <code>AllocatedStorage</code>.</p>
    *             </li>
    *          </ul>
    *          <p>Default: Uses existing setting</p>
@@ -8993,6 +9064,8 @@ export interface ModifyDBInstanceMessage {
    *             deletion protection isn't enabled. For more information, see
    *             <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_DeleteInstance.html">
    *                 Deleting a DB Instance</a>.</p>
+   *          <p>This setting doesn't apply to Amazon Aurora DB instances. You can enable or disable deletion protection for the DB cluster.
+   *         For more information, see <code>ModifyDBCluster</code>. DB instances in a DB cluster can be deleted even when deletion protection is enabled for the DB cluster.</p>
    * @public
    */
   DeletionProtection?: boolean;
@@ -12767,6 +12840,18 @@ export interface RestoreDBInstanceFromDBSnapshotMessage {
    * @public
    */
   DedicatedLogVolume?: boolean;
+
+  /**
+   * <p>The CA certificate identifier to use for the DB instance's server certificate.</p>
+   *          <p>This setting doesn't apply to RDS Custom DB instances.</p>
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">Using SSL/TLS to encrypt a connection to a DB
+   *             instance</a> in the <i>Amazon RDS User Guide</i> and
+   *             <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
+   *                 Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon Aurora
+   *                     User Guide</i>.</p>
+   * @public
+   */
+  CACertificateIdentifier?: string;
 }
 
 /**
@@ -13363,6 +13448,18 @@ export interface RestoreDBInstanceFromS3Message {
    * @public
    */
   DedicatedLogVolume?: boolean;
+
+  /**
+   * <p>The CA certificate identifier to use for the DB instance's server certificate.</p>
+   *          <p>This setting doesn't apply to RDS Custom DB instances.</p>
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">Using SSL/TLS to encrypt a connection to a DB
+   *             instance</a> in the <i>Amazon RDS User Guide</i> and
+   *             <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
+   *                 Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon Aurora
+   *                     User Guide</i>.</p>
+   * @public
+   */
+  CACertificateIdentifier?: string;
 }
 
 /**
@@ -14026,6 +14123,18 @@ export interface RestoreDBInstanceToPointInTimeMessage {
    * @public
    */
   DedicatedLogVolume?: boolean;
+
+  /**
+   * <p>The CA certificate identifier to use for the DB instance's server certificate.</p>
+   *          <p>This setting doesn't apply to RDS Custom DB instances.</p>
+   *          <p>For more information, see <a href="https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.SSL.html">Using SSL/TLS to encrypt a connection to a DB
+   *                 instance</a> in the <i>Amazon RDS User Guide</i> and
+   *                 <a href="https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/UsingWithRDS.SSL.html">
+   *                     Using SSL/TLS to encrypt a connection to a DB cluster</a> in the <i>Amazon Aurora
+   *                         User Guide</i>.</p>
+   * @public
+   */
+  CACertificateIdentifier?: string;
 }
 
 /**
